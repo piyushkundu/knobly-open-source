@@ -90,7 +90,7 @@
     "src/app/html/layout.tsx": "7f5ac7e79ff490e29923484f76601b77e6cd95ebc8a4fed1f1ae4410ba9f4f9c",
     "src/app/html/notes/page.tsx": "b3e1a3d19469c8689be68820e49656e4a8b603ea162d5af867749e88f1565664",
     "src/app/html/page.tsx": "89cf16d797cbb707d2b1975b66d330d9bdc4a9c85b0ca8d581f41cd0b1a6baf6",
-    "src/app/html/tasks/[id]/compiler/page.tsx": "3ac2e85a8533c92a0ea99016fa009efdd5fb227e99af3e00ea712e75acecd647",
+    "src/app/html/tasks/[id]/compiler/page.tsx": "48ea062b5689338564a0ece47d665ba9dbe75ea4f3afd4975aaf0dcd5d02a024",
     "src/app/html/tasks/[id]/page.tsx": "6baec10cff4acdb87885b9b22c22aacb52f4487c42d650e0f87f6cd21a54fdbd",
     "src/app/html/tasks/page.tsx": "305979141545836c3c90d728ee132412f3c3617966d08a45c924566b378a296c",
     "src/app/iot/applications/page.tsx": "0f2153225b1d898681dea0ebc0c9d67eed34f4dae5e109d178d2cfa3ba719c6e",
@@ -270,6 +270,7 @@
     "tests/security-stage3-integration.mjs": "a0ff087c12febc07b6c482b40dbf06dc56a46201d911e3336b21286ce4a54344",
     "tests/setup-firebase-tools.mjs": "84a0e1ab6fb8b1ffdd37631c41df6aa602c1b37a616eb0f7e7993f9cce29cc14",
     "tests/start-firebase-emulators.mjs": "51392bc3bc703285f4ec988f8c14ecff1efff9f2b4a363d23c459fae91c6dee1",
+    "tests/task-compiler-navigation.test.mjs": "2620c633d96c68e7c1695688c092a783c3819dff55618a584d6bd341c7a8626a",
     "tsconfig.json": "03e81cf9e5ee64accf67ad6686cef2b0584f862f6ab75622dda6711cea1e829a"
   },
   "releaseReviewRequired": [

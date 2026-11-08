@@ -643,19 +643,15 @@ export default function TaskCompilerPage({ params }: { params: Promise<{ id: str
         );
     }
 
-    const { tagsList, attrsList } = useMemo(() => {
-        const raw = task.topics.split(',').map(t => t.trim()).filter(Boolean);
-        const tags: string[] = [];
-        const attrs: string[] = [];
-        raw.forEach(item => {
-            if (isHtmlAttribute(item)) {
-                attrs.push(item);
-            } else {
-                tags.push(item);
-            }
-        });
-        return { tagsList: tags, attrsList: attrs };
-    }, [task.topics]);
+    const tagsList: string[] = [];
+    const attrsList: string[] = [];
+    for (const topic of task.topics.split(',').map(t => t.trim()).filter(Boolean)) {
+        if (isHtmlAttribute(topic)) {
+            attrsList.push(topic);
+        } else {
+            tagsList.push(topic);
+        }
+    }
     const requiredTags = task.topics.split(',').map(t => t.trim());
     const isWhite = theme === 'white';
 
