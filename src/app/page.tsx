@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { useTheme } from '@/context/ThemeContext';
@@ -206,7 +206,6 @@ export default function HomePage() {
   const [contextApp, setContextApp] = useState<KnoblyApp | null>(null);
 
   // ── Uptime ──
-  const bootTimeRef = useRef(Date.now());
   const [uptimeString, setUptimeString] = useState('Just now');
 
   // ── Mobile detect ──
@@ -267,8 +266,9 @@ export default function HomePage() {
 
   // ── Uptime tracker ──
   useEffect(() => {
+    const bootTime = Date.now();
     const interval = setInterval(() => {
-      const diffSec = Math.floor((Date.now() - bootTimeRef.current) / 1000);
+      const diffSec = Math.floor((Date.now() - bootTime) / 1000);
       const hours = Math.floor(diffSec / 3600);
       const minutes = Math.floor((diffSec % 3600) / 60);
       if (hours === 0 && minutes === 0) setUptimeString('Just now');

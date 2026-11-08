@@ -1,6 +1,7 @@
 'use client';
 
 import { KnoblyApp } from '@/types/app';
+import { useEffect, useState } from 'react';
 import { motion, Variants } from 'framer-motion';
 import AppCard from './AppCard';
 
@@ -15,10 +16,24 @@ interface AppGridProps {
 
 export default function AppGrid({ apps, favourites, activeNav, performanceMode, onAppClick, onAppContextMenu }: AppGridProps) {
     const newAppDuration = 3 * 24 * 60 * 60 * 1000; // 3 days
+    const [now, setNow] = useState<number | null>(null);
+
+    useEffect(() => {
+        const refreshClock = () => setNow(Date.now());
+        // Keep the server and first browser render identical, then sample the
+        // client clock and refresh badges while the page remains open.
+        const initial = setTimeout(refreshClock, 0);
+        const interval = setInterval(refreshClock, 60_000);
+        return () => {
+            clearTimeout(initial);
+            clearInterval(interval);
+        };
+    }, []);
 
     const isNewApp = (app: KnoblyApp) => {
-        if (!app.created_at) return false;
-        return Date.now() - new Date(app.created_at).getTime() < newAppDuration;
+        if (!app.created_at || now === null) return false;
+        const age = now - new Date(app.created_at).getTime();
+        return age >= 0 && age < newAppDuration;
     };
 
     if (apps.length === 0) {

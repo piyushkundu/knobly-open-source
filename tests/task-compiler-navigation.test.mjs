@@ -52,6 +52,9 @@ function compiler() {
             removeItem() { throw new Error('Unexpected render-time storage deletion'); },
         },
         window: {},
+        Date: class extends Date {
+            static now() { throw new Error('Unexpected render-time clock read'); }
+        },
         console,
     });
     return {

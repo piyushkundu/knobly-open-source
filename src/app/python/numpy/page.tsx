@@ -211,7 +211,7 @@ export default function NumPyPage() {
                             <div className="absolute top-6 right-6 grid grid-cols-4 gap-2 opacity-15">
                                 {Array.from({ length: 16 }).map((_, i) => (
                                     <div key={i} className="w-5 h-5 rounded border border-white/40 flex items-center justify-center text-white/60 text-[8px] font-bold">
-                                        {Math.floor(Math.random() * 9) + 1}
+                                        {(i % 9) + 1}
                                     </div>
                                 ))}
                             </div>

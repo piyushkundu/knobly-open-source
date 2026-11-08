@@ -298,10 +298,11 @@ export default function TaskCompilerPage({ params }: { params: Promise<{ id: str
     }, [id]);
 
     const INACTIVITY_LIMIT_MS = 15 * 60 * 1000; // 15 minutes of inactivity
-    const lastActiveRef = useRef<number>(Date.now());
+    const lastActiveRef = useRef<number>(0);
 
     // Listen to user interactions (typing, clicking, tapping) to refresh activity timer
     useEffect(() => {
+        lastActiveRef.current = Date.now();
         const handleActivity = () => {
             lastActiveRef.current = Date.now();
         };
