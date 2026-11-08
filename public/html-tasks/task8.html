@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Basic information about India using HTML tags">
+    <meta name="keywords" content="India, HTML, basics, olevelcccexam">
+    <title>About India</title>
+    <link rel="icon" type="image/svg+xml" href="../../../../../../../../../sample-assets/placeholder.svg">
+</head>
+<body>
+    <!-- Main Content -->
+    <body>
+
+    <h2>Registration Form</h2>
+
+    <form action="submit_registration.html" method="post">
+        <!-- Personal Information Section -->
+        <fieldset>
+            <legend>Personal Information</legend>
+
+            <label for="fullname">Full Name:</label><br>
+            <input type="text" id="fullname" name="fullname" required><br><br>
+
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" name="email" required><br><br>
+
+            <label for="phone">Phone Number:</label><br>
+            <input type="tel" id="phone" name="phone"><br><br>
+
+            <label for="gender">Gender:</label><br>
+            <input type="radio" id="male" name="gender" value="male">
+            <label for="male">Male</label>
+            <input type="radio" id="female" name="gender" value="female">
+            <label for="female">Female</label><br><br>
+
+            <label for="country">Country:</label><br>
+            <select id="country" name="country" required>
+                <option value="">Select your country</option>
+                <option value="usa">United States</option>
+                <option value="canada">Canada</option>
+                <option value="uk">United Kingdom</option>
+                <option value="india">India</option>
+                <option value="australia">Australia</option>
+                <!-- Add more countries as needed -->
+            </select><br><br>
+        </fieldset>
+
+        <!-- Account Information Section -->
+        <fieldset>
+            <legend>Account Information</legend>
+
+            <label for="username">Username:</label><br>
+            <input type="text" id="username" name="username" required><br><br>
+
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password" required><br><br>
+
+            <label for="confirm_password">Confirm Password:</label><br>
+            <input type="password" id="confirm_password" name="confirm_password" required><br><br>
+        </fieldset>
+
+        <!-- Additional Information Section -->
+        <fieldset>
+            <legend>Additional Information</legend>
+
+            <label for="address">Address:</label><br>
+            <textarea id="address" name="address" rows="4" cols="30"></textarea><br><br>
+
+            <input type="checkbox" id="terms" name="terms" required>
+            <label for="terms">I agree to the terms and conditions</label><br><br>
+        </fieldset>
+
+        <!-- Submit Button -->
+        <input type="submit" value="Register">
+    </form>
+
+</body>
+<hr>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extended HTML Form</title>
+    <link rel="icon" type="image/svg+xml" href="../../../../../../../../../sample-assets/placeholder.svg">
+</head>
+<body>
+
+<form action="/submit" method="post">
+    <fieldset>
+        <legend>Personal Information</legend>
+
+        <!-- Text input -->
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" >
+        <br><br>
+
+        <!-- Email input -->
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" >
+        <br><br>
+
+        <!-- Password input -->
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password">
+        <br><br>
+
+        <!-- Number input -->
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" min="1" max="120">
+        <br><br>
+
+        <!-- Date input -->
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" name="dob">
+        <br><br>
+
+        <!-- Time input -->
+        <label for="appointment">Preferred Time:</label>
+        <input type="time" id="appointment" name="appointment">
+        <br><br>
+
+        <!-- Color input -->
+        <label for="favcolor">Favorite Color:</label>
+        <input type="color" id="favcolor" name="favcolor" value="#ff0000">
+        <br><br>
+
+        <!-- Tel input -->
+        <label for="phone">Phone:</label>
+        <input type="tel" id="phone" name="phone" placeholder="123-456-7890">
+        <br><br>
+
+        <!-- URL input -->
+        <label for="website">Website:</label>
+        <input type="url" id="website" name="website" placeholder="https://example.com">
+        <br><br>
+
+        <!-- File input -->
+        <label for="resume">Upload Resume:</label>
+        <input type="file" id="resume" name="resume">
+        <br><br>
+
+        <!-- Range input -->
+        <label for="rating">Satisfaction Rating:</label>
+        <input type="range" id="rating" name="rating" min="1" max="10">
+    </fieldset>
+
+    <fieldset>
+        <legend>Preferences</legend>
+
+        <!-- Radio buttons -->
+        <label>Gender:</label>
+        <input type="radio" id="male" name="gender" value="male">
+        <label for="male">Male</label>
+        <input type="radio" id="female" name="gender" value="female">
+        <label for="female">Female</label>
+        <input type="radio" id="other" name="gender" value="other">
+        <label for="other">Other</label>
+        <br><br>
+
+        <!-- Checkbox -->
+        <label>Subscribe to newsletters:</label>
+        <input type="checkbox" id="newsletter" name="newsletter" >
+        <br><br>
+
+        <!-- Select dropdown -->
+        <label for="subscription">Subscription Type:</label>
+        <select id="subscription" name="subscription">
+            <option value="free">Free</option>
+            <option value="basic">Basic</option>
+            <option value="premium">Premium</option>
+        </select>
+    </fieldset>
+
+    <fieldset>
+        <legend>Other Fields</legend>
+
+        <!-- Search input -->
+        <label for="search">Search:</label>
+        <input type="search" id="search" name="search" placeholder="Search here...">
+        <br><br>
+
+        <!-- Hidden input -->
+        <input type="hidden" name="userid" value="12345">
+
+        <!-- Month input -->
+        <label for="birthmonth">Birth Month:</label>
+        <input type="month" id="birthmonth" name="birthmonth">
+        <br><br>
+
+        <!-- Week input -->
+        
+
+        
+    </fieldset>
+
+    <!-- Submit and Reset buttons -->
+    <input type="submit" value="Submit">
+    <input type="reset" value="Reset">
+</form>
+
+</body>
+</html>
+<hr>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <link rel="icon" type="image/svg+xml" href="../../../../../../../../../sample-assets/placeholder.svg">
+</head>
+
+</html>
+</body>
+</html>

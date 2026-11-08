@@ -1,0 +1,160 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+
+.python-lab-root {
+  --bg-primary: #16161e;
+  --bg-secondary: #1e1e2e;
+  --bg-tertiary: #242436;
+  --accent-primary: #818cf8;
+  --accent-secondary: #2dd4bf;
+  --accent-success: #34d399;
+  --accent-error: #f87171;
+  --accent-warning: #fbbf24;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #a1a1aa;
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --border-color: rgba(255, 255, 255, 0.1);
+  --card-bg: #1e1e2e;
+  --header-bg: rgba(30, 30, 46, 0.85);
+
+  /* Syntax Highlighting */
+  --monaco-bg: #16161e;
+  --error-bg: rgba(248, 113, 113, 0.15);
+  --error-border: #f87171;
+
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
+html.light .python-lab-root {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f1f5f9;
+  --accent-primary: #4f46e5;
+  --accent-secondary: #0e7490;
+  --accent-success: #047857;
+  --accent-error: #b91c1c;
+  --accent-warning: #92400e;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --border-color: rgba(0, 0, 0, 0.08);
+  --card-bg: #ffffff;
+  --header-bg: rgba(255, 255, 255, 0.95);
+
+  /* Syntax Highlighting */
+  --monaco-bg: #ffffff;
+  --error-bg: rgba(239, 68, 68, 0.1);
+  --error-border: #ef4444;
+}
+
+.python-lab-root {
+  background: 
+    radial-gradient(ellipse at 20% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(34, 211, 238, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(139, 92, 246, 0.04) 0%, transparent 70%),
+    var(--bg-primary);
+}
+
+html.light .python-lab-root {
+  background: 
+    radial-gradient(ellipse at 20% 20%, rgba(99, 102, 241, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(34, 211, 238, 0.03) 0%, transparent 50%),
+    var(--bg-primary);
+}
+
+/* Scrollbar specifically within python lab to not collide with Knobly globals */
+.python-lab-root ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.python-lab-root ::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+.python-lab-root ::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+.python-lab-root ::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+@keyframes py-pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+  }
+}
+
+.python-lab-root .animate-pulse-glow {
+  animation: py-pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes py-gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.python-lab-root .animate-gradient {
+  background-size: 200% 200%;
+  animation: py-gradient-shift 3s ease infinite;
+}
+
+
+.error-line-highlight {
+  background-color: var(--error-bg) !important;
+  border-left: 3px solid var(--error-border) !important;
+}
+
+.error-glyph {
+  background-color: #ef4444 !important;
+  border-radius: 50% !important;
+  width: 7px !important;
+  height: 7px !important;
+  margin-left: 10px !important;
+  margin-top: 6px !important;
+  box-shadow: 0 0 4px rgba(239, 68, 68, 0.4);
+  opacity: 0.85;
+}
+
+.monaco-editor .cursors-layer .cursor {
+  transition: all 0.1s ease !important;
+}
+
+/* Premium Light Mode Monaco Details */
+html.light .monaco-editor .current-line {
+  background-color: #eef2ff !important;
+  box-sizing: border-box !important;
+}
+
+html.light .monaco-editor .margin-view-overlays .current-line {
+  border-left: 3px solid #6366f1 !important;
+}
+
+html.light .monaco-editor .line-numbers {
+  color: #94a3b8 !important;
+  padding-right: 10px !important;
+}
+
+html.light .monaco-scrollable-element {
+  scroll-behavior: smooth !important;
+}

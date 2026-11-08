@@ -1,0 +1,125 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+.web-compiler-root {
+  --bg-primary: #12131c;
+  --bg-secondary: #181926;
+  --bg-tertiary: #202234;
+  --accent-primary: #f97316;
+  --action-bg: #c2410c;
+  --accent-secondary: #06b6d4;
+  --accent-js: #eab308;
+  --accent-success: #10b981;
+  --accent-error: #ef4444;
+  --accent-warning: #f59e0b;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #a1a1aa;
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --border-color: rgba(255, 255, 255, 0.1);
+  --card-bg: #181926;
+  --header-bg: rgba(24, 25, 38, 0.88);
+
+  /* Syntax Highlighting */
+  --monaco-bg: #12131c;
+  --error-bg: rgba(239, 68, 68, 0.15);
+  --error-border: #ef4444;
+
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
+html.light .web-compiler-root {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f1f5f9;
+  --accent-primary: #c2410c;
+  --accent-secondary: #0369a1;
+  --accent-js: #854d0e;
+  --accent-success: #047857;
+  --accent-error: #b91c1c;
+  --accent-warning: #92400e;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --border-color: rgba(0, 0, 0, 0.08);
+  --card-bg: #ffffff;
+  --header-bg: rgba(255, 255, 255, 0.95);
+
+  /* Syntax Highlighting */
+  --monaco-bg: #ffffff;
+  --error-bg: rgba(239, 68, 68, 0.1);
+  --error-border: #dc2626;
+}
+
+.web-compiler-root {
+  background: 
+    radial-gradient(ellipse at 15% 15%, rgba(249, 115, 22, 0.07) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 85%, rgba(6, 182, 212, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(234, 179, 8, 0.04) 0%, transparent 70%),
+    var(--bg-primary);
+}
+
+html.light .web-compiler-root {
+  background: 
+    radial-gradient(ellipse at 15% 15%, rgba(249, 115, 22, 0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 85%, rgba(6, 182, 212, 0.03) 0%, transparent 50%),
+    var(--bg-primary);
+}
+
+/* Scrollbars within Web Compiler */
+.web-compiler-root ::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+.web-compiler-root ::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+.web-compiler-root ::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+.web-compiler-root ::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+@keyframes web-pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 35px rgba(249, 115, 22, 0.6);
+  }
+}
+
+.web-compiler-root .animate-pulse-glow {
+  animation: web-pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes web-gradient {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.web-compiler-root .animate-gradient {
+  background-size: 200% 200%;
+  animation: web-gradient 3s ease infinite;
+}

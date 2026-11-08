@@ -1,0 +1,65 @@
+{
+  "name": "knobly-community",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build --webpack",
+    "start": "next start",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit --incremental false",
+    "test": "node scripts/run-unit-tests.mjs",
+    "demo:emulators": "node tests/start-firebase-emulators.mjs",
+    "demo:seed": "node scripts/seed-demo.mjs",
+    "test:firebase": "node tests/run-security-stage3.mjs",
+    "test:app": "node scripts/verify-demo-app.mjs"
+  },
+  "dependencies": {
+    "@lottiefiles/react-lottie-player": "^3.6.0",
+    "@monaco-editor/react": "^4.7.0",
+    "@rive-app/react-canvas": "^4.27.3",
+    "@xterm/addon-fit": "^0.11.0",
+    "firebase": "^12.9.0",
+    "firebase-admin": "14.5.0",
+    "framer-motion": "^12.34.2",
+    "html2pdf.js": "^0.14.0",
+    "JSCPP": "^2.0.9",
+    "lottie-react": "^2.4.1",
+    "lucide-react": "^0.575.0",
+    "monaco-editor": "0.57.0",
+    "next": "16.4.5",
+    "nodemailer": "10.4.0",
+    "react": "19.2.9",
+    "react-dom": "19.2.9",
+    "react-markdown": "^10.1.0",
+    "rehype-raw": "^7.0.0",
+    "rehype-sanitize": "^6.0.0",
+    "xterm": "^5.3.0",
+    "dompurify": "3.4.17"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.5",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": "24.x"
+  },
+  "overrides": {
+    "@firebase/firestore": {
+      "@grpc/grpc-js": "1.14.7"
+    },
+    "monaco-editor": {
+      "dompurify": "3.4.17"
+    },
+    "@typescript-eslint/typescript-estree": {
+      "minimatch": "11.0.5"
+    }
+  }
+}

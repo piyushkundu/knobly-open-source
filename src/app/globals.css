@@ -1,0 +1,1545 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+
+@theme {
+  --color-knobly-bg: #020617;
+  --color-knobly-panel: rgba(15, 23, 42, 0.96);
+  --color-knobly-neon: #22c55e;
+  --color-knobly-neonSoft: rgba(34, 197, 94, 0.2);
+  --color-knobly-blue: #38bdf8;
+
+  --shadow-k-glow: 0 0 40px rgba(56, 189, 248, 0.45);
+  --shadow-k-neon: 0 0 40px rgba(34, 197, 94, 0.45);
+  --shadow-k-red: 0 0 32px rgba(248, 113, 113, 0.6);
+
+  --background-image-k-grid: radial-gradient(circle at 1px 1px, rgba(148, 163, 184, 0.22) 1px, transparent 0);
+
+  --animate-drop-pulse: drop-shine 4s infinite ease-in-out;
+}
+
+@keyframes drop-shine {
+
+  0%,
+  100% {
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05);
+  }
+
+  50% {
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: inset 0 0 15px rgba(56, 189, 248, 0.3);
+  }
+}
+
+/* Fonts loaded via <link> in layout.tsx */
+
+/* ──── CSS Custom Properties ──── */
+:root {
+  --font-gaming: 'Rajdhani', sans-serif;
+  --font-body: 'Outfit', sans-serif;
+}
+
+/* ──── CORE STYLES ──── */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  cursor: default;
+  transition: background-color 0.4s ease, color 0.4s ease, background-image 0.4s ease;
+}
+
+body {
+  background-color: #01030f;
+  color: white;
+  font-family: var(--font-body);
+}
+
+/* ──── DARK MODE WALLPAPERS ──── */
+body.wallpaper-default:not(.light-mode) {
+  background-image:
+    radial-gradient(circle at 10% 0%, rgba(56, 189, 248, 0.22) 0, transparent 55%),
+    radial-gradient(circle at 90% 100%, rgba(139, 92, 246, 0.25) 0, transparent 60%),
+    linear-gradient(120deg, rgba(56, 189, 248, 0.16) 0, transparent 22%, transparent 78%, rgba(236, 72, 153, 0.16) 100%),
+    radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 0.95) 0, #020617 60%);
+}
+
+body.wallpaper-ocean:not(.light-mode) {
+  background-image:
+    radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.35) 0, transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.35) 0, transparent 55%),
+    linear-gradient(135deg, #020617 0%, #0f172a 35%, #0b1120 100%);
+}
+
+body.wallpaper-purple:not(.light-mode) {
+  background-image:
+    radial-gradient(circle at 10% 0%, rgba(244, 114, 182, 0.3) 0, transparent 55%),
+    radial-gradient(circle at 90% 100%, rgba(129, 140, 248, 0.35) 0, transparent 55%),
+    linear-gradient(135deg, #020617 0%, #111827 35%, #020617 100%);
+}
+
+body.wallpaper-sunset:not(.light-mode) {
+  background-image:
+    radial-gradient(circle at 0% 0%, rgba(251, 113, 133, 0.35) 0, transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(253, 186, 116, 0.35) 0, transparent 55%),
+    linear-gradient(135deg, #020617 0%, #0f172a 40%, #0b1120 100%);
+}
+
+body.wallpaper-matrix:not(.light-mode) {
+  background-image:
+    radial-gradient(circle at 10% 0%, rgba(34, 197, 94, 0.35) 0, transparent 55%),
+    radial-gradient(circle at 90% 100%, rgba(45, 212, 191, 0.35) 0, transparent 55%),
+    linear-gradient(135deg, #020617 0%, #020617 40%, #020617 100%);
+}
+
+/* ──── LIGHT MODE WALLPAPERS ──── */
+body.light-mode {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+body.light-mode.wallpaper-default {
+  background-image:
+    radial-gradient(circle at 0% 0%, rgba(191, 219, 254, 0.7) 0, transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(224, 242, 254, 0.7) 0, transparent 55%),
+    linear-gradient(135deg, #e5f3ff 0%, #f8fafc 60%, #e5f2ff 100%) !important;
+}
+
+body.light-mode.wallpaper-ocean {
+  background-image:
+    radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.5) 0, transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.4) 0, transparent 55%),
+    linear-gradient(135deg, #e0f2fe 0%, #f9fafb 60%, #e0f2fe 100%) !important;
+}
+
+body.light-mode.wallpaper-purple {
+  background-image:
+    radial-gradient(circle at 10% 0%, rgba(244, 114, 182, 0.5) 0, transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(129, 140, 248, 0.5) 0, transparent 55%),
+    linear-gradient(135deg, #fdf2ff 0%, #f9fafb 60%, #eef2ff 100%) !important;
+}
+
+body.light-mode.wallpaper-sunset {
+  background-image:
+    radial-gradient(circle at 0% 0%, rgba(251, 146, 60, 0.55) 0, transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(248, 113, 113, 0.55) 0, transparent 55%),
+    linear-gradient(135deg, #fff7ed 0%, #fefce8 60%, #ffe4e6 100%) !important;
+}
+
+body.light-mode.wallpaper-matrix {
+  background-image:
+    radial-gradient(circle at 10% 0%, rgba(34, 197, 94, 0.55) 0, transparent 55%),
+    radial-gradient(circle at 90% 100%, rgba(45, 212, 191, 0.55) 0, transparent 55%),
+    linear-gradient(135deg, #ecfdf5 0%, #f9fafb 60%, #ecfdf3 100%) !important;
+}
+
+/* Also target the root div for wallpaper backgrounds in light mode */
+body.light-mode .wallpaper-default {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(191, 219, 254, 0.7) 0, transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(224, 242, 254, 0.7) 0, transparent 55%),
+    linear-gradient(135deg, #e5f3ff 0%, #f8fafc 60%, #e5f2ff 100%) !important;
+}
+
+body.light-mode .wallpaper-ocean {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.5) 0, transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.4) 0, transparent 55%),
+    linear-gradient(135deg, #e0f2fe 0%, #f9fafb 60%, #e0f2fe 100%) !important;
+}
+
+body.light-mode .wallpaper-purple {
+  background:
+    radial-gradient(circle at 10% 0%, rgba(244, 114, 182, 0.5) 0, transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(129, 140, 248, 0.5) 0, transparent 55%),
+    linear-gradient(135deg, #fdf2ff 0%, #f9fafb 60%, #eef2ff 100%) !important;
+}
+
+body.light-mode .wallpaper-sunset {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(251, 146, 60, 0.55) 0, transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(248, 113, 113, 0.55) 0, transparent 55%),
+    linear-gradient(135deg, #fff7ed 0%, #fefce8 60%, #ffe4e6 100%) !important;
+}
+
+body.light-mode .wallpaper-matrix {
+  background:
+    radial-gradient(circle at 10% 0%, rgba(34, 197, 94, 0.55) 0, transparent 55%),
+    radial-gradient(circle at 90% 100%, rgba(45, 212, 191, 0.55) 0, transparent 55%),
+    linear-gradient(135deg, #ecfdf5 0%, #f9fafb 60%, #ecfdf3 100%) !important;
+}
+
+button,
+a,
+.glass-card,
+.video-item,
+input,
+.ctx-item,
+select {
+  cursor: pointer;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━ LIGHT MODE OVERRIDES ━━━━━━━━━━━━━━━━━━━ */
+body.light-mode .glass-panel {
+  background: rgba(255, 255, 255, 0.75) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border: 1px solid rgba(148, 163, 184, 0.2) !important;
+  box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+
+body.light-mode .glass-card {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid rgba(148, 163, 184, 0.15) !important;
+  box-shadow: 0 2px 12px -4px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.03) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+body.light-mode .glass-card:hover {
+  background: rgba(255, 255, 255, 1) !important;
+  border-color: rgba(56, 189, 248, 0.35) !important;
+  box-shadow: 0 12px 28px -8px rgba(56, 189, 248, 0.2), 0 4px 12px -4px rgba(0, 0, 0, 0.05) !important;
+  transform: translateY(-4px) !important;
+}
+
+body.light-mode .glass-card:active {
+  transform: translateY(-1px) scale(0.98) !important;
+}
+
+body.light-mode .app-icon-tile {
+  background: linear-gradient(145deg, #ffffff, #f1f5f9) !important;
+  border-color: rgba(148, 163, 184, 0.2) !important;
+  box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.06), inset 0 -1px 2px rgba(0, 0, 0, 0.02) !important;
+}
+
+body.light-mode .glass-card:hover .app-icon-tile {
+  box-shadow: 0 4px 16px -4px rgba(56, 189, 248, 0.2), inset 0 -1px 2px rgba(0, 0, 0, 0.02) !important;
+  border-color: rgba(56, 189, 248, 0.3) !important;
+}
+
+body.light-mode .search-shell {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border: 1px solid rgba(148, 163, 184, 0.25) !important;
+  box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.06), inset 0 1px 2px rgba(255, 255, 255, 0.8) !important;
+}
+
+body.light-mode .search-shell:focus-within {
+  border-color: rgba(56, 189, 248, 0.5) !important;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1), 0 2px 8px -2px rgba(0, 0, 0, 0.06) !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+}
+
+body.light-mode .search-shell input {
+  color: #1e293b !important;
+}
+
+body.light-mode .search-shell input::placeholder {
+  color: #475569 !important;
+}
+
+body.light-mode .search-shell-icon {
+  color: #94a3b8 !important;
+}
+
+
+
+body.light-mode .knobly-header-style {
+  color: #0f172a !important;
+  text-shadow: none !important;
+}
+
+body.light-mode #knobly-logo {
+  animation: none !important;
+  opacity: 1 !important;
+}
+
+body.light-mode .tab-btn-active {
+  color: #0369a1 !important;
+  border-color: #0284c7 !important;
+}
+
+body.light-mode .nav-btn.is-active {
+  background: rgba(56, 189, 248, 0.12) !important;
+  color: #0369a1 !important;
+  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.12) !important;
+  border-color: rgba(56, 189, 248, 0.4) !important;
+}
+
+body.light-mode .video-item {
+  background: rgba(255, 255, 255, 0.6) !important;
+}
+
+body.light-mode .video-item:hover {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border-color: rgba(56, 189, 248, 0.3) !important;
+}
+
+body.light-mode .video-active {
+  background: rgba(56, 189, 248, 0.08) !important;
+  border-color: rgba(56, 189, 248, 0.3) !important;
+}
+
+body.light-mode .apps-filter-btn-active {
+  color: #0369a1 !important;
+  border-color: #0284c7 !important;
+}
+
+body.light-mode ::selection {
+  background: #38bdf8 !important;
+  color: #fff !important;
+}
+
+/* Light mode sidebar */
+body.light-mode .border-white {
+  border-color: rgba(148, 163, 184, 0.2) !important;
+}
+
+/* Light mode: smaller icons for premium spacing */
+body.light-mode .devicon-fix {
+  font-size: 2rem !important;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.08)) !important;
+}
+
+body.light-mode .glass-card:hover .devicon-fix {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1)) !important;
+}
+
+/* Light mode: app icon tile inner bg */
+body.light-mode .app-icon-tile {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(241, 245, 249, 0.9)) !important;
+  box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.06), inset 0 1px 2px rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Light mode: app card text visibility */
+body.light-mode .glass-card h3:not(:where(.theme-fixed, .theme-fixed *)) {
+  color: #334155 !important;
+}
+
+body.light-mode .glass-card:hover h3:not(:where(.theme-fixed, .theme-fixed *)) {
+  color: #0369a1 !important;
+}
+
+body.light-mode .glass-card p:not(:where(.theme-fixed, .theme-fixed *)) {
+  color: #475569 !important;
+}
+
+/* Light mode: header icon buttons */
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) button[class*="border-white/10"]:not(:where(.theme-fixed, .theme-fixed *)) {
+  border-color: rgba(148, 163, 184, 0.25) !important;
+  background: rgba(255, 255, 255, 0.7) !important;
+}
+
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) button[class*="border-white/10"]:hover:not(:where(.theme-fixed, .theme-fixed *)) {
+  background: rgba(255, 255, 255, 0.95) !important;
+}
+
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) button[class*="border-white/10"] i:not(:where(.theme-fixed, .theme-fixed *)) {
+  color: #475569 !important;
+}
+
+/* Light mode: nav sidebar buttons */
+body.light-mode .nav-btn {
+  color: #475569 !important;
+}
+
+body.light-mode .nav-btn:hover {
+  background: rgba(56, 189, 248, 0.06) !important;
+}
+
+/* Light mode: sidebar clock panel */
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) [class*="text-cyan-400"]:not(:where(.theme-fixed, .theme-fixed *)) {
+  color: #0369a1 !important;
+}
+
+/* Light mode: right sidebar panels */
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) [class*="border-white/5"]:not(:where(.theme-fixed, .theme-fixed *)) {
+  border-color: rgba(148, 163, 184, 0.12) !important;
+}
+
+/* Light mode: KnoblyAI CTA */
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) [class*="hover:bg-purple-500/5"]:hover:not(:where(.theme-fixed, .theme-fixed *)) {
+  background: rgba(139, 92, 246, 0.06) !important;
+}
+
+/* Light mode: right sidebar clock gradient */
+
+/* Light mode: sidebar text readability */
+
+/* Light mode: right sidebar section titles */
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) [class*="text-gray-400"]:not(:where(.theme-fixed, .theme-fixed *)) {
+  color: #475569 !important;
+}
+
+/* Light mode: right sidebar YouTube section */
+body.light-mode .glass-panel h3[class*="text-gray-400"] {
+  color: #475569 !important;
+}
+
+/* Light mode: nav sidebar background */
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) aside [class*="bg-black/40"]:not(:where(.theme-fixed, .theme-fixed *)),
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) aside [class*="bg-black/60"]:not(:where(.theme-fixed, .theme-fixed *)) {
+  background: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Light mode: scrollbar */
+body.light-mode ::-webkit-scrollbar {
+  width: 6px;
+}
+
+body.light-mode ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+body.light-mode ::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.3);
+  border-radius: 3px;
+}
+
+body.light-mode ::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.5);
+}
+
+
+
+::selection {
+  background: #22d3ee;
+  color: #000;
+}
+
+/* Paired defaults sit below component utilities so editors and fixed-color forms
+   can choose their own foreground/background without fighting !important. */
+@layer base {
+  input, select, textarea {
+    background-color: #0f172a;
+    color: #f8fafc;
+    border: 1px solid #64748b;
+  }
+  input::placeholder, textarea::placeholder { color: #94a3b8; opacity: 1; }
+  body.light-mode :is(input, select, textarea) {
+    background-color: #ffffff;
+    color: #0f172a;
+    border-color: #94a3b8;
+  }
+  body.light-mode :is(input, textarea)::placeholder { color: #475569; }
+}
+
+/* SEARCH INPUT BORDER FIX */
+.search-shell input {
+  background-color: transparent !important;
+  color: #ffffff !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.search-shell input::placeholder {
+  color: #9ca3af !important;
+}
+
+/* SCROLLBAR HIDING CLASS */
+.custom-scroll {
+  overflow-x: hidden !important;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.custom-scroll::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+.scroll-x-soft {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+}
+
+.scroll-x-soft::-webkit-scrollbar {
+  height: 0;
+}
+
+/* Scrollbar hide utility */
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* ──── DARK MODE: Glass Panel ──── */
+.glass-panel {
+  background: radial-gradient(circle at 0% 0%, rgba(30, 41, 59, 0.7), rgba(2, 6, 23, 0.85));
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+}
+
+/* ──── DARK MODE: Glass Card ──── */
+.glass-card {
+  background: rgba(30, 41, 59, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: border 0.2s, box-shadow 0.2s;
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.28);
+  transform-style: preserve-3d;
+  transform: perspective(1000px);
+  padding: 0.6rem 0.4rem;
+}
+
+.glass-card:hover {
+  background: rgba(56, 189, 248, 0.1);
+  border-color: rgba(56, 189, 248, 0.5);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+}
+
+/* ──── App Icon Tile ──── */
+.app-icon-tile {
+  width: 2.9rem;
+  height: 2.9rem;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.25), rgba(15, 23, 42, 0.9));
+  border: 2px solid rgba(148, 163, 184, 0.6);
+  box-shadow: 0 8px 18px -8px rgba(15, 23, 42, 0.9);
+  transform: translateZ(20px);
+}
+
+.app-icon-accent-cyan {
+  box-shadow: 0 10px 22px -10px rgba(56, 189, 248, 0.9);
+  border-color: rgba(148, 163, 184, 0.8);
+}
+
+/* ──── Icon Borders ──── */
+.border-orange {
+  border-color: #fb923c !important;
+}
+
+.border-blue {
+  border-color: #60a5fa !important;
+}
+
+.border-yellow {
+  border-color: #facc15 !important;
+}
+
+.border-cyan {
+  border-color: #22d3ee !important;
+}
+
+.border-emerald {
+  border-color: #34d399 !important;
+}
+
+.border-sky {
+  border-color: #38bdf8 !important;
+}
+
+.border-red {
+  border-color: #f97373 !important;
+}
+
+.border-indigo {
+  border-color: #818cf8 !important;
+}
+
+.border-slate {
+  border-color: #cbd5e1 !important;
+}
+
+.border-pink {
+  border-color: #fb7185 !important;
+}
+
+.border-purple {
+  border-color: #a855f7 !important;
+}
+
+.border-green {
+  border-color: #4ade80 !important;
+}
+
+.border-white {
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* ──── Dev Icon Fix ──── */
+.devicon-fix {
+  font-size: 2.4rem;
+  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.55));
+  transition: transform 0.18s ease, filter 0.18s ease;
+}
+
+.glass-card:hover .devicon-fix {
+  transform: translateY(-1px);
+  filter: drop-shadow(0 4px 8px rgba(15, 23, 42, 0.7));
+}
+
+/* ──── Search Shell ──── */
+.search-shell {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.search-shell:focus-within {
+  border-color: #22d3ee;
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.25);
+  background: rgba(0, 0, 0, 0.7);
+}
+
+/* ──── Knobly Header Style ──── */
+.knobly-header-style {
+  font-family: var(--font-gaming);
+  font-weight: 900;
+  color: white;
+  letter-spacing: 0.16em;
+  text-shadow: 0 0 18px rgba(34, 211, 238, 0.5);
+}
+
+/* Logo blink */
+#knobly-logo {
+  animation: logoBlink 1s ease-in-out infinite;
+}
+
+@keyframes logoBlink {
+
+  0%,
+  100% {
+    text-shadow: 0 0 10px rgba(34, 211, 238, 0.4);
+    opacity: 0.96;
+  }
+
+  20% {
+    text-shadow: 0 0 2px rgba(34, 211, 238, 0.1);
+    opacity: 0.7;
+  }
+
+  40% {
+    text-shadow: 0 0 14px rgba(34, 211, 238, 0.7);
+    opacity: 1;
+  }
+
+  60% {
+    text-shadow: 0 0 4px rgba(34, 211, 238, 0.2);
+    opacity: 0.8;
+  }
+}
+
+/* ──── WALLPAPERS (dark) ──── */
+.wallpaper-default {
+  background-image:
+    radial-gradient(circle at 10% 0%, rgba(56, 189, 248, 0.22) 0, transparent 55%),
+    radial-gradient(circle at 90% 100%, rgba(139, 92, 246, 0.25) 0, transparent 60%),
+    linear-gradient(120deg, rgba(56, 189, 248, 0.16) 0, transparent 22%, transparent 78%, rgba(236, 72, 153, 0.16) 100%),
+    radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 0.95) 0, #020617 60%);
+}
+
+.wallpaper-ocean {
+  background-image:
+    radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.35) 0, transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.35) 0, transparent 55%),
+    linear-gradient(135deg, #020617 0%, #0f172a 35%, #0b1120 100%);
+}
+
+.wallpaper-purple {
+  background-image:
+    radial-gradient(circle at 10% 0%, rgba(244, 114, 182, 0.3) 0, transparent 55%),
+    radial-gradient(circle at 90% 100%, rgba(129, 140, 248, 0.35) 0, transparent 55%),
+    linear-gradient(135deg, #020617 0%, #111827 35%, #020617 100%);
+}
+
+.wallpaper-sunset {
+  background-image:
+    radial-gradient(circle at 0% 0%, rgba(251, 113, 133, 0.35) 0, transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(253, 186, 116, 0.35) 0, transparent 55%),
+    linear-gradient(135deg, #020617 0%, #0f172a 40%, #0b1120 100%);
+}
+
+.wallpaper-matrix {
+  background-image:
+    radial-gradient(circle at 10% 0%, rgba(34, 197, 94, 0.35) 0, transparent 55%),
+    radial-gradient(circle at 90% 100%, rgba(45, 212, 191, 0.35) 0, transparent 55%),
+    linear-gradient(135deg, #020617 0%, #020617 40%, #020617 100%);
+}
+
+/* ──── TAB BUTTONS ──── */
+.tab-btn {
+  position: relative;
+  border-radius: 0;
+  border-bottom-width: 2px;
+  border-color: transparent;
+}
+
+.tab-btn::before {
+  content: none;
+}
+
+.tab-btn-active {
+  color: #22d3ee !important;
+  border-color: #22d3ee;
+  background: transparent;
+}
+
+/* ──── Nav Button ──── */
+.nav-btn {
+  transition: all 0.2s;
+}
+
+.nav-btn.is-active {
+  background: rgba(34, 211, 238, 0.2);
+  color: #a5f3fc;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.8);
+  border-color: rgba(34, 211, 238, 0.7);
+}
+
+/* ──── Apps Filter Button ──── */
+.apps-filter-btn {
+  position: relative;
+  border-bottom-width: 2px;
+  border-color: transparent;
+}
+
+.apps-filter-btn-active {
+  color: #22d3ee !important;
+  border-color: #22d3ee;
+}
+
+/* ──── Video Items ──── */
+.video-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.video-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(56, 189, 238, 0.3);
+}
+
+.video-active {
+  background: rgba(34, 211, 238, 0.1);
+  border-color: rgba(34, 211, 238, 0.5);
+}
+
+/* ──── YT CTA ──── */
+.yt-cta-join {
+  background: #ef4444;
+  color: #f9fafb;
+  border-radius: 9999px;
+  padding: 0.375rem 0.9rem;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+.yt-cta-join:hover {
+  box-shadow: 0 6px 16px rgba(239, 68, 68, 0.6);
+  transform: scale(1.05);
+}
+
+/* ──── Active Press ──── */
+.active-press:active {
+  transform: scale(0.97);
+  transition: transform 0.08s;
+}
+
+/* ──── Modal ──── */
+.draggable-modal {
+  position: fixed;
+  z-index: 100;
+  margin: 0 !important;
+  box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.8);
+  background: radial-gradient(circle at 0% 0%, rgba(30, 41, 59, 0.95), rgba(2, 6, 23, 0.98));
+  backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transform: scale(0.95);
+  animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  color: #e5e7eb;
+}
+
+@keyframes modalPop {
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ──── Mobile Dock ──── */
+.mobile-dock {
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  background: rgba(5, 11, 20, 0.9);
+  border-radius: 0;
+  border-top: 1px solid rgba(30, 64, 175, 0.5);
+  box-shadow: 0 -10px 25px -18px rgba(15, 23, 42, 0.95);
+}
+
+/* ──── Boot Screen ──── */
+.boot-k-glitch {
+  position: relative;
+  font-family: var(--font-gaming);
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  color: #e0faff;
+  text-shadow: 0 0 12px rgba(34, 211, 238, 0.7), 0 0 24px rgba(34, 211, 238, 0.5);
+  animation: bootBaseOn 0.95s ease-out forwards;
+}
+
+.boot-k-glitch::before,
+.boot-k-glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: screen;
+}
+
+.boot-k-glitch::before {
+  color: #22d3ee;
+  text-shadow: -2px 0 10px rgba(34, 211, 238, 0.9);
+  animation: bootGlitch 0.5s ease-out 0.05s forwards;
+}
+
+.boot-k-glitch::after {
+  color: #fb7185;
+  text-shadow: 2px 0 10px rgba(248, 113, 113, 0.9);
+  animation: bootGlitch 0.6s ease-out 0.08s forwards;
+}
+
+@keyframes bootBaseOn {
+  0% {
+    opacity: 0;
+    filter: blur(8px);
+  }
+
+  25% {
+    opacity: 0.3;
+    filter: blur(4px);
+  }
+
+  45% {
+    opacity: 1;
+    filter: blur(0px);
+  }
+
+  60% {
+    opacity: 0.6;
+    filter: blur(1px);
+  }
+
+  80% {
+    opacity: 1;
+    filter: blur(0px);
+  }
+
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+    text-shadow: 0 0 20px rgba(34, 211, 238, 0.9);
+  }
+}
+
+@keyframes bootGlitch {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0);
+    clip-path: inset(0 0 0 0);
+  }
+
+  15% {
+    opacity: 1;
+    transform: translate(-2px, -1px) skewX(-6deg);
+    clip-path: inset(0 0 55% 0);
+  }
+
+  35% {
+    transform: translate(2px, 1px) skewX(4deg);
+    clip-path: inset(40% 0 0 0);
+  }
+
+  55% {
+    transform: translate(-1px, 1px) skewX(-3deg);
+    clip-path: inset(10% 0 20% 0);
+  }
+
+  75% {
+    opacity: 0.6;
+    transform: translate(1px, -2px);
+    clip-path: inset(0 0 0 0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(0, 0);
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* ──── Float Animation ──── */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* ──── Notes Area ──── */
+.notes-area {
+  background: rgba(0, 0, 0, 0.5);
+  border-color: rgba(148, 163, 184, 0.6);
+  color: #e5e7eb;
+}
+
+/* ──── Context Menu ──── */
+.context-menu {
+  position: fixed;
+  z-index: 99990;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(56, 189, 238, 0.2);
+  border-radius: 12px;
+  padding: 6px;
+  min-width: 190px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+  transform-origin: top left;
+}
+
+.ctx-item {
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #e2e8f0;
+  transition: all 0.1s;
+}
+
+.ctx-item:hover {
+  background: rgba(34, 211, 238, 0.15);
+  color: #22d3ee;
+}
+
+.ctx-separator {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 4px 0;
+}
+
+/* ──── Responsive ──── */
+@media (max-width: 640px) {
+  .devicon-fix {
+    font-size: 2.1rem;
+  }
+
+  .glass-card {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0.35rem 0.1rem !important;
+    border-radius: 0 !important;
+  }
+
+  .app-icon-tile {
+    width: 3rem !important;
+    height: 3rem !important;
+    border-radius: 9999px !important;
+    border-width: 2px !important;
+    box-shadow: 0 6px 12px -6px rgba(15, 23, 42, 0.95) !important;
+  }
+
+  .grid.grid-cols-3 {
+    gap: 0.45rem !important;
+  }
+}
+
+/* ──── Wallpaper Thumbnails ──── */
+.wallpaper-thumb-default {
+  background:
+    radial-gradient(circle at 15% 30%, #38bdf8 0%, transparent 55%),
+    radial-gradient(circle at 85% 70%, #8b5cf6 0%, transparent 55%),
+    radial-gradient(circle at 50% 50%, #1e3a5f 0%, #0f172a 100%) !important;
+}
+
+.wallpaper-thumb-ocean {
+  background:
+    radial-gradient(circle at 10% 20%, #38bdf8 0%, transparent 50%),
+    radial-gradient(circle at 90% 80%, #3b82f6 0%, transparent 50%),
+    linear-gradient(135deg, #0c4a6e 0%, #1e40af 100%) !important;
+}
+
+.wallpaper-thumb-purple {
+  background:
+    radial-gradient(circle at 15% 25%, #f472b6 0%, transparent 55%),
+    radial-gradient(circle at 85% 75%, #818cf8 0%, transparent 55%),
+    linear-gradient(135deg, #581c87 0%, #312e81 100%) !important;
+}
+
+.wallpaper-thumb-sunset {
+  background:
+    radial-gradient(circle at 10% 25%, #fb7185 0%, transparent 55%),
+    radial-gradient(circle at 90% 75%, #fdba74 0%, transparent 55%),
+    linear-gradient(135deg, #9f1239 0%, #c2410c 100%) !important;
+}
+
+.wallpaper-thumb-matrix {
+  background:
+    radial-gradient(circle at 15% 30%, #22c55e 0%, transparent 55%),
+    radial-gradient(circle at 85% 70%, #2dd4bf 0%, transparent 55%),
+    linear-gradient(135deg, #064e3b 0%, #065f46 100%) !important;
+}
+
+/* ──── Settings Tab ──── */
+.settings-tab-btn {
+  position: relative;
+  border-bottom-width: 2px;
+  padding-bottom: 4px;
+}
+
+.settings-tab-btn-active {
+  color: #22d3ee;
+  border-color: #22d3ee;
+  background: rgba(34, 211, 238, 0.08);
+}
+
+/* ──── LIGHT MODE WALLPAPERS ──── */
+body.light-mode.wallpaper-default {
+  background-image:
+    radial-gradient(circle at 0% 0%, rgba(191, 219, 254, 0.7) 0, transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(224, 242, 254, 0.7) 0, transparent 55%),
+    linear-gradient(135deg, #e5f3ff 0%, #f8fafc 60%, #e5f2ff 100%);
+}
+
+body.light-mode.wallpaper-ocean {
+  background-image:
+    radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.5) 0, transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.4) 0, transparent 55%),
+    linear-gradient(135deg, #e0f2fe 0%, #f9fafb 60%, #e0f2fe 100%);
+}
+
+body.light-mode.wallpaper-purple {
+  background-image:
+    radial-gradient(circle at 10% 0%, rgba(244, 114, 182, 0.5) 0, transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(129, 140, 248, 0.5) 0, transparent 55%),
+    linear-gradient(135deg, #fdf2ff 0%, #f9fafb 60%, #eef2ff 100%);
+}
+
+body.light-mode.wallpaper-sunset {
+  background-image:
+    radial-gradient(circle at 0% 0%, rgba(251, 146, 60, 0.55) 0, transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(248, 113, 113, 0.55) 0, transparent 55%),
+    linear-gradient(135deg, #fff7ed 0%, #fefce8 60%, #ffe4e6 100%);
+}
+
+body.light-mode.wallpaper-matrix {
+  background-image:
+    radial-gradient(circle at 10% 0%, rgba(34, 197, 94, 0.55) 0, transparent 55%),
+    radial-gradient(circle at 90% 100%, rgba(45, 212, 191, 0.55) 0, transparent 55%),
+    linear-gradient(135deg, #ecfdf5 0%, #f9fafb 60%, #ecfdf3 100%);
+}
+
+/* ──── LIGHT MODE UI TWEAKS ──── */
+body.light-mode {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+body.light-mode .glass-panel {
+  background: #ffffff !important;
+  backdrop-filter: none !important;
+  border: 1px solid #cbd5e1 !important;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.08) !important;
+}
+
+body.light-mode .glass-card {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05) !important;
+  transform-style: preserve-3d !important;
+  transform: perspective(1000px);
+}
+
+body.light-mode .glass-card:hover {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.15) !important;
+  transform: translateY(-5px);
+}
+
+body.light-mode .devicon-fix {
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.18)) !important;
+  opacity: 1 !important;
+}
+
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) .text-gray-100:not(:where(.theme-fixed, .theme-fixed *)) {
+  color: #0f172a !important;
+  font-weight: 600 !important;
+}
+
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) .text-gray-200:not(:where(.theme-fixed, .theme-fixed *)) {
+  color: #1e293b !important;
+  font-weight: 700 !important;
+}
+
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) .text-gray-300:not(:where(.theme-fixed, .theme-fixed *)) {
+  color: #334155 !important;
+  font-weight: 600 !important;
+}
+
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) .text-gray-400:not(:where(.theme-fixed, .theme-fixed *)) {
+  color: #475569 !important;
+  font-weight: 500 !important;
+}
+
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) .text-gray-500:not(:where(.theme-fixed, .theme-fixed *)) {
+  color: #475569 !important;
+}
+
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) .text-white:not(:where(.theme-fixed, .theme-fixed *)) {
+  color: #0f172a !important;
+}
+
+body.light-mode .knobly-header-style {
+  color: #0f172a !important;
+  text-shadow: none !important;
+}
+
+body.light-mode .glass-card h3:not(:where(.theme-fixed, .theme-fixed *)) {
+  color: #0f172a !important;
+  font-weight: 700 !important;
+}
+
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) .bg-white\/5:not(:where(.theme-fixed, .theme-fixed *)) {
+  background-color: rgba(255, 255, 255, 0.6) !important;
+  border: 1px solid #cbd5e1 !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+body.light-mode .search-shell {
+  background-color: #f1f5f9 !important;
+  border: 1px solid #cbd5e1 !important;
+}
+
+body.light-mode .search-shell:focus-within {
+  background-color: #ffffff !important;
+  border-color: #0ea5e9 !important;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15) !important;
+}
+
+body.light-mode .search-shell-icon {
+  color: #475569 !important;
+}
+
+body.light-mode .nav-btn {
+  color: #64748b;
+}
+
+body.light-mode .nav-btn:hover {
+  background: #e2e8f0;
+  color: #0369a1;
+}
+
+body.light-mode .nav-btn.is-active {
+  background: #e0f2fe;
+  color: #0369a1;
+  border: 1px solid #bae6fd;
+  box-shadow: none;
+}
+
+body.light-mode .video-item {
+  background: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}
+
+body.light-mode .video-item:hover {
+  background: #ffffff !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+body.light-mode .video-active {
+  background: #eff6ff !important;
+  border-color: #3b82f6 !important;
+}
+
+body.light-mode .app-icon-tile {
+  background: #ffffff !important;
+  box-shadow: 0 4px 10px -4px rgba(15, 23, 42, 0.2) !important;
+}
+
+body.light-mode .mobile-dock {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-top: 1px solid #e2e8f0 !important;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+}
+
+body.light-mode .tab-btn-active {
+  color: #0369a1 !important;
+  border-color: #0284c7;
+}
+
+body.light-mode .apps-filter-btn-active {
+  color: #0369a1 !important;
+  border-color: #0284c7;
+}
+
+body.light-mode .draggable-modal {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.2) !important;
+  backdrop-filter: none !important;
+}
+
+body.light-mode .yt-cta-join {
+  background: #ef4444;
+  color: white !important;
+}
+
+body.light-mode #knobly-logo {
+  animation: none;
+}
+
+/* ── LIGHT MODE INPUT/SELECT/TEXTAREA ── */
+
+
+/* ── LIGHT MODE SEARCH SHELL INPUT (override the above) ── */
+body.light-mode .search-shell input {
+  background-color: transparent !important;
+  color: #0f172a !important;
+  border: none !important;
+  box-shadow: none !important;
+  font-weight: 600;
+}
+
+body.light-mode .search-shell input::placeholder {
+  color: #475569 !important;
+}
+
+/* ── LIGHT MODE SETTINGS TAB ── */
+body.light-mode .settings-tab-btn-active {
+  color: #0f172a !important;
+  border-color: #0ea5e9 !important;
+  background: #e0f2fe !important;
+}
+
+/* ── LIGHT MODE WALLPAPER THUMB PROTECTION ── */
+body.light-mode [data-wallpaper-thumb] {
+  background-color: #0f172a !important;
+}
+body.light-mode .wallpaper-thumb-default {
+  background:
+    radial-gradient(circle at 15% 30%, #38bdf8 0%, transparent 55%),
+    radial-gradient(circle at 85% 70%, #8b5cf6 0%, transparent 55%),
+    radial-gradient(circle at 50% 50%, #1e3a5f 0%, #0f172a 100%) !important;
+}
+body.light-mode .wallpaper-thumb-ocean {
+  background:
+    radial-gradient(circle at 10% 20%, #38bdf8 0%, transparent 50%),
+    radial-gradient(circle at 90% 80%, #3b82f6 0%, transparent 50%),
+    linear-gradient(135deg, #0c4a6e 0%, #1e40af 100%) !important;
+}
+body.light-mode .wallpaper-thumb-purple {
+  background:
+    radial-gradient(circle at 15% 25%, #f472b6 0%, transparent 55%),
+    radial-gradient(circle at 85% 75%, #818cf8 0%, transparent 55%),
+    linear-gradient(135deg, #581c87 0%, #312e81 100%) !important;
+}
+body.light-mode .wallpaper-thumb-sunset {
+  background:
+    radial-gradient(circle at 10% 25%, #fb7185 0%, transparent 55%),
+    radial-gradient(circle at 90% 75%, #fdba74 0%, transparent 55%),
+    linear-gradient(135deg, #9f1239 0%, #c2410c 100%) !important;
+}
+body.light-mode .wallpaper-thumb-matrix {
+  background:
+    radial-gradient(circle at 15% 30%, #22c55e 0%, transparent 55%),
+    radial-gradient(circle at 85% 70%, #2dd4bf 0%, transparent 55%),
+    linear-gradient(135deg, #064e3b 0%, #065f46 100%) !important;
+}
+body.light-mode [data-wallpaper-thumb] span {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* ── LIGHT MODE APPS FILTER ── */
+body.light-mode .apps-filter-btn-active {
+  color: #0f172a !important;
+  border-color: #0ea5e9 !important;
+}
+
+/* ── CONTEXT MENU (base / dark mode) ── */
+.context-menu {
+  position: fixed;
+  z-index: 99990;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(56, 189, 238, 0.2);
+  border-radius: 12px;
+  padding: 6px;
+  min-width: 190px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+  transform-origin: top left;
+}
+
+.ctx-item {
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #e2e8f0;
+  transition: all 0.1s;
+  cursor: pointer;
+  user-select: none;
+}
+
+.ctx-item:hover {
+  background: rgba(56, 189, 238, 0.15);
+  color: #22d3ee;
+}
+
+.ctx-separator {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 4px 8px;
+}
+
+/* ── LIGHT MODE CONTEXT MENU ── */
+body.light-mode .context-menu {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+}
+
+body.light-mode .ctx-item {
+  color: #334155 !important;
+  font-weight: 500 !important;
+}
+
+body.light-mode .ctx-item:hover {
+  background: #eff6ff !important;
+  color: #2563eb !important;
+}
+
+body.light-mode .ctx-separator {
+  background: #e2e8f0 !important;
+}
+
+/* ── LIGHT MODE MODAL BACKGROUNDS ── */
+/* Explicit neutral panels may switch theme; colored panels and backdrops keep their colors. */
+body.light-mode .theme-panel {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a;
+}
+
+
+/* ── LIGHT MODE NOTES AREA ── */
+body.light-mode .notes-area,
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) textarea[class*="bg-black"]:not(:where(.theme-fixed, .theme-fixed *)) {
+  background: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+  color: #0f172a !important;
+  box-shadow: inset 0 1px 2px rgba(148, 163, 184, 0.35) !important;
+}
+
+/* ── LIGHT MODE BORDER OVERRIDES ── */
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) [class*="border-white"]:not(:where(.theme-fixed, .theme-fixed *)) {
+  border-color: #e2e8f0 !important;
+}
+
+/* ── LIGHT MODE BLACK BG OVERRIDES ── */
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) [class*="bg-black"]:not(:where(.theme-fixed, .theme-fixed *)) {
+  background-color: rgba(241, 245, 249, 0.8) !important;
+}
+
+/* ── LIGHT MODE GRADIENT TEXT FIX ── */
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) .bg-clip-text.from-cyan-400:not(:where(.theme-fixed, .theme-fixed *)) {
+  --tw-gradient-from: #0891b2 !important;
+}
+
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) .bg-clip-text.to-blue-500:not(:where(.theme-fixed, .theme-fixed *)) {
+  --tw-gradient-to: #2563eb !important;
+}
+
+/* ── LIGHT MODE CYAN TEXT/BORDER ADJUSTMENTS ── */
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) .text-cyan-400:not(:where(.theme-fixed, .theme-fixed *)) {
+  color: #0e7490 !important;
+}
+
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) .text-cyan-300:not(:where(.theme-fixed, .theme-fixed *)) {
+  color: #0e7490 !important;
+}
+
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) [class*="border-cyan"]:not(:where(.theme-fixed, .theme-fixed *)) {
+  border-color: #0e7490 !important;
+}
+
+/* ── LIGHT MODE RED TEXT (for YouTube) ── */
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) .text-red-400:not(:where(.theme-fixed, .theme-fixed *)) {
+  color: #b91c1c !important;
+}
+
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) .text-red-500:not(:where(.theme-fixed, .theme-fixed *)) {
+  color: #b91c1c !important;
+}
+
+/* ── LIGHT MODE EMERALD TEXT ── */
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) .text-emerald-400:not(:where(.theme-fixed, .theme-fixed *)) {
+  color: #047857 !important;
+}
+
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) .text-emerald-200:not(:where(.theme-fixed, .theme-fixed *)) {
+  color: #047857 !important;
+}
+
+/* ── LIGHT MODE YELLOW TEXT ── */
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) .text-yellow-400:not(:where(.theme-fixed, .theme-fixed *)) {
+  color: #92400e !important;
+}
+
+/* ── LIGHT MODE MOBILE DOCK (exact match) ── */
+body.light-mode .mobile-dock {
+  background: #ffffff !important;
+  border-top-color: #cbd5e1 !important;
+  box-shadow: 0 -10px 25px -18px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* ── LIGHT MODE MOBILE APP ICON TILE ── */
+@media (max-width: 640px) {
+  body.light-mode .app-icon-tile {
+    background: #ffffff !important;
+    box-shadow: 0 4px 10px -4px rgba(15, 23, 42, 0.18) !important;
+  }
+}
+
+/* ── LIGHT MODE THEME FLASH ── */
+body.light-mode .theme-flash-circle {
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.9), transparent 60%) !important;
+  mix-blend-mode: normal !important;
+}
+
+/* ── LIGHT MODE SWAL/SWEETALERT ── */
+body.light-mode div:where(.swal2-container) div:where(.swal2-popup) {
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #0f172a !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* ── LIGHT MODE HOVER FIX FOR WHITE TEXT ELEMENTS ── */
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) [class*="hover\:text-white"]:hover:not(:where(.theme-fixed, .theme-fixed *)) {
+  color: #0f172a !important;
+}
+
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) [class*="hover\:bg-white"]:hover:not(:where(.theme-fixed, .theme-fixed *)) {
+  background-color: rgba(226, 232, 240, 0.5) !important;
+}
+
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) [class*="hover\:border-white"]:hover:not(:where(.theme-fixed, .theme-fixed *)) {
+  border-color: #cbd5e1 !important;
+}
+
+/* ── LIGHT MODE STAT CARD FIX ── */
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) .text-xl.font-bold.text-white:not(:where(.theme-fixed, .theme-fixed *)) {
+  color: #0f172a !important;
+}
+
+/* ──── Low Performance Mode ──── */
+.low-perf-mode .glass-panel {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.low-perf-mode .glass-card {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.low-perf-mode .boot-k-glitch::before,
+.low-perf-mode .boot-k-glitch::after {
+  display: none !important;
+}
+
+.low-perf-mode * {
+  animation-duration: 0s !important;
+  transition-duration: 0.05s !important;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ──── Gradient Slide Animation ──── */
+@keyframes gradientSlide {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 300% 50%;
+  }
+}
+
+/* ──── TYPING APP: Blinking Block Cursor ──── */
+.typing-cursor-active {
+  animation: typingCursorBlink 1s ease-in-out infinite;
+  border-radius: 3px;
+}
+
+@keyframes typingCursorBlink {
+  0%, 100% {
+    background: rgba(34, 211, 238, 0.25);
+    border-bottom-color: #22d3ee;
+    box-shadow: 0 2px 8px rgba(34, 211, 238, 0.3);
+  }
+  50% {
+    background: rgba(34, 211, 238, 0.08);
+    border-bottom-color: rgba(34, 211, 238, 0.3);
+    box-shadow: 0 2px 4px rgba(34, 211, 238, 0.1);
+  }
+}
+
+body.light-mode .typing-cursor-active {
+  animation: typingCursorBlinkLight 1s ease-in-out infinite;
+}
+
+@keyframes typingCursorBlinkLight {
+  0%, 100% {
+    background: rgba(2, 132, 199, 0.2);
+    border-bottom-color: #0284c7;
+    box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25);
+  }
+  50% {
+    background: rgba(2, 132, 199, 0.06);
+    border-bottom-color: rgba(2, 132, 199, 0.25);
+    box-shadow: 0 2px 4px rgba(2, 132, 199, 0.08);
+  }
+}
+/* Theme compatibility is opt-in. Use theme-fixed for a colored surface whose
+   explicit foreground/background must stay paired in both themes. */
+.theme-adaptive, .theme-panel { color: #f8fafc; }
+body.light-mode :is(.theme-adaptive, .theme-panel) { color: #0f172a; }
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel)
+:is(.text-blue-300, .text-blue-400):not(:where(.theme-fixed, .theme-fixed *)) { color: #1d4ed8; }
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel)
+:is(.text-emerald-300):not(:where(.theme-fixed, .theme-fixed *)) { color: #047857; }
+body.light-mode :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel)
+:is(.text-yellow-300):not(:where(.theme-fixed, .theme-fixed *)) { color: #854d0e; }
+
+
+/* Muted labels on the dark dashboard/login panels remain readable. */
+body:not(.light-mode) :is(.theme-adaptive, .glass-panel, .glass-card, .theme-panel) .text-gray-500:not(:where(.theme-fixed, .theme-fixed *)) { color: #94a3b8; }

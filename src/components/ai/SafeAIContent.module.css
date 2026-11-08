@@ -1,0 +1,118 @@
+.content {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.content p,
+.content ul,
+.content ol,
+.content blockquote,
+.content pre,
+.content dl,
+.content table {
+  margin-block: 0.65em;
+}
+
+.content > :first-child {
+  margin-top: 0;
+}
+
+.content > :last-child {
+  margin-bottom: 0;
+}
+
+.content[data-format='markdown'] p {
+  white-space: pre-wrap;
+}
+
+.content ul {
+  list-style: disc;
+  padding-left: 1.5em;
+}
+
+.content ol {
+  list-style: decimal;
+  padding-left: 1.5em;
+}
+
+.content li + li {
+  margin-top: 0.25em;
+}
+
+.content strong,
+.content b {
+  font-weight: 700;
+}
+
+.content a {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.content code,
+.content kbd {
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.9em;
+  border-radius: 0.25em;
+  padding: 0.1em 0.3em;
+  background: rgba(100, 116, 139, 0.12);
+}
+
+.content pre {
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: pre;
+  overflow-wrap: normal;
+  border-radius: 0.6em;
+  padding: 0.8em;
+  background: rgba(100, 116, 139, 0.1);
+}
+
+.content pre code {
+  font-size: 0.9em;
+  padding: 0;
+  background: transparent;
+}
+
+.content[data-theme='dark'] pre,
+.content[data-theme='dark'] :not(pre) > code {
+  background: rgba(148, 163, 184, 0.14);
+}
+
+.content blockquote {
+  border-left: 3px solid currentColor;
+  padding-left: 0.8em;
+}
+
+.content h1,
+.content h2,
+.content h3,
+.content h4,
+.content h5,
+.content h6 {
+  font-weight: 700;
+  line-height: 1.4;
+  margin-block: 0.9em 0.4em;
+}
+
+.content h1 { font-size: 1.35em; }
+.content h2 { font-size: 1.2em; }
+.content h3 { font-size: 1.1em; }
+
+.content table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+
+.content th,
+.content td {
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  padding: 0.4em 0.65em;
+  text-align: left;
+}
+
+.content th {
+  font-weight: 700;
+}

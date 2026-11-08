@@ -1,0 +1,2 @@
+import Link from 'next/link';
+export default function OptionalContent(){return <main style={{maxWidth:760,margin:'80px auto',padding:28,color:'#0f172a',background:'#ffffff',border:'1px solid #cbd5e1',borderRadius:20}}><h1>Optional CCC note images</h1><p>These optional course files are not included in the community source package. Their redistribution rights have not been verified.</p><p>Add your own licensed material after documenting its source and permissions in ASSETS.md.</p><Link href="/">Return to learning home</Link></main>}
