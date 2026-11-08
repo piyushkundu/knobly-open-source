@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useEffect, useCallback, use, useRef } from 'react';
+import { useState, useEffect, useEffectEvent, use, useRef } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { db } from '@/lib/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { loadExam, startExam, saveExam, submitExam } from '@/lib/exam-client';
+import { startExamCountdown } from '@/lib/exam-countdown';
 import type { ExamAnswers, ExamResult } from '@/types/exam';
 import { useRouter } from 'next/navigation';
 import Script from 'next/script';
@@ -108,6 +109,10 @@ function ExamSession({ testId }: { testId: string }) {
     const revisionRef = useRef(0);
     const requestIdRef = useRef<string | null>(null);
     const submittingRef = useRef(false);
+    const finishedRef = useRef(false);
+    const disposedRef = useRef(false);
+    const deadlineRef = useRef<number | null>(null);
+    const warningHideTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
     const startingRef = useRef(false);
     const shortSaveTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
     const [examError, setExamError] = useState('');
@@ -119,6 +124,7 @@ function ExamSession({ testId }: { testId: string }) {
 
     // Anti cheat
     const [warningCount, setWarningCount] = useState(0);
+    const warningCountRef = useRef(0);
     const MAX_WARNINGS = 3;
     const [warningMsg, setWarningMsg] = useState<{ title: string, desc: string } | null>(null);
 
@@ -131,8 +137,13 @@ function ExamSession({ testId }: { testId: string }) {
 
     const shortInputRef = useRef<HTMLTextAreaElement>(null);
 
-    useEffect(() => () => {
-        if (shortSaveTimeout.current) clearTimeout(shortSaveTimeout.current);
+    useEffect(() => {
+        disposedRef.current = false;
+        return () => {
+            disposedRef.current = true;
+            if (shortSaveTimeout.current) clearTimeout(shortSaveTimeout.current);
+            if (warningHideTimeout.current) clearTimeout(warningHideTimeout.current);
+        };
     }, []);
 
     // --------------------------------------------------
@@ -140,51 +151,57 @@ function ExamSession({ testId }: { testId: string }) {
     // --------------------------------------------------
     useEffect(() => {
         if (!user || user.uid === undefined) return;
+        let active = true;
 
         const init = async () => {
             try {
                 const data = await loadExam(user, testId);
+                if (!active) return;
                 setTestData(data.test);
-                setQuestions(shuffleArray(data.questions.map(q => ({ ...q, exam_options: shuffleArray(q.exam_options) }))));
+                const shuffled = shuffleArray(data.questions.map(q => ({ ...q, exam_options: shuffleArray(q.exam_options) })));
+                setQuestions(shuffled);
+                if (shuffled[0]) setVisitedSet(previous => new Set(previous).add(shuffled[0].id));
                 setTimeLeft(data.test.duration_minutes * 60);
             } catch (err) {
-                setExamError(err instanceof Error ? err.message : "This exam could not be loaded.");
+                if (active) setExamError(err instanceof Error ? err.message : "This exam could not be loaded.");
             } finally {
-                setLoading(false);
+                if (active) setLoading(false);
             }
         };
 
         if (user) {
             init();
         }
+        return () => { active = false; };
     }, [testId, user]);
 
-    // Track visited for first question after load
-    useEffect(() => {
-        if (questions.length > 0 && !visitedSet.has(questions[0].id)) {
-            setVisitedSet(prev => new Set(prev).add(questions[0].id));
+    const finalizeSubmit = async (type = "SUBMITTED") => {
+        if (examFinished || finishedRef.current || disposedRef.current || submittingRef.current || !attempt || !user) return;
+        submittingRef.current = true;
+        setSubmitting(true);
+        setExamError("");
+        if (shortSaveTimeout.current) clearTimeout(shortSaveTimeout.current);
+        try {
+            const { result } = await submitExam(user, attempt.id, responsesRef.current, ++revisionRef.current, type);
+            finishedRef.current = true;
+            if (disposedRef.current) return;
+            setExamFinished(true);
+            setMobileDrawerOpen(false);
+            setResultData(result);
+            if (isFullscreenAny()) { try { await exitFullscreenAny(); } catch {} }
+        } catch (error) {
+            setExamError(error instanceof Error ? error.message : "Submission failed. Please retry; your answers are still here.");
+        } finally {
+            submittingRef.current = false;
+            setSubmitting(false);
         }
-    }, [questions, visitedSet]);
+    };
 
-    // --------------------------------------------------
-    // TIMER
-    // --------------------------------------------------
+    const submitAtDeadline = useEffectEvent(() => { void finalizeSubmit('AUTO_SUBMITTED'); });
     useEffect(() => {
-        if (!examStarted || examFinished || timeLeft === null) return;
-
-        const interval = setInterval(() => {
-            setTimeLeft(prev => {
-                if (prev === null || prev <= 1) {
-                    clearInterval(interval);
-                    finalizeSubmit('AUTO_SUBMITTED');
-                    return 0;
-                }
-                return prev - 1;
-            });
-        }, 1000);
-
-        return () => clearInterval(interval);
-    }, [examStarted, examFinished, timeLeft]);
+        if (!examStarted || examFinished || deadlineRef.current === null) return;
+        return startExamCountdown(deadlineRef.current, setTimeLeft, submitAtDeadline);
+    }, [examStarted, examFinished]);
 
     // --------------------------------------------------
     // PROCTOR LOG
@@ -204,16 +221,11 @@ function ExamSession({ testId }: { testId: string }) {
         }
     };
 
-    const handleCheat = useCallback(async (eventType: string) => {
-        if (!examStarted || examFinished) return;
-
-        setWarningCount(w => {
-            const newW = w + 1;
-            if (newW >= MAX_WARNINGS) {
-                finalizeSubmit('AUTO_SUBMITTED');
-            }
-            return newW;
-        });
+    const handleCheat = useEffectEvent(async (eventType: string) => {
+        if (!examStarted || examFinished || finishedRef.current || submittingRef.current || disposedRef.current) return;
+        const newCount = ++warningCountRef.current;
+        setWarningCount(newCount);
+        if (newCount >= MAX_WARNINGS) void finalizeSubmit('AUTO_SUBMITTED');
 
         let title = 'Security Alert';
         let desc = 'Suspicious activity detected.';
@@ -234,6 +246,7 @@ function ExamSession({ testId }: { testId: string }) {
             await logProctor('FULLSCREEN_EXIT', 'User exited fullscreen.');
         }
 
+        if (disposedRef.current || finishedRef.current) return;
         setWarningMsg({ title, desc });
 
         // If it was a fullscreen error, try to request it back immediately (often blocked without user gesture)
@@ -244,11 +257,12 @@ function ExamSession({ testId }: { testId: string }) {
         }
 
         // Auto hide warning center after 5s
-        setTimeout(() => {
+        if (warningHideTimeout.current) clearTimeout(warningHideTimeout.current);
+        warningHideTimeout.current = setTimeout(() => {
             setWarningMsg(null);
         }, 5000);
 
-    }, [examStarted, examFinished, attempt, user]);
+    });
 
     // Attach cheat listeners
     useEffect(() => {
@@ -306,7 +320,7 @@ function ExamSession({ testId }: { testId: string }) {
             document.removeEventListener('fullscreenchange', onFullscreenChange);
             document.removeEventListener('webkitfullscreenchange', onWebkitFullscreenChange);
         };
-    }, [examStarted, examFinished, handleCheat]);
+    }, [examStarted, examFinished]);
 
     // --------------------------------------------------
     // OPERATIONS
@@ -335,26 +349,6 @@ function ExamSession({ testId }: { testId: string }) {
         queueAnswerSave({ ...responsesRef.current, [questionId]: { option_id: null, short_answer: val } });
     };
     const countAnswered = () => Object.values(responsesMap).filter(r => r.option_id || r.short_answer?.trim()).length;
-    const finalizeSubmit = async (type = "SUBMITTED") => {
-        if (examFinished || submittingRef.current || !attempt || !user) return;
-        submittingRef.current = true;
-        setSubmitting(true);
-        setExamError("");
-        if (shortSaveTimeout.current) clearTimeout(shortSaveTimeout.current);
-        try {
-            const { result } = await submitExam(user, attempt.id, responsesRef.current, ++revisionRef.current, type);
-            setExamFinished(true);
-            setMobileDrawerOpen(false);
-            setResultData(result);
-            if (isFullscreenAny()) { try { await exitFullscreenAny(); } catch {} }
-        } catch (error) {
-            setExamError(error instanceof Error ? error.message : "Submission failed. Please retry; your answers are still here.");
-        } finally {
-            submittingRef.current = false;
-            setSubmitting(false);
-        }
-    };
-
     // --------------------------------------------------
     // RENDER HELPERS
     // --------------------------------------------------
@@ -414,12 +408,17 @@ function ExamSession({ testId }: { testId: string }) {
         try {
             requestIdRef.current ??= crypto.randomUUID();
             const data = await startExam(user, testId, requestIdRef.current);
+            if (disposedRef.current) return;
             setAttempt({ id: data.attemptId });
             setTestData(data.test);
-            setQuestions(shuffleArray(data.questions.map(q => ({ ...q, exam_options: shuffleArray(q.exam_options) }))));
+            const shuffled = shuffleArray(data.questions.map(q => ({ ...q, exam_options: shuffleArray(q.exam_options) })));
+            setQuestions(shuffled);
+            if (shuffled[0]) setVisitedSet(previous => new Set(previous).add(shuffled[0].id));
             responsesRef.current = data.answers;
             revisionRef.current = data.revision;
             setResponsesMap(data.answers);
+            deadlineRef.current = Date.now() + data.remainingSeconds * 1000;
+            finishedRef.current = Boolean(data.result);
             setTimeLeft(data.remainingSeconds);
             setCurrentIndex(0);
             setExamStarted(true);

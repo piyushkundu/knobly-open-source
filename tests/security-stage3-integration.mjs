@@ -238,7 +238,7 @@ try {
     await adminDb.doc('exam_levels/dashboard-eligible').set({level_no:1,required_xp:total-1});
     await seed('dashboard-eligible',{level_id:'dashboard-eligible'});
     const cells=[];let cursor=0;
-    const react={useEffect(){},useCallback:fn=>fn,useMemo:fn=>fn(),useState(initial){const i=cursor++;if(!(i in cells))cells[i]=typeof initial==='function'?initial():initial;
+    const react={useEffect() {}, useEffectEvent: fn => fn, useCallback:fn=>fn,useMemo:fn=>fn(),useState(initial){const i=cursor++;if(!(i in cells))cells[i]=typeof initial==='function'?initial():initial;
       return[cells[i],value=>{cells[i]=typeof value==='function'?value(cells[i]):value;}];}};
     const hook=await load('src/app/dashboard/useDashboard.ts',{react,'firebase/firestore':store,'@/lib/firebase':{db},
       '@/context/AuthContext':{useAuth:()=>({user:auth.currentUser,loading:false})},'@/lib/progress-display':progress,

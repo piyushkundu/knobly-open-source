@@ -17,6 +17,11 @@ import {
 
 
 export default function DashboardPage() {
+    const {user} = useAuth();
+    return <DashboardSession key={user?.uid ?? 'guest'} />;
+}
+
+function DashboardSession() {
     const router = useRouter();
     const d = useDashboard();
     const [activeSubject, setActiveSubject] = useState('all');

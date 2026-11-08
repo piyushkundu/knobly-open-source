@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback, useEffectEvent } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { db } from '@/lib/firebase';
 import { fetchLeaderboard } from '@/lib/leaderboard-client';
@@ -27,6 +27,15 @@ export interface Attempt {
     status: string; score: number; accuracy: number; submitted_at?: string; started_at?: string;
 }
 export interface Stats { testsCompleted: number; avgScore: number; avgAccuracy: number; totalCorrect: number; totalWrong: number; }
+
+const RANKS = [
+    { name: 'Bronze', icon: '🥉', minPoints: 0, color: '#cd7f32' },
+    { name: 'Silver', icon: '🥈', minPoints: 50, color: '#94a3b8' },
+    { name: 'Gold', icon: '🥇', minPoints: 150, color: '#f59e0b' },
+    { name: 'Platinum', icon: '💎', minPoints: 300, color: '#06b6d4' },
+    { name: 'Diamond', icon: '💠', minPoints: 500, color: '#8b5cf6' },
+    { name: 'Legend', icon: '👑', minPoints: 800, color: '#ef4444' },
+];
 
 /* ── Hook ── */
 export function useDashboard() {
@@ -61,15 +70,6 @@ export function useDashboard() {
     }, [profile, user]);
 
     /* ── Rank System ── */
-    const RANKS = [
-        { name: 'Bronze', icon: '🥉', minPoints: 0, color: '#cd7f32' },
-        { name: 'Silver', icon: '🥈', minPoints: 50, color: '#94a3b8' },
-        { name: 'Gold', icon: '🥇', minPoints: 150, color: '#f59e0b' },
-        { name: 'Platinum', icon: '💎', minPoints: 300, color: '#06b6d4' },
-        { name: 'Diamond', icon: '💠', minPoints: 500, color: '#8b5cf6' },
-        { name: 'Legend', icon: '👑', minPoints: 800, color: '#ef4444' },
-    ];
-
     const totalPoints = useMemo(() => userState?.total_points || userState?.total_xp || 0, [userState]);
 
     const getRankForPoints = useCallback((pts: number, isLegend: boolean = false) => {
@@ -356,6 +356,14 @@ export function useDashboard() {
         finally { setTrackSaving(false); }
     }
 
+    async function loadCategories() {
+        try {
+            const snap = await getDocs(collection(db, 'exam_categories'));
+            const cats = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a: any, b: any) => (a.order || 0) - (b.order || 0));
+            setCategories(cats);
+        } catch (e) { console.error('loadCategories error:', e); }
+    }
+
     async function initData() {
         if (!user) return;
         await loadProfile();
@@ -379,16 +387,8 @@ export function useDashboard() {
         await initData();
     }
 
-    useEffect(() => { if (user && !authLoading) initData(); }, [user, authLoading]);
-
-    async function loadCategories() {
-        try {
-            const snap = await getDocs(collection(db, 'exam_categories'));
-            const cats = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a: any, b: any) => (a.order || 0) - (b.order || 0));
-            setCategories(cats);
-        } catch (e) { console.error('loadCategories error:', e); }
-    }
-
+    const initializeDashboard = useEffectEvent(() => { void initData(); });
+    useEffect(() => { if (user && !authLoading) initializeDashboard(); }, [user, authLoading]);
     const mySimpleResults = useMemo(() => simpleResults.filter(r => r.user_id === user?.uid), [simpleResults, user]);
 
     return {

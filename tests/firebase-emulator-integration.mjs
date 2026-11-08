@@ -203,9 +203,9 @@ try {
   }});
   async function examAttempt() {
     let attempt, responsesMap = {}, result;
-    const refs={startingRef:{current:false},submittingRef:{current:false},requestIdRef:{current:null},responsesRef:{current:{}},revisionRef:{current:0},shortSaveTimeout:{current:null}};
+    const refs={startingRef:{current:false},submittingRef:{current:false},requestIdRef:{current:null},responsesRef:{current:{}},revisionRef:{current:0},shortSaveTimeout:{current:null},finishedRef:{current:false},disposedRef:{current:false},deadlineRef:{current:null}};
     const base = { ...examClient, ...refs, user: auth.currentUser, testData, testId: testData.id,
-      requestFullscreenAny:async()=>{},shuffleArray:items=>items,setTestData(){},setQuestions(){},setTimeLeft(){},setCurrentIndex(){},setExamError(){},setSubmitting(){},
+      requestFullscreenAny:async()=>{},shuffleArray:items=>items,setTestData(){},setQuestions(){},setVisitedSet(){},setTimeLeft(){},setCurrentIndex(){},setExamError(){},setSubmitting(){},
       setResponsesMap:value=>{responsesMap=value;},setAttempt:value=>{attempt=value;},setExamStarted(){},
     };
     await operation(examFile, 'createAttemptAndStart', base)();

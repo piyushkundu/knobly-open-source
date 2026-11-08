@@ -3,10 +3,11 @@ import { test } from 'node:test';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
 import ts from 'typescript';
+import * as jsxRuntime from 'react/jsx-runtime';
 
 function load(file,deps={}) {
   const exports={};vm.compileFunction(ts.transpileModule(readFileSync(new URL('../'+file,import.meta.url),'utf8'),{
-    compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022},
+    compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,jsx:ts.JsxEmit.ReactJSX},
   }).outputText,['exports','require','console'])(exports,name=>{assert.ok(Object.hasOwn(deps,name),name);return deps[name];},console);return exports;
 }
 const progress=load('src/lib/progress-display.ts');
@@ -27,7 +28,7 @@ function harness(initial) {
       if(q.name==='exam_levels') await new Promise(resolve=>setImmediate(resolve));
       return {empty:!rows.length,docs:rows.map(row=>({id:row.id,data:()=>{const {id,...rest}=row;return structuredClone(rest);}}))};
     },setDoc:async(ref,value)=>writes.push({ref,value}),updateDoc:async()=>{throw Error('Unexpected update');}};
-  const react={useEffect(){},useCallback:fn=>fn,useMemo:fn=>fn(),useState(initial){const i=cursor++;if(!(i in cells))cells[i]=typeof initial==='function'?initial():initial;
+  const react={useEffect() {}, useEffectEvent: fn => fn, useCallback:fn=>fn,useMemo:fn=>fn(),useState(initial){const i=cursor++;if(!(i in cells))cells[i]=typeof initial==='function'?initial():initial;
     return [cells[i],value=>{cells[i]=typeof value==='function'?value(cells[i]):value;}];}};
   const hook=load('src/app/dashboard/useDashboard.ts',{react,'firebase/firestore':store,'@/lib/firebase':{db:{}},
     '@/context/AuthContext':{useAuth:()=>({user:{uid:'owner'},loading:false})},'@/lib/progress-display':progress,
@@ -56,4 +57,24 @@ test('missing progress initializes only the canonical zero record',async()=>{
 test('display normalization handles legacy numbers without mutating the supplied record',()=>{
   const input={total_points:'0',total_xp:'150',current_level:'3',streak_days:-2};const result=progress.progressDisplay(input);
   assert.equal(result.total_points,150);assert.equal(result.current_level,3);assert.equal(result.streak_days,0);assert.equal(input.total_xp,'150');
+});
+
+test('rank metadata stays stable across dashboard rerenders without progress writes',()=>{
+  const h=harness(rows()),first=h.dashboard(),next=h.dashboard();
+  assert.equal(first.RANKS,next.RANKS);assert.equal(first.getRankForPoints(200).name,'Gold');
+  assert.deepEqual(h.writes,[]);
+});
+
+test('dashboard keys its private session by account and leaves the session unrendered at the wrapper boundary',()=>{
+  let user={uid:'owner-a'};
+  const fail=()=>{throw Error('Private session rendered before the owner key was assigned');};
+  const page=load('src/app/dashboard/page.tsx',{
+    react:{useState:fail},'react/jsx-runtime':jsxRuntime,'next/link':{default:()=>null},
+    'next/navigation':{useRouter:fail},'@/context/AuthContext':{useAuth:()=>({user})},
+    '@/components/auth/LoginModal':{default:()=>null},'./useDashboard':{useDashboard:fail},
+    'lucide-react':new Proxy({},{get:()=>()=>null}),
+  });
+  const first=page.default();assert.equal(first.key,'owner-a');
+  user={uid:'owner-b'};const second=page.default();assert.equal(second.key,'owner-b');
+  assert.equal(first.type,second.type);user=null;assert.equal(page.default().key,'guest');
 });
