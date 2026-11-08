@@ -71,8 +71,46 @@ export function PythonLab() {
   const [showSavedCodes, setShowSavedCodes] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [editorWidthPercent, setEditorWidthPercent] = useState(55); // draggable split
-  const isDraggingRef = useRef(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const resizeCleanupRef = useRef<((updateState?: boolean) => void) | null>(null);
   const mainRef = useRef<HTMLDivElement>(null);
+
+  const startResize = useCallback((event: React.MouseEvent) => {
+    event.preventDefault();
+    resizeCleanupRef.current?.(false);
+    const main = mainRef.current;
+    if (!main) { setIsDragging(false); return; }
+    let active = true;
+    const previousCursor = document.body.style.cursor;
+    const previousSelection = document.body.style.userSelect;
+    const onMove = (move: MouseEvent) => {
+      if (!active) return;
+      const rect = main.getBoundingClientRect();
+      const sidebar = main.querySelector('.hidden.md\\:flex') as HTMLElement | null;
+      const sidebarWidth = sidebar?.getBoundingClientRect().width ?? 0;
+      const available = rect.width - sidebarWidth - 6;
+      if (available <= 0) return;
+      const editorWidth = move.clientX - rect.left - sidebarWidth;
+      setEditorWidthPercent(Math.min(80, Math.max(25, (editorWidth / available) * 100)));
+    };
+    const onUp = () => resizeCleanupRef.current?.();
+    const stop = (updateState = true) => {
+      if (!active) return;
+      active = false;
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+      document.body.style.cursor = previousCursor;
+      document.body.style.userSelect = previousSelection;
+      if (updateState) setIsDragging(false);
+    };
+    resizeCleanupRef.current = stop;
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+    setIsDragging(true);
+  }, []);
+  useEffect(() => () => resizeCleanupRef.current?.(false), []);
 
   // Derived active tab
   const activeTab = tabs[activeTabIndex] || tabs[0];
@@ -121,7 +159,7 @@ export function PythonLab() {
   const handleNewTab = useCallback(() => {
     if (tabs.length >= 2) return;
 
-    let baseName = 'Untitled';
+    const baseName = 'Untitled';
     let newName = 'Untitled.py';
     let counter = 0;
     while (tabs.some(t => t.name === newName)) {
@@ -686,7 +724,7 @@ export function PythonLab() {
       </div>
 
       {/* Main Content */}
-      <main ref={mainRef} className="flex-1 flex flex-col md:flex-row gap-0 p-0 overflow-hidden h-[calc(100dvh-64px)] md:h-[calc(100dvh-73px)]" style={{ cursor: isDraggingRef.current ? 'col-resize' : undefined }}>
+      <main ref={mainRef} className="flex-1 flex flex-col md:flex-row gap-0 p-0 overflow-hidden h-[calc(100dvh-64px)] md:h-[calc(100dvh-73px)]" style={{ cursor: isDragging ? 'col-resize' : undefined }}>
         {/* VS Code-style File Explorer Sidebar (Desktop only) */}
         <div className="hidden md:flex h-full flex-shrink-0">
           <EditorFileExplorer
@@ -747,28 +785,7 @@ export function PythonLab() {
         <div
           className="hidden md:flex"
           style={{ width:6, cursor:'col-resize', background:'transparent', flexShrink:0, alignItems:'center', justifyContent:'center', zIndex:5, position:'relative' }}
-          onMouseDown={(e) => {
-            e.preventDefault();
-            isDraggingRef.current = true;
-            const main = mainRef.current;
-            if (!main) return;
-            const onMove = (ev: MouseEvent) => {
-              if (!isDraggingRef.current) return;
-              const rect = main.getBoundingClientRect();
-              // Subtract sidebar width from calculation
-              const sidebar = main.querySelector('.hidden.md\\:flex') as HTMLElement;
-              const sidebarW = sidebar ? sidebar.getBoundingClientRect().width : 0;
-              const available = rect.width - sidebarW - 6; // minus resizer
-              const editorW = ev.clientX - rect.left - sidebarW;
-              const pct = Math.min(80, Math.max(25, (editorW / available) * 100));
-              setEditorWidthPercent(pct);
-            };
-            const onUp = () => { isDraggingRef.current = false; document.removeEventListener('mousemove', onMove); document.removeEventListener('mouseup', onUp); document.body.style.cursor = ''; document.body.style.userSelect = ''; };
-            document.addEventListener('mousemove', onMove);
-            document.addEventListener('mouseup', onUp);
-            document.body.style.cursor = 'col-resize';
-            document.body.style.userSelect = 'none';
-          }}
+          onMouseDown={startResize}
         >
           <div style={{ width:3, height:40, borderRadius:2, background:'var(--border-color, #d1d5db)', opacity:0.5, transition:'opacity 0.15s' }} onMouseEnter={e => (e.currentTarget.style.opacity = '1')} onMouseLeave={e => (e.currentTarget.style.opacity = '0.5')} />
         </div>

@@ -1,15 +1,13 @@
 'use client';
 
-import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
+import { useState, useMemo, useEffect, useRef, useCallback, useSyncExternalStore } from 'react';
 import { X, Trash2, Star, Download, Save, Search, Code2, Play, Copy, Pencil, Check, FolderOpen, FolderPlus, Plus, MoreVertical, Menu, Tag, Folder, Settings, FileCode2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SavedCodeItem } from '@/types/python';
 import { formatTimestamp, truncateCode } from '@/lib/python-utils';
 
   
-const DEFAULT_FOLDERS = [
-  { name: 'Practice', color: '#3b82f6', icon: '📘' },
-];
+import { createPythonFolderStore } from '@/lib/python-folders';
 
 const PRESET_COLORS = ['#ef4444','#f97316','#f59e0b','#84cc16','#10b981','#14b8a6','#06b6d4','#3b82f6','#6366f1','#8b5cf6','#d946ef','#ec4899'];
 
@@ -43,6 +41,8 @@ function highlightPython(code: string): string {
   ).join('\n');
 }
 
+type SavedCodeUpdates = Partial<Pick<SavedCodeItem, 'title' | 'code' | 'description' | 'folder' | 'isImportant' | 'lastOutput'>>;
+
 interface SavedCodesModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -51,7 +51,7 @@ interface SavedCodesModalProps {
   onSave: (title: string, code: string, description?: string, folder?: string, lastOutput?: string) => Promise<SavedCodeItem | void | null>;
   onDelete: (id: string) => Promise<void>;
   onToggleImportant: (id: string) => Promise<void>;
-  onUpdate?: (id: string, updates: Partial<Pick<SavedCodeItem, 'title' | 'code' | 'description' | 'folder' | 'isImportant' | 'lastOutput'>>) => Promise<void>;
+  onUpdate?: (id: string, updates: SavedCodeUpdates) => Promise<void>;
   onSelect: (item: SavedCodeItem) => void;
   onRun?: (code: string) => void;
   onExplain?: (code: string) => void;
@@ -59,7 +59,12 @@ interface SavedCodesModalProps {
   initialShowSaveInput?: boolean;
 }
 
-export function SavedCodesModal({
+export function SavedCodesModal(props: SavedCodesModalProps) {
+  if (!props.isOpen) return null;
+  return <SavedCodesDialog key={props.initialShowSaveInput ? 'save' : 'browse'} {...props} />;
+}
+
+function SavedCodesDialog({
   isOpen, onClose, codes, isLoading, onSave, onDelete, onToggleImportant, onUpdate, onSelect, onRun, onExplain, currentCode, initialShowSaveInput,
 }: SavedCodesModalProps) {
   const [activeFolder, setActiveFolder] = useState('all');
@@ -76,28 +81,8 @@ export function SavedCodesModal({
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [showCreateFolder, setShowCreateFolder] = useState(false);
   const [newFolderName, setNewFolderName] = useState('');
-  const [customFolders, setCustomFolders] = useState<{ name: string; color: string; icon: string }[]>(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('knobly-custom-folders');
-      if (saved) { 
-        try { 
-          const parsed = JSON.parse(saved); 
-          const version = localStorage.getItem('kb-folder-v');
-          if (!version) {
-            localStorage.setItem('kb-folder-v', '1');
-            const newFolders = parsed.filter((f: any) => !['Projects', 'School', 'Experiments'].includes(f.name));
-            localStorage.setItem('knobly-custom-folders', JSON.stringify(newFolders));
-            return newFolders.length > 0 ? newFolders : [...DEFAULT_FOLDERS];
-          }
-          return parsed;
-        } catch { 
-          return [...DEFAULT_FOLDERS]; 
-        } 
-      }
-      localStorage.setItem('knobly-custom-folders', JSON.stringify(DEFAULT_FOLDERS));
-    }
-    return [...DEFAULT_FOLDERS];
-  });
+  const [folderStore] = useState(createPythonFolderStore);
+  const customFolders = useSyncExternalStore(folderStore.subscribe, folderStore.getSnapshot, folderStore.getServerSnapshot);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeMenu, setActiveMenu] = useState<{ id: string; item: SavedCodeItem; x: number; y: number } | null>(null);
   const [folderCtxMenu, setFolderCtxMenu] = useState<{ name: string; x: number; y: number } | null>(null);
@@ -107,23 +92,27 @@ export function SavedCodesModal({
   const [toastMsg, setToastMsg] = useState('');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const toastRef = useRef<NodeJS.Timeout | null>(null);
+  const copiedTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const mountedRef = useRef(false);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+      if (toastRef.current) clearTimeout(toastRef.current);
+      if (copiedTimerRef.current) clearTimeout(copiedTimerRef.current);
+    };
+  }, []);
 
   const showToast = useCallback((msg: string) => {
+    if (!mountedRef.current) return;
     setToastMsg(msg);
     if (toastRef.current) clearTimeout(toastRef.current);
     toastRef.current = setTimeout(() => setToastMsg(''), 2500);
   }, []);
 
-  useEffect(() => {
-    if (isOpen) {
-      setShowSaveInput(initialShowSaveInput || false);
-      setSaveTitle(''); setSaveDescription(''); setExpandedId(null); setEditingId(null); setActiveMenu(null); setFolderCtxMenu(null); setEditingFolder(null);
-    }
-  }, [isOpen, initialShowSaveInput]);
-
   const saveCustomFolders = (updated: { name: string; color: string; icon: string }[]) => {
-    setCustomFolders(updated);
-    localStorage.setItem('knobly-custom-folders', JSON.stringify(updated));
+    folderStore.replace(updated);
   };
 
   const allFolders = useMemo(() => {
@@ -179,11 +168,14 @@ export function SavedCodesModal({
     try { await navigator.clipboard.writeText(code); } catch {
       const ta = document.createElement('textarea'); ta.value = code; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
     }
-    setCopiedId(id); setTimeout(() => setCopiedId(null), 2000);
+    if (!mountedRef.current) return;
+    setCopiedId(id);
+    if (copiedTimerRef.current) clearTimeout(copiedTimerRef.current);
+    copiedTimerRef.current = setTimeout(() => setCopiedId(null), 2000);
     showToast('📋 Copied!');
   }, [showToast]);
 
-  const handleUpdate = async (id: string, updates: any) => {
+  const handleUpdate = async (id: string, updates: SavedCodeUpdates) => {
     if (onUpdate) await onUpdate(id, updates);
   };
 
@@ -533,14 +525,10 @@ export function SavedCodesModal({
             <motion.div initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} onClick={() => setActiveMenu(null)} style={{ position:'fixed', inset:0, zIndex:9997 }}/>
             <motion.div initial={{opacity:0,scale:0.95,y:-5}} animate={{opacity:1,scale:1,y:0}} exit={{opacity:0,scale:0.95,y:-5}} onClick={e => e.stopPropagation()}
               style={{ position:'fixed', top:activeMenu.y, left:Math.min(activeMenu.x-200, (typeof window!=='undefined'?window.innerWidth:800)-220), zIndex:9998, background:'#fff', border:'1.5px solid #e2e8f0', borderRadius:12, overflow:'hidden', width:200, boxShadow:'0 12px 40px rgba(15,23,42,0.12)' }}>
-              {[
-                {label:'✏️ Rename', action:() => { setEditingId(activeMenu.id); setEditTitle(activeMenu.item.title); setActiveMenu(null); }},
-                {label:'📋 Copy Code', action:() => { handleCopy(activeMenu.id, activeMenu.item.code); setActiveMenu(null); }},
-                {label:'📄 Duplicate', action:() => { handleDuplicate(activeMenu.item); }},
-                {label:'🗑 Delete', danger:true, action:() => { setConfirmAction({message:'Delete this snippet?',onConfirm:() => handleDelete(activeMenu.id)}); setActiveMenu(null); }},
-              ].map(item => (
-                <button key={item.label} onClick={item.action} style={{ width:'100%', padding:'9px 14px', border:'none', background:'transparent', color:(item as any).danger?'#ef4444':'#475569', fontSize:11, fontWeight:700, textAlign:'left', cursor:'pointer', display:'block' }}>{item.label}</button>
-              ))}
+              <MenuAction onClick={() => { setEditingId(activeMenu.id); setEditTitle(activeMenu.item.title); setActiveMenu(null); }}>✏️ Rename</MenuAction>
+              <MenuAction onClick={() => { handleCopy(activeMenu.id, activeMenu.item.code); setActiveMenu(null); }}>📋 Copy Code</MenuAction>
+              <MenuAction onClick={() => { handleDuplicate(activeMenu.item); }}>📄 Duplicate</MenuAction>
+              <MenuAction danger onClick={() => { setConfirmAction({message:'Delete this snippet?',onConfirm:() => handleDelete(activeMenu.id)}); setActiveMenu(null); }}>🗑 Delete</MenuAction>
               <div style={{ padding:'6px 12px', borderTop:'1px solid #f1f5f9' }}>
                 <div style={{ fontSize:9, fontWeight:800, color:'#cbd5e1', textTransform:'uppercase', letterSpacing:'0.1em', marginBottom:5 }}>Move to</div>
                 {[{name:'unfiled',icon:'📄',label:'Unfiled'},...allFolders.map(f => ({name:f,icon:folderConfig[f]?.icon||'📁',label:f}))].map(f => (
@@ -559,6 +547,10 @@ export function SavedCodesModal({
 }
 
 // ─── Sub-Components ───
+
+function MenuAction({children, onClick, danger = false}: {children: React.ReactNode; onClick: () => void; danger?: boolean}) {
+  return <button onClick={onClick} style={{width:'100%', padding:'9px 14px', border:'none', background:'transparent', color:danger ? '#ef4444' : '#475569', fontSize:11, fontWeight:700, textAlign:'left', cursor:'pointer', display:'block'}}>{children}</button>;
+}
 
 interface SidebarItemProps {
   id: string;
@@ -643,7 +635,7 @@ function FM2CodeCard({ item, idx, folderConfig, expandedId, setExpandedId, editi
       transition={{ delay: Math.min(idx * 0.04, 0.3), ease: [0.4, 0, 0.2, 1] }}
       className="fm2-card"
       draggable
-      {...{ onDragStart: (e: any) => e.dataTransfer?.setData('code_id', item.id) } as any}
+      onDragStartCapture={e => e.dataTransfer.setData('code_id', item.id)}
       onClick={() => setExpandedId(isExpanded ? null : item.id)}
     >
       <div style={{ height: 3, background: cfg ? `linear-gradient(90deg, ${cfg.color}, ${cfg.color}55)` : `linear-gradient(90deg, #4f46e5, #7c3aed)` }} />

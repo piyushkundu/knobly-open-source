@@ -1,12 +1,10 @@
 'use client';
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo, useSyncExternalStore } from 'react';
 
 import { X, FolderPlus } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const DEFAULT_FOLDERS = [
-  { name: 'Practice', color: '#3b82f6', icon: '📘' },
-];
+import { createPythonFolderStore } from '@/lib/python-folders';
 
 interface SaveFilePopupProps {
   isOpen: boolean;
@@ -16,8 +14,13 @@ interface SaveFilePopupProps {
   existingFolders?: string[];
 }
 
-export function SaveFilePopup({ isOpen, onClose, initialName, onSave, existingFolders = [] }: SaveFilePopupProps) {
-  const [fileName, setFileName] = useState(initialName || 'Untitled');
+export function SaveFilePopup(props: SaveFilePopupProps) {
+  if (!props.isOpen) return null;
+  return <SaveFileDialog key={props.initialName} {...props} />;
+}
+
+function SaveFileDialog({ isOpen, onClose, initialName, onSave, existingFolders = [] }: SaveFilePopupProps) {
+  const [fileName, setFileName] = useState(initialName.replace(/\.py$/, '') || 'Untitled');
   const [description, setDescription] = useState('');
   const [selectedFolder, setSelectedFolder] = useState('');
   const [showFolderDropdown, setShowFolderDropdown] = useState(false);
@@ -26,27 +29,8 @@ export function SaveFilePopup({ isOpen, onClose, initialName, onSave, existingFo
   const nameInputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const [customFolders, setCustomFolders] = useState<{ name: string; color: string; icon: string }[]>(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('knobly-custom-folders');
-      if (saved) { 
-        try { 
-          const parsed = JSON.parse(saved); 
-          const version = localStorage.getItem('kb-folder-v');
-          if (!version) {
-            localStorage.setItem('kb-folder-v', '1');
-            const newFolders = parsed.filter((f: any) => !['Projects', 'School', 'Experiments'].includes(f.name));
-            localStorage.setItem('knobly-custom-folders', JSON.stringify(newFolders));
-            return newFolders.length > 0 ? newFolders : [...DEFAULT_FOLDERS];
-          }
-          return parsed;
-        } catch { 
-          return [...DEFAULT_FOLDERS]; 
-        } 
-      }
-    }
-    return [...DEFAULT_FOLDERS];
-  });
+  const [folderStore] = useState(createPythonFolderStore);
+  const customFolders = useSyncExternalStore(folderStore.subscribe, folderStore.getSnapshot, folderStore.getServerSnapshot);
 
   const allFolders = useMemo(() => {
     const s = new Set<string>();
@@ -56,14 +40,9 @@ export function SaveFilePopup({ isOpen, onClose, initialName, onSave, existingFo
   }, [customFolders, existingFolders]);
 
   useEffect(() => {
-    if (isOpen) {
-      setFileName(initialName.replace(/\.py$/, '') || 'Untitled');
-      setDescription('');
-      setSelectedFolder('');
-      setShowNewFolder(false);
-      setTimeout(() => nameInputRef.current?.select(), 100);
-    }
-  }, [isOpen, initialName]);
+    const timer = setTimeout(() => nameInputRef.current?.select(), 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleSave = () => {
     let name = fileName.trim() || 'Untitled';
@@ -75,8 +54,7 @@ export function SaveFilePopup({ isOpen, onClose, initialName, onSave, existingFo
   const handleCreateFolder = () => {
     if (!newFolderName.trim()) return;
     const updated = [...customFolders, { name: newFolderName.trim(), color: '#6366f1', icon: '📁' }];
-    setCustomFolders(updated);
-    localStorage.setItem('knobly-custom-folders', JSON.stringify(updated));
+    folderStore.replace(updated);
     setSelectedFolder(newFolderName.trim());
     setNewFolderName('');
     setShowNewFolder(false);
