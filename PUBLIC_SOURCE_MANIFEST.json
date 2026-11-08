@@ -146,7 +146,7 @@
     "src/app/terminal/TerminalWrapper.tsx": "84f4cf3fa56caf73f3c8ff3a07358c25a3f531b5be878913194077656307b05d",
     "src/app/terminal/page.tsx": "52afe3c69677c6cf161a91b4c2d0d234d0a78cdb46c071047099bc4b8d66244a",
     "src/app/test/[id]/page.tsx": "946e129eb4e701955e8e2047d561b0ca2593629c94a5a4ecff581c6d306a5330",
-    "src/app/typing/page.tsx": "9d1b9a0df53c84124bc659dc94e49a332a2605e9f0c185ab833d98ff7f54e7d4",
+    "src/app/typing/page.tsx": "1a8f02643317f9ab1b704e6ed6f8fc3304a11ec1689bcf68534d424b26472ba9",
     "src/app/verify-email/page.tsx": "b81da7f3d9be1089e819284eedd9fdc0e80b7a8f6fb0ecf147596663e607777f",
     "src/app/web-compiler/page.tsx": "56559821265f7741783cc40f8fa429b91999ce2a5d6ade79673d3749f6d5efb3",
     "src/app/web-design/css/page.tsx": "94b75d6d5e9b56c2f174313ede3c89b2da5688596d2c72be61d037d615d86f06",
@@ -234,6 +234,7 @@
     "src/lib/rate-limit.ts": "68d622822eda982c7a02493818c50d7ec922a9267f50adf24d5a2e7f25e0a297",
     "src/lib/terminal/commands.ts": "11ff20224121ad8278c589bbc72ffd75020ad349118ad8572df48e1ba8445b4e",
     "src/lib/terminal/vfs.ts": "a860f93c66f7796c5bb343905fbd5f6dddcaf298ead8f6a7456c81d724bdcb7d",
+    "src/lib/typing-stats.ts": "95e41e57c6678c1fc4ebfe199356077c0a07af8982470802b5f59cc7f35d135e",
     "src/lib/user-api-auth.ts": "79d825f23f76e83f140fdb91cd134e83694bc8b71223f38550d20639f27fe538",
     "src/proxy.ts": "cfd1037d01b49b6b9313a2e88bc6755fb6e6fd3f36fb71299ac7226f59668f3d",
     "src/types/app.ts": "457462a01c380a83ccf66132842a01e5cafdf3d5a0ef58d0fdd634182fd6b19e",
@@ -272,6 +273,7 @@
     "tests/setup-firebase-tools.mjs": "84a0e1ab6fb8b1ffdd37631c41df6aa602c1b37a616eb0f7e7993f9cce29cc14",
     "tests/start-firebase-emulators.mjs": "51392bc3bc703285f4ec988f8c14ecff1efff9f2b4a363d23c459fae91c6dee1",
     "tests/task-compiler-navigation.test.mjs": "8ddacfbef514c7af12a9211b699a8f6084a40d652559a5c5e10eddd9fa57d5df",
+    "tests/typing-flow.test.mjs": "b8454f4040755a14e17c00e8ac70fde1f2d671d5e3dec324af5eeb2627bce8c3",
     "tsconfig.json": "03e81cf9e5ee64accf67ad6686cef2b0584f862f6ab75622dda6711cea1e829a"
   },
   "releaseReviewRequired": [

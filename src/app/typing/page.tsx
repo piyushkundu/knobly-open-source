@@ -1,20 +1,18 @@
 'use client';
-import { useState, useEffect, useCallback, useRef, startTransition } from 'react';
+import { useState, useEffect, useCallback, useRef, useSyncExternalStore, useEffectEvent, startTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTheme } from '@/context/ThemeContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import TypingKeyboard from '@/components/typing/TypingKeyboard';
+import { createTypingStatsStore } from '@/lib/typing-stats';
 import TypingHands from '@/components/typing/TypingHands';
 import {
   LESSONS, PRACTICE_TEXTS, GAME_WORDS, ACHIEVEMENTS,
-  DEFAULT_STATS, TypingStats, playKeySound, getTypingLevel, getCertificate,
+  playKeySound, getTypingLevel, getCertificate,
 } from '@/components/typing/typingData';
 
 type Mode = 'learn' | 'practice' | 'game' | 'test' | 'smart' | 'profile';
 type LearnView = 'menu' | 'typing';
-
-function loadStats(): TypingStats { try { const d = localStorage.getItem('knobly-typing-stats'); return d ? { ...DEFAULT_STATS, ...JSON.parse(d) } : { ...DEFAULT_STATS }; } catch { return { ...DEFAULT_STATS }; } }
-function saveStats(s: TypingStats) { localStorage.setItem('knobly-typing-stats', JSON.stringify(s)); }
 
 const COURSE_SECTIONS = [
   { id: 'beginner', label: 'Beginner', icon: 'ph-bold ph-plant', color: '#22c55e', lessons: [0, 1, 2, 3, 4] },
@@ -28,29 +26,14 @@ export default function TypingPage() {
   const [mode, setMode] = useState<Mode>('learn');
   const [learnView, setLearnView] = useState<LearnView>('menu');
   const [activeSection, setActiveSection] = useState('beginner');
-  const statsRef = useRef<TypingStats>(DEFAULT_STATS);
-  const [, forceRender] = useState(0);
-  const rerender = () => forceRender(n => n + 1);
-
-  useEffect(() => { statsRef.current = loadStats(); rerender(); }, []);
-  const persistStats = useCallback(() => { saveStats(statsRef.current); }, []);
-  const updateStatsRef = useCallback((fn: (s: TypingStats) => TypingStats) => {
-    statsRef.current = fn(statsRef.current);
-    const s = statsRef.current;
-    const newA = ACHIEVEMENTS.filter(a => !s.achievements.includes(a.id) && a.condition(s)).map(a => a.id);
-    if (newA.length > 0) statsRef.current = { ...s, achievements: [...s.achievements, ...newA] };
-    const today = new Date().toISOString().slice(0, 10);
-    if (statsRef.current.lastPracticeDate !== today) {
-      const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
-      statsRef.current.dailyStreak = statsRef.current.lastPracticeDate === yesterday ? statsRef.current.dailyStreak + 1 : 1;
-      statsRef.current.lastPracticeDate = today;
-    }
-    persistStats();
-  }, [persistStats]);
-
+  const [statsStore] = useState(createTypingStatsStore);
+  const stats = useSyncExternalStore(statsStore.subscribe, statsStore.getSnapshot, statsStore.getServerSnapshot);
+  const updateStats = statsStore.update;
   // ═══ LEARN STATE ═══
   const [lessonIdx, setLessonIdx] = useState(0);
   const [exerciseIdx, setExerciseIdx] = useState(0);
+  const [exerciseRevision, setExerciseRevision] = useState(0);
+  const lessonAdvanceRef = useRef<number | null>(null);
   const learnPosRef = useRef(0);
   const charsRef = useRef<HTMLDivElement>(null);
   const [kbActiveKey, setKbActiveKey] = useState('');
@@ -77,6 +60,7 @@ export default function TypingPage() {
   const gameLoopRef = useRef<number>(0);
   const gameSpawnRef = useRef<number>(0);
   const gameSpeedRef = useRef(1);
+  const gameRuntimeRef = useRef({words: [] as {id: number; word: string; y: number; x: number}[], score: 0, lives: 5, combo: 0});
 
   // ═══ TEST STATE ═══
   const [testDuration, setTestDuration] = useState(60);
@@ -86,7 +70,6 @@ export default function TypingPage() {
   const testPosRef = useRef(0);
   const testCharsRef = useRef<HTMLDivElement>(null);
   const testInputRef = useRef('');
-  const testTimerRef = useRef<number>(0);
   const [testResult, setTestResult] = useState<{ wpm: number; accuracy: number; errors: number } | null>(null);
 
   // ═══ SMART STATE ═══
@@ -101,6 +84,20 @@ export default function TypingPage() {
   const textSub = isDark ? '#64748b' : '#94a3b8';
   const borderC = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
   const sidebarBg = isDark ? 'rgba(15,23,42,0.95)' : 'rgba(248,250,252,0.98)';
+
+  const pendingTimersRef = useRef(new Set<number>());
+  const schedule = useCallback((callback: () => void, delay: number) => {
+    const timer = window.setTimeout(() => { pendingTimersRef.current.delete(timer); callback(); }, delay);
+    pendingTimersRef.current.add(timer);
+    return timer;
+  }, []);
+  const cancelScheduled = useCallback((timer: number) => {
+    window.clearTimeout(timer); pendingTimersRef.current.delete(timer);
+  }, []);
+  useEffect(() => () => {
+    for (const timer of pendingTimersRef.current) window.clearTimeout(timer);
+    pendingTimersRef.current.clear();
+  }, []);
 
   // ═══ DOM helpers ═══
   const colorChar = (container: HTMLDivElement | null, idx: number, color: string, bg: string = 'transparent') => {
@@ -152,6 +149,10 @@ export default function TypingPage() {
     el.classList.add('typing-cursor-active');
   };
 
+  // ═══ SMART ═══
+  const getWeakKeys = useCallback(() => { const s = statsStore.getSnapshot(); const w: { key: string; errorRate: number }[] = []; Object.entries(s.keyHits).forEach(([k, h]) => { const e = s.keyErrors[k] || 0; if (h > 3) w.push({ key: k, errorRate: e / h }); }); return w.sort((a, b) => b.errorRate - a.errorRate).slice(0, 8); }, [statsStore]);
+  const generateSmartExercise = useCallback(() => { const weak = getWeakKeys(); const chars = weak.length > 0 ? weak.map(w => w.key) : ['a','s','d','f','j','k','l']; let text = ''; for (let i = 0; i < 40; i++) { text += chars[Math.floor(Math.random() * chars.length)]; if (i % 5 === 4) text += ' '; } smartPosRef.current = 0; setSmartExercise(text.trim()); schedule(() => setCursor(smartCharsRef.current, 0), 50); }, [getWeakKeys, schedule]);
+
   // ═══ KEYDOWN HANDLER ═══
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -169,24 +170,24 @@ export default function TypingPage() {
         if (!expected) return;
         const correct = key === expected;
         playKeySound(correct);
-        updateStatsRef(s => ({ ...s, totalCharsTyped: s.totalCharsTyped + 1, totalErrors: correct ? s.totalErrors : s.totalErrors + 1, keyHits: { ...s.keyHits, [key]: (s.keyHits[key] || 0) + 1 }, keyErrors: correct ? s.keyErrors : { ...s.keyErrors, [key]: (s.keyErrors[key] || 0) + 1 } }));
+        updateStats(s => ({ ...s, totalCharsTyped: s.totalCharsTyped + 1, totalErrors: correct ? s.totalErrors : s.totalErrors + 1, keyHits: { ...s.keyHits, [key]: (s.keyHits[key] || 0) + 1 }, keyErrors: correct ? s.keyErrors : { ...s.keyErrors, [key]: (s.keyErrors[key] || 0) + 1 } }));
         if (correct) {
           colorChar(charsRef.current, learnPosRef.current, '#22c55e');
           learnPosRef.current++;
           setCursor(charsRef.current, learnPosRef.current);
-          startTransition(() => { setKbActiveKey(exercise[learnPosRef.current] || ''); setKbPressedKey(key); setKbCorrect(true); setTimeout(() => setKbPressedKey(''), 100); });
+          startTransition(() => { setKbActiveKey(exercise[learnPosRef.current] || ''); setKbPressedKey(key); setKbCorrect(true); schedule(() => setKbPressedKey(''), 100); });
           if (learnPosRef.current >= exercise.length) {
-            setTimeout(() => {
+            lessonAdvanceRef.current = schedule(() => {
               if (exerciseIdx < lesson.exercises.length - 1) { setExerciseIdx(prev => prev + 1); learnPosRef.current = 0; }
               else {
-                updateStatsRef(s => ({ ...s, lessonsCompleted: s.lessonsCompleted.includes(lesson.id) ? s.lessonsCompleted : [...s.lessonsCompleted, lesson.id], totalWordsTyped: s.totalWordsTyped + exercise.split(' ').length }));
-                setLearnView('menu'); rerender();
+                updateStats(s => ({ ...s, lessonsCompleted: s.lessonsCompleted.includes(lesson.id) ? s.lessonsCompleted : [...s.lessonsCompleted, lesson.id], totalWordsTyped: s.totalWordsTyped + exercise.split(' ').length }));
+                setLearnView('menu');
               }
             }, 300);
           }
         } else {
           colorChar(charsRef.current, learnPosRef.current, '#ef4444', 'rgba(239,68,68,0.15)');
-          startTransition(() => { setKbPressedKey(key); setKbCorrect(false); setTimeout(() => { setKbPressedKey(''); colorChar(charsRef.current, learnPosRef.current, textSub); }, 200); });
+          startTransition(() => { setKbPressedKey(key); setKbCorrect(false); schedule(() => { setKbPressedKey(''); colorChar(charsRef.current, learnPosRef.current, textSub); }, 200); });
         }
       }
       else if (mode === 'practice') {
@@ -196,22 +197,22 @@ export default function TypingPage() {
         if (!expected) return;
         const correct = key === expected;
         playKeySound(correct);
-        updateStatsRef(s => ({ ...s, totalCharsTyped: s.totalCharsTyped + 1, totalErrors: correct ? s.totalErrors : s.totalErrors + 1, keyHits: { ...s.keyHits, [key]: (s.keyHits[key] || 0) + 1 }, keyErrors: correct ? s.keyErrors : { ...s.keyErrors, [key]: (s.keyErrors[key] || 0) + 1 } }));
+        updateStats(s => ({ ...s, totalCharsTyped: s.totalCharsTyped + 1, totalErrors: correct ? s.totalErrors : s.totalErrors + 1, keyHits: { ...s.keyHits, [key]: (s.keyHits[key] || 0) + 1 }, keyErrors: correct ? s.keyErrors : { ...s.keyErrors, [key]: (s.keyErrors[key] || 0) + 1 } }));
         if (correct) {
           colorChar(practiceCharsRef.current, practicePosRef.current, '#22c55e');
           practicePosRef.current++;
           setCursor(practiceCharsRef.current, practicePosRef.current);
           const elapsed = (performance.now() - practiceStartRef.current) / 60000;
           if (elapsed > 0.05) startTransition(() => setPracticeWpm(Math.round((practicePosRef.current / 5) / elapsed)));
-          startTransition(() => { setKbActiveKey(practiceText[practicePosRef.current] || ''); setKbPressedKey(key); setKbCorrect(true); setTimeout(() => setKbPressedKey(''), 100); });
+          startTransition(() => { setKbActiveKey(practiceText[practicePosRef.current] || ''); setKbPressedKey(key); setKbCorrect(true); schedule(() => setKbPressedKey(''), 100); });
           if (practicePosRef.current >= practiceText.length) {
-            updateStatsRef(s => ({ ...s, totalWordsTyped: s.totalWordsTyped + practiceText.split(' ').length, bestWpm: Math.max(s.bestWpm, practiceWpm) }));
+            updateStats(s => ({ ...s, totalWordsTyped: s.totalWordsTyped + practiceText.split(' ').length, bestWpm: Math.max(s.bestWpm, practiceWpm) }));
             practicePosRef.current = 0; practiceStartRef.current = 0;
             startTransition(() => { setPracticeText(PRACTICE_TEXTS[Math.floor(Math.random() * PRACTICE_TEXTS.length)]); setPracticeWpm(0); });
           }
         } else {
           colorChar(practiceCharsRef.current, practicePosRef.current, '#ef4444', 'rgba(239,68,68,0.15)');
-          startTransition(() => { setKbPressedKey(key); setKbCorrect(false); setTimeout(() => { setKbPressedKey(''); colorChar(practiceCharsRef.current, practicePosRef.current, textSub); }, 200); });
+          startTransition(() => { setKbPressedKey(key); setKbCorrect(false); schedule(() => { setKbPressedKey(''); colorChar(practiceCharsRef.current, practicePosRef.current, textSub); }, 200); });
         }
       }
       else if (mode === 'test' && testActive) {
@@ -225,41 +226,120 @@ export default function TypingPage() {
         if (key === 'Backspace') return;
         const expected = smartExercise[smartPosRef.current]; if (!expected) return;
         const correct = key === expected; playKeySound(correct);
-        updateStatsRef(s => ({ ...s, totalCharsTyped: s.totalCharsTyped + 1, totalErrors: correct ? s.totalErrors : s.totalErrors + 1, keyHits: { ...s.keyHits, [key]: (s.keyHits[key] || 0) + 1 }, keyErrors: correct ? s.keyErrors : { ...s.keyErrors, [key]: (s.keyErrors[key] || 0) + 1 } }));
+        updateStats(s => ({ ...s, totalCharsTyped: s.totalCharsTyped + 1, totalErrors: correct ? s.totalErrors : s.totalErrors + 1, keyHits: { ...s.keyHits, [key]: (s.keyHits[key] || 0) + 1 }, keyErrors: correct ? s.keyErrors : { ...s.keyErrors, [key]: (s.keyErrors[key] || 0) + 1 } }));
         if (correct) { colorChar(smartCharsRef.current, smartPosRef.current, '#22c55e'); smartPosRef.current++; setCursor(smartCharsRef.current, smartPosRef.current); if (smartPosRef.current >= smartExercise.length) { smartPosRef.current = 0; generateSmartExercise(); } }
-        else { colorChar(smartCharsRef.current, smartPosRef.current, '#ef4444', 'rgba(239,68,68,0.15)'); setTimeout(() => colorChar(smartCharsRef.current, smartPosRef.current, textSub), 200); }
+        else { colorChar(smartCharsRef.current, smartPosRef.current, '#ef4444', 'rgba(239,68,68,0.15)'); schedule(() => colorChar(smartCharsRef.current, smartPosRef.current, textSub), 200); }
       }
     };
     document.addEventListener('keydown', handler);
-    return () => document.removeEventListener('keydown', handler);
-  }, [mode, learnView, exercise, exerciseIdx, lessonIdx, practiceText, testActive, testText, smartExercise, isDark]);
+    return () => {
+      document.removeEventListener('keydown', handler);
+      if (lessonAdvanceRef.current !== null) cancelScheduled(lessonAdvanceRef.current);
+    };
+  }, [mode, learnView, exercise, exerciseIdx, lesson, practiceText, practiceWpm, testActive, testText, smartExercise, textSub, generateSmartExercise, updateStats, schedule, cancelScheduled, exerciseRevision]);
 
-  useEffect(() => { learnPosRef.current = 0; setTimeout(() => { setCursor(charsRef.current, 0); setKbActiveKey(exercise[0] || ''); }, 50); }, [exercise]);
-  useEffect(() => { practicePosRef.current = 0; setTimeout(() => setCursor(practiceCharsRef.current, 0), 50); }, [practiceText]);
+  useEffect(() => {
+    if (mode !== 'learn' || learnView !== 'typing') return;
+    learnPosRef.current = 0;
+    const timer = schedule(() => { setCursor(charsRef.current, 0); setKbActiveKey(exercise[0] || ''); }, 50);
+    return () => cancelScheduled(timer);
+  }, [exercise, learnView, mode, exerciseRevision, schedule, cancelScheduled]);
+  useEffect(() => {
+    practicePosRef.current = 0;
+    const timer = schedule(() => setCursor(practiceCharsRef.current, 0), 50);
+    return () => cancelScheduled(timer);
+  }, [practiceText, schedule, cancelScheduled]);
 
   // ═══ Start lesson ═══
   const startLesson = (idx: number) => { setLessonIdx(idx); setExerciseIdx(0); learnPosRef.current = 0; setLearnView('typing'); };
 
   // ═══ GAME ═══
-  const startGame = () => { setGameActive(true); setGameScore(0); setGameLives(5); setGameCombo(0); gameSpeedRef.current = 1; setGameWords([]); setGameInput(''); gameIdRef.current = 0; updateStatsRef(s => ({ ...s, gamesPlayed: s.gamesPlayed + 1 })); };
+  const startGame = () => {
+    gameRuntimeRef.current = {words: [], score: 0, lives: 5, combo: 0};
+    setGameActive(true); setGameScore(0); setGameLives(5); setGameCombo(0);
+    gameSpeedRef.current = 1; setGameWords([]); setGameInput(''); gameIdRef.current = 0;
+    updateStats(s => ({...s, gamesPlayed: s.gamesPlayed + 1}));
+  };
   useEffect(() => {
-    if (!gameActive) { cancelAnimationFrame(gameLoopRef.current); clearInterval(gameSpawnRef.current); return; }
-    gameSpawnRef.current = window.setInterval(() => { const word = GAME_WORDS[Math.floor(Math.random() * GAME_WORDS.length)]; gameIdRef.current++; setGameWords(prev => [...prev, { id: gameIdRef.current, word, y: 0, x: 10 + Math.random() * 70 }]); }, Math.max(800, 2000 - gameSpeedRef.current * 150));
+    if (!gameActive) return;
+    let stopped = false;
+    gameSpawnRef.current = window.setInterval(() => {
+      if (stopped) return;
+      const word = GAME_WORDS[Math.floor(Math.random() * GAME_WORDS.length)];
+      const game = gameRuntimeRef.current;
+      game.words = [...game.words, {id: ++gameIdRef.current, word, y: 0, x: 10 + Math.random() * 70}];
+      setGameWords(game.words);
+    }, Math.max(800, 2000 - gameSpeedRef.current * 150));
     let last = performance.now();
-    const loop = (now: number) => { const dt = (now - last) / 1000; last = now; setGameWords(prev => { const u = prev.map(w => ({ ...w, y: w.y + (30 + gameSpeedRef.current * 8) * dt })); const a = u.filter(w => w.y < 100); const m = u.length - a.length; if (m > 0) setGameLives(l => { const n = l - m; if (n <= 0) setGameActive(false); return Math.max(0, n); }); return a; }); gameLoopRef.current = requestAnimationFrame(loop); };
+    const loop = (now: number) => {
+      if (stopped) return;
+      const dt = (now - last) / 1000; last = now;
+      const game = gameRuntimeRef.current;
+      const moved = game.words.map(w => ({...w, y: w.y + (30 + gameSpeedRef.current * 8) * dt}));
+      game.words = moved.filter(w => w.y < 100);
+      const missed = moved.length - game.words.length;
+      setGameWords(game.words);
+      if (missed) { game.lives = Math.max(0, game.lives - missed); setGameLives(game.lives); }
+      if (game.lives === 0) { stopped = true; clearInterval(gameSpawnRef.current); setGameActive(false); return; }
+      gameLoopRef.current = requestAnimationFrame(loop);
+    };
     gameLoopRef.current = requestAnimationFrame(loop);
-    return () => { cancelAnimationFrame(gameLoopRef.current); clearInterval(gameSpawnRef.current); };
+    return () => { stopped = true; cancelAnimationFrame(gameLoopRef.current); clearInterval(gameSpawnRef.current); };
   }, [gameActive]);
-  const handleGameInput = (e: React.ChangeEvent<HTMLInputElement>) => { const val = e.target.value; setGameInput(val); setGameWords(prev => { const idx = prev.findIndex(w => w.word === val.trim().toLowerCase()); if (idx >= 0) { const pts = Math.round((val.length * 10) * (1 + gameCombo * 0.2)); setGameScore(s => { const ns = s + pts; updateStatsRef(st => ({ ...st, highScore: Math.max(st.highScore, ns) })); return ns; }); setGameCombo(c => c + 1); if (gameScore % 200 < 50) gameSpeedRef.current = Math.min(gameSpeedRef.current + 0.3, 10); setGameInput(''); playKeySound(true); return prev.filter((_, i) => i !== idx); } return prev; }); };
+  const handleGameInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setGameInput(val);
+    const game = gameRuntimeRef.current;
+    const index = game.words.findIndex(w => w.word === val.trim().toLowerCase());
+    if (index < 0) return;
+    const points = Math.round((val.length * 10) * (1 + game.combo * 0.2));
+    if (game.score % 200 < 50) gameSpeedRef.current = Math.min(gameSpeedRef.current + 0.3, 10);
+    game.score += points; game.combo++;
+    game.words = game.words.filter((_, i) => i !== index);
+    setGameWords(game.words); setGameScore(game.score); setGameCombo(game.combo); setGameInput('');
+    updateStats(s => ({...s, highScore: Math.max(s.highScore, game.score)}));
+    playKeySound(true);
+  };
 
   // ═══ TEST ═══
   const genTestText = () => [...PRACTICE_TEXTS].sort(() => Math.random() - 0.5).slice(0, 4).join(' ');
-  const startTest = (dur: number) => { setTestDuration(dur); setTestTimeLeft(dur); setTestResult(null); setTestActive(true); testPosRef.current = 0; testInputRef.current = ''; setTestText(genTestText()); setTimeout(() => setCursor(testCharsRef.current, 0), 50); testTimerRef.current = window.setInterval(() => { setTestTimeLeft(prev => { if (prev <= 1) { clearInterval(testTimerRef.current); setTestActive(false); return 0; } return prev - 1; }); }, 1000); };
-  useEffect(() => { if (!testActive && testTimeLeft === 0 && testInputRef.current.length > 0) { const inp = testInputRef.current; const words = inp.trim().split(/\s+/).length; const wpm = Math.round(words / (testDuration / 60)); let errors = 0; for (let i = 0; i < inp.length; i++) { if (inp[i] !== testText[i]) errors++; } const accuracy = Math.max(0, Math.round(((inp.length - errors) / Math.max(1, inp.length)) * 100)); setTestResult({ wpm, accuracy, errors }); updateStatsRef(s => ({ ...s, totalTestsTaken: s.totalTestsTaken + 1, bestWpm: Math.max(s.bestWpm, wpm), totalWordsTyped: s.totalWordsTyped + words })); rerender(); } }, [testActive, testTimeLeft]);
+  const startTest = (dur: number) => {
+    setTestDuration(dur); setTestTimeLeft(dur); setTestResult(null);
+    testPosRef.current = 0; testInputRef.current = '';
+    setTestText(genTestText()); setTestActive(true);
+  };
+  const finishTest = useEffectEvent(() => {
+    setTestActive(false);
+    const input = testInputRef.current;
+    if (!input.length) return;
+    const words = input.trim().split(/\s+/).length;
+    const wpm = Math.round(words / (testDuration / 60));
+    let errors = 0;
+    for (let i = 0; i < input.length; i++) if (input[i] !== testText[i]) errors++;
+    const accuracy = Math.max(0, Math.round(((input.length - errors) / input.length) * 100));
+    setTestResult({wpm, accuracy, errors});
+    updateStats(s => ({...s, totalTestsTaken: s.totalTestsTaken + 1,
+      bestWpm: Math.max(s.bestWpm, wpm), totalWordsTyped: s.totalWordsTyped + words}));
+  });
+  useEffect(() => {
+    if (!testActive || mode !== 'test') return;
+    const deadline = Date.now() + testDuration * 1000;
+    let finished = false;
+    const cursor = schedule(() => setCursor(testCharsRef.current, 0), 50);
+    const interval = setInterval(() => {
+      if (finished) return;
+      const remaining = Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
+      setTestTimeLeft(remaining);
+      if (remaining === 0) { finished = true; clearInterval(interval); finishTest(); }
+    }, 1000);
+    return () => { finished = true; cancelScheduled(cursor); clearInterval(interval); };
+  }, [testActive, testDuration, mode, schedule, cancelScheduled]);
 
-  // ═══ SMART ═══
-  const getWeakKeys = () => { const s = statsRef.current; const w: { key: string; errorRate: number }[] = []; Object.entries(s.keyHits).forEach(([k, h]) => { const e = s.keyErrors[k] || 0; if (h > 3) w.push({ key: k, errorRate: e / h }); }); return w.sort((a, b) => b.errorRate - a.errorRate).slice(0, 8); };
-  const generateSmartExercise = useCallback(() => { const weak = getWeakKeys(); const chars = weak.length > 0 ? weak.map(w => w.key) : ['a','s','d','f','j','k','l']; let text = ''; for (let i = 0; i < 40; i++) { text += chars[Math.floor(Math.random() * chars.length)]; if (i % 5 === 4) text += ' '; } smartPosRef.current = 0; setSmartExercise(text.trim()); setTimeout(() => setCursor(smartCharsRef.current, 0), 50); }, []);
+  const switchMode = (next: Mode) => {
+    setMode(next);
+    if (next !== 'test') setTestActive(false);
+    if (next !== 'game') setGameActive(false);
+  };
 
   const renderChars = (text: string, ref: React.RefObject<HTMLDivElement | null>) => (
     <div ref={ref} className="font-mono text-xl md:text-2xl leading-relaxed tracking-wider select-none" style={{ color: textSub, wordBreak: 'break-all', lineHeight: 2.2 }}>
@@ -271,7 +351,6 @@ export default function TypingPage() {
     </div>
   );
 
-  const stats = statsRef.current;
   const lv = getTypingLevel(stats.bestWpm);
   const completedCount = stats.lessonsCompleted.length;
   const totalLessons = LESSONS.length;
@@ -329,7 +408,7 @@ export default function TypingPage() {
           <div className="p-3 flex flex-col gap-1">
             <div style={{ fontSize: 9, fontWeight: 700, color: textSub, textTransform: 'uppercase', letterSpacing: '0.15em', padding: '4px 8px' }}>Learn to Type</div>
             {COURSE_SECTIONS.map(sec => (
-              <button key={sec.id} onClick={() => { setMode('learn'); setLearnView('menu'); setActiveSection(sec.id); }}
+              <button key={sec.id} onClick={() => { switchMode('learn'); setLearnView('menu'); setActiveSection(sec.id); }}
                 className="flex items-center justify-between px-3 py-2.5 rounded-xl transition-all text-left" style={{
                   background: mode === 'learn' && activeSection === sec.id ? `${sec.color}15` : 'transparent',
                   border: `1.5px solid ${mode === 'learn' && activeSection === sec.id ? `${sec.color}40` : 'transparent'}`,
@@ -353,7 +432,7 @@ export default function TypingPage() {
               { id: 'smart' as Mode, label: 'Smart Practice', icon: 'ph-bold ph-brain', color: '#8b5cf6' },
               { id: 'profile' as Mode, label: 'My Progress', icon: 'ph-bold ph-trophy', color: '#ec4899' },
             ].map(item => (
-              <button key={item.id} onClick={() => setMode(item.id)} className="flex items-center gap-2 px-3 py-2.5 rounded-xl transition-all text-left" style={{
+              <button key={item.id} onClick={() => switchMode(item.id)} className="flex items-center gap-2 px-3 py-2.5 rounded-xl transition-all text-left" style={{
                 background: mode === item.id ? `${item.color}15` : 'transparent',
                 border: `1.5px solid ${mode === item.id ? `${item.color}40` : 'transparent'}`,
               }}>
@@ -369,7 +448,7 @@ export default function TypingPage() {
           {/* Mobile mode tabs */}
           <nav className="md:hidden flex gap-1 px-3 py-2 overflow-x-auto" style={{ borderBottom: `1px solid ${borderC}` }}>
             {[{ id: 'learn' as Mode, icon: 'ph-bold ph-book-open', label: 'Learn' }, { id: 'practice' as Mode, icon: 'ph-bold ph-keyboard', label: 'Practice' }, { id: 'game' as Mode, icon: 'ph-bold ph-game-controller', label: 'Game' }, { id: 'test' as Mode, icon: 'ph-bold ph-timer', label: 'Test' }, { id: 'profile' as Mode, icon: 'ph-bold ph-trophy', label: 'Profile' }].map(m => (
-              <button key={m.id} onClick={() => setMode(m.id)} className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs whitespace-nowrap" style={{ background: mode === m.id ? 'rgba(34,211,238,0.15)' : 'transparent', color: mode === m.id ? '#22d3ee' : textSub, fontWeight: mode === m.id ? 700 : 500 }}>
+              <button key={m.id} onClick={() => switchMode(m.id)} className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs whitespace-nowrap" style={{ background: mode === m.id ? 'rgba(34,211,238,0.15)' : 'transparent', color: mode === m.id ? '#22d3ee' : textSub, fontWeight: mode === m.id ? 700 : 500 }}>
                 <i className={m.icon} style={{ fontSize: 12 }} />{m.label}
               </button>
             ))}
@@ -452,7 +531,7 @@ export default function TypingPage() {
                         <span style={{ fontSize: 13, fontWeight: 700, color: '#fff' }}>{lesson.title} — Exercise {exerciseIdx + 1} of {lesson.exercises.length}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <button onClick={() => { learnPosRef.current = 0; setExerciseIdx(exerciseIdx); rerender(); }} className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs" style={{ background: 'rgba(255,255,255,0.12)', color: '#fff', border: '1px solid rgba(255,255,255,0.15)' }}>
+                        <button onClick={() => { learnPosRef.current = 0; setExerciseRevision(n => n + 1); }} className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs" style={{ background: 'rgba(255,255,255,0.12)', color: '#fff', border: '1px solid rgba(255,255,255,0.15)' }}>
                           <i className="ph-bold ph-arrow-clockwise" style={{ fontSize: 11 }} /> Redo
                         </button>
                         <div className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs" style={{ background: 'rgba(255,255,255,0.12)', color: '#fff' }}>
@@ -465,7 +544,7 @@ export default function TypingPage() {
                     <div className="flex justify-center py-6 md:py-8 px-4" style={{ background: isDark ? 'rgba(15,23,42,0.5)' : 'rgba(248,250,252,1)' }}>
                       <div ref={charsRef} className="flex flex-wrap justify-center gap-2">
                         {exercise.split('').map((ch, i) => (
-                          <div key={`box-${exerciseIdx}-${i}`} className="flex items-center justify-center rounded-lg select-none" style={{
+                          <div key={`box-${exerciseRevision}-${exerciseIdx}-${i}`} className="flex items-center justify-center rounded-lg select-none" style={{
                             width: ch === ' ' ? 28 : 52,
                             height: 56,
                             fontSize: ch === ' ' ? 0 : 28,
