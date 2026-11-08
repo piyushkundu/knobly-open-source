@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
@@ -19,7 +19,12 @@ interface LoginModalProps {
     onClose: () => void;
 }
 
-export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
+export default function LoginModal(props: LoginModalProps) {
+    if (!props.isOpen) return null;
+    return <LoginDialog {...props} />;
+}
+
+function LoginDialog({ isOpen, onClose }: LoginModalProps) {
     const { user, login, signup, loginWithGoogle, resetPassword, resendVerificationEmail, loginWithUserId } = useAuth();
     const [isSignUp, setIsSignUp] = useState(false);
     const [loginMode, setLoginMode] = useState<'email' | 'userid'>('email');
@@ -36,20 +41,15 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
         }
     }, [user, isOpen, isSignUp, showVerificationScreen, onClose]);
 
-    // Reset form when modal opens
+    const mountedRef = useRef(false);
+    const resetRedirectRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     useEffect(() => {
-        if (isOpen) {
-            setForm({ fullName: '', email: '', password: '', username: '', selectedAvatar: '' });
-            setError('');
-            setSuccessMessage('');
-            setIsSignUp(false);
-            setShowForgotPassword(false);
-            setForgotEmail('');
-            setLoginMode('email');
-            setLoading(false);
-            setShowVerificationScreen(false);
-        }
-    }, [isOpen]);
+        mountedRef.current = true;
+        return () => {
+            mountedRef.current = false;
+            if (resetRedirectRef.current) clearTimeout(resetRedirectRef.current);
+        };
+    }, []);
     const [showForgotPassword, setShowForgotPassword] = useState(false);
     const [forgotEmail, setForgotEmail] = useState('');
     const [form, setForm] = useState({
@@ -186,10 +186,12 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
             }
             
             await resetPassword(emailToSend);
+            if (!mountedRef.current) return;
             setSuccessMessage('If this account supports password reset, check its email inbox. For Google-only accounts, use Google sign-in. Redirecting in 5 seconds...');
             setError('');
             // Auto-redirect back to login after 5 seconds
-            setTimeout(() => {
+            if (resetRedirectRef.current) clearTimeout(resetRedirectRef.current);
+            resetRedirectRef.current = setTimeout(() => {
                 setShowForgotPassword(false);
                 setError('');
                 setSuccessMessage('');

@@ -60,10 +60,11 @@ function nodes(node, predicate) {
 
 // Retained hooks/effects with guarded refs, synthetic DOM/clipboard/storage.
 // Child editor/runtime/cloud hooks are mocked; no SDK or production service loads.
-function ui(file, name, initialProps = {}) {
+function ui(file, name, initialProps = {}, overrides = {}, initialStorage = {}) {
     let cells = [], cursor = 0, dirty = true, rendering = false, tree, props = initialProps, nextId = 0;
     const effects = new Set(), timers = new Map(), listeners = new Map(), writes = [], reads = [], calls = [], copied = [];
     const storageData = new Map([['knobly-custom-folders', JSON.stringify(legacyFolders)], ['python-code', 'print("local work")']]);
+    for (const [key, value] of Object.entries(initialStorage)) storageData.set(key, value);
     const storage = {getItem(key) { reads.push(key); return storageData.get(key) ?? null; }, setItem(key, value) { writes.push({key, value}); storageData.set(key, value); }};
     const same = (a, b) => a?.length === b?.length && a.every((value, i) => Object.is(value, b[i]));
     const slot = initialize => { const i = cursor++; if (!(i in cells)) cells[i] = initialize(); return cells[i]; };
@@ -97,7 +98,7 @@ function ui(file, name, initialProps = {}) {
             addEventListener(type, handler) { (listeners.get(type) ?? (listeners.set(type, new Set()), listeners.get(type))).add(handler); },
             removeEventListener: (type, handler) => listeners.get(type)?.delete(handler)},
         setTimeout(callback, delay) { const id = ++nextId; timers.set(id, {callback, delay}); return id; },
-        clearTimeout: id => timers.delete(id), console,
+        clearTimeout: id => timers.delete(id), console, Error,
     };
     const component = () => null;
     const fakeExports = new Proxy({default: component}, {get: (_target, key) => key === '__esModule' ? true : component});
@@ -114,6 +115,7 @@ function ui(file, name, initialProps = {}) {
         '@/hooks/useCodeHistory': {useCodeHistory: () => ({history: []})},
         '@/context/AuthContext': {useAuth: () => ({user: null, logout() {}})},
         '@/hooks/useSavedCodes': {useSavedCodes: () => ({codes: [], isLoading: false, isLoggedIn: false})},
+        ...overrides,
     };
     const exports = load(file, deps, globals, module => { assert.ok(module.startsWith('.') || module === '@/components/auth/LoginModal', module); return fakeExports; });
     const Component = exports[name];
@@ -132,8 +134,14 @@ function ui(file, name, initialProps = {}) {
     flush();
     return {body, timers, listeners, writes, reads, calls, copied, storageData, flush,
         find: predicate => nodes(flush(), predicate),
+        renderNow() { dirty = true; return flush(); },
         setProps(next) { if (props.isOpen && !next.isOpen) unmount(); props = next; dirty = true; flush(); },
         emit(type, event) { [...(listeners.get(type) ?? [])].forEach(handler => handler(event)); flush(); },
+        async tick(delay) {
+            const jobs = [];
+            for (const [id, timer] of [...timers]) if (timer.delay === delay) { timers.delete(id); jobs.push(timer.callback()); }
+            await Promise.all(jobs); await new Promise(resolve => setImmediate(resolve)); flush();
+        },
         unmount,
     };
 }
@@ -209,4 +217,142 @@ test('unmount during resize removes listeners and restores body styles without s
     const {app, start} = resizer(); start(); app.unmount();
     assert.equal(app.listeners.get('mousemove').size, 0); assert.equal(app.listeners.get('mouseup').size, 0);
     assert.deepEqual(app.body.style, {cursor: 'crosshair', userSelect: 'text'}); assert.deepEqual(app.writes, []);
+});
+
+test('saved snippet Run executes and records the selected source rather than the previous Python buffer', async () => {
+    const executions = [], history = [];
+    const execute = async (code, inputs) => { executions.push([code, copy(inputs)]); return {output: 'selected output', error: null, errorLine: null}; };
+    const app = ui('src/components/python/PythonLab.tsx', 'PythonLab', {}, {
+        '@/hooks/usePyodide': {usePyodide: () => ({isLoading: false, isReady: true, executeCode: execute})},
+        '@/hooks/useCodeHistory': {useCodeHistory: () => ({history: [], saveToHistory: async (...args) => history.push(args)})},
+    });
+    const saved = app.find(n => n.props?.onExplain && n.props?.currentCode !== undefined)[0];
+    saved.props.onRun('print("selected snippet")'); await app.tick(100);
+    assert.deepEqual(executions, [['print("selected snippet")', []]]);
+    assert.deepEqual(history, [['print("selected snippet")', 'selected output', null]]);
+    app.unmount();
+});
+
+test('saved Run uses the C executor and selected C source when the active tab is C', async () => {
+    const executions = [], history = [];
+    const execute = async code => { executions.push(code); return {output: 'C output', error: null, errorLine: null}; };
+    const app = ui('src/components/python/PythonLab.tsx', 'PythonLab', {}, {
+        '@/hooks/useJSCPP': {useJSCPP: () => ({isLoading: false, isReady: true, executeCode: execute})},
+        '@/hooks/useCodeHistory': {useCodeHistory: () => ({history: [], saveToHistory: async (...args) => history.push(args)})},
+    });
+    app.find(n => n.props?.onLanguageSwitch)[0].props.onLanguageSwitch('c'); app.flush();
+    app.find(n => n.props?.onExplain && n.props?.currentCode !== undefined)[0].props.onRun('int main() { return 7; }');
+    await app.tick(100);
+    assert.deepEqual(executions, ['int main() { return 7; }']);
+    assert.equal(history[0][0], executions[0]); app.unmount();
+});
+
+test('saved Explain, history and AI fixes target the active tab without replacing its neighbour', () => {
+    const app = ui('src/components/python/PythonLab.tsx', 'PythonLab');
+    const editor = () => app.find(n => n.props?.onNewTab)[0].props;
+    const original = editor().tabs[0].code;
+    editor().onNewTab(); app.flush(); assert.equal(editor().activeTabIndex, 1);
+    app.find(n => n.props?.onExplain && n.props?.currentCode !== undefined)[0].props.onExplain('print("explain second tab")'); app.flush();
+    assert.equal(editor().tabs[1].code, 'print("explain second tab")'); assert.equal(editor().tabs[0].code, original);
+    app.find(n => n.props?.history && n.props?.onSelect)[0].props.onSelect({code: 'print("history second tab")', output: 'history', error: null}); app.flush();
+    assert.equal(editor().tabs[1].code, 'print("history second tab")'); assert.equal(editor().tabs[0].code, original);
+    app.find(n => n.props?.onApplyFix)[0].props.onApplyFix('print("fixed second tab")'); app.flush();
+    assert.equal(editor().tabs[1].code, 'print("fixed second tab")'); assert.equal(editor().tabs[0].code, original);
+    app.unmount();
+});
+
+test('an intentionally empty local buffer is restored without default-code writes', () => {
+    const app = ui('src/components/python/PythonLab.tsx', 'PythonLab', {}, {}, {'python-code': ''});
+    assert.equal(app.find(n => n.props?.onNewTab)[0].props.code, '');
+    assert.deepEqual(app.writes, []); app.unmount();
+});
+
+test('input retries, error history and help retain the source selected for execution', async () => {
+    const executions = [], history = [], help = [];
+    const execute = async (code, inputs) => {
+        executions.push([code, copy(inputs)]);
+        return inputs.length ? {output: '', error: 'Demo exception', errorLine: 2} : {needsInput: true, inputPrompt: 'Name?'};
+    };
+    const explainError = async (...args) => help.push(args);
+    const app = ui('src/components/python/PythonLab.tsx', 'PythonLab', {}, {
+        '@/hooks/usePyodide': {usePyodide: () => ({isLoading: false, isReady: true, executeCode: execute})},
+        '@/hooks/useCodeHistory': {useCodeHistory: () => ({history: [], saveToHistory: async (...args) => history.push(args)})},
+        '@/hooks/useAIExplain': {useAIExplain: () => ({isLoading: false, clearExplanation() {}, explainError})},
+    });
+    const code = 'name = input("Name?")';
+    app.find(n => n.props?.onExplain && n.props?.currentCode !== undefined)[0].props.onRun(code); await app.tick(100);
+    const consolePanel = () => app.find(n => n.props?.onPromptSubmit)[0].props;
+    assert.equal(consolePanel().waitingForInput, true);
+    consolePanel().onPromptSubmit('Demo learner'); await app.tick(100);
+    assert.deepEqual(executions, [[code, []], [code, ['Demo learner']]]);
+    assert.equal(history[0][0], code); await consolePanel().onGetAIHelp();
+    assert.deepEqual(help, [[code, 'Demo exception', 'en']]); app.unmount();
+});
+
+function login(auth = {}) {
+    let closes = 0;
+    const provider = {user: null, ...auth};
+    const baseProps = {isOpen: true, onClose: () => { closes++; }};
+    const app = ui('src/components/auth/LoginModal.tsx', 'default', baseProps, {'@/context/AuthContext': {useAuth: () => provider}});
+    return {...app, provider, closes: () => closes,
+        async click(label) {
+            const button = app.find(n => n.type === 'button' && text(n).trim() === label)[0]; assert.ok(button, label);
+            const result = button.props.onClick(); app.flush(); await result; app.flush();
+        },
+        fill(match, value) { const input = app.find(n => n.type === 'input' && match(n.props))[0]; assert.ok(input); input.props.onChange({target: {value}}); app.flush(); },
+        close() { app.setProps({...baseProps, isOpen: false}); },
+        open() { app.setProps(baseProps); },
+    };
+}
+
+test('login sessions clear drafts on reopen and preserve email/User ID/Google callback payloads', async () => {
+    const calls = [];
+    const app = login({login: async (...args) => calls.push(['email', ...args]),
+        loginWithUserId: async (...args) => calls.push(['id', ...args]), loginWithGoogle: async () => calls.push(['google'])});
+    app.fill(p => p.type === 'email', 'learner@example.test'); app.fill(p => p.type === 'password', 'DemoOnly123!');
+    await app.click('AUTHENTICATE'); assert.deepEqual(calls[0], ['email', 'learner@example.test', 'DemoOnly123!']);
+    app.close(); assert.equal(app.flush(), null); app.open();
+    assert.equal(app.find(n => n.type === 'input' && n.props.type === 'email')[0].props.value, '');
+    assert.equal(app.find(n => n.type === 'input' && n.props.type === 'password')[0].props.value, '');
+    await app.click('User ID Login'); app.fill(p => p.placeholder === 'my_username', 'DEMO_user!');
+    app.fill(p => p.type === 'password', 'DemoOnly123!'); await app.click('LOGIN WITH USER ID');
+    assert.deepEqual(calls[1], ['id', 'demo_user', 'DemoOnly123!']);
+    app.close(); app.open(); await app.click('Sign in with Google'); assert.deepEqual(calls[2], ['google']);
+    assert.equal(app.closes(), 3); app.unmount();
+});
+
+test('signup keeps verification visible during transient auth state without auto-closing', async () => {
+    let finish;
+    const calls = [];
+    const app = login({signup: (...args) => { calls.push(args); return new Promise(resolve => { finish = resolve; }); }});
+    await app.click('Sign Up'); app.fill(p => p.placeholder === 'John Doe', 'Demo Learner');
+    app.fill(p => p.placeholder === '@johndoe', 'demo_learner'); app.fill(p => p.type === 'email', 'learner@example.test');
+    app.fill(p => p.type === 'password', 'DemoOnly123!');
+    const registering = app.click('REGISTER'); app.provider.user = {uid: 'temporary-demo'}; app.renderNow();
+    assert.equal(app.closes(), 0); finish(); await registering;
+    assert.match(text(app.flush()), /VERIFY YOUR EMAIL/); assert.equal(app.closes(), 0);
+    assert.deepEqual(calls, [['learner@example.test', 'DemoOnly123!', 'Demo Learner', 'demo_learner', '']]); app.unmount();
+});
+
+test('failed login keeps the modal open and shows the existing generic credential error', async () => {
+    const app = login({login: async () => { throw new Error('Firebase: auth/wrong-password'); }});
+    app.fill(p => p.type === 'email', 'learner@example.test'); app.fill(p => p.type === 'password', 'DemoOnly123!');
+    await app.click('AUTHENTICATE');
+    assert.equal(app.closes(), 0); assert.match(text(app.flush()), /Incorrect email or password/);
+    assert.ok(!text(app.flush()).includes('auth/wrong-password')); app.unmount();
+});
+
+test('reset routing remains canonical and closing the modal cancels its redirect timer', async () => {
+    const calls = [];
+    const app = login({resetPassword: async value => calls.push(value)});
+    await app.click('Forgot Password?'); app.fill(p => p.placeholder === 'email@gmail.com or @username', '@DEMO_user');
+    await app.click('SEND RESET LINK'); assert.deepEqual(calls, ['demo_user@knobly.id']);
+    assert.ok([...app.timers.values()].some(timer => timer.delay === 5000));
+    app.close(); assert.equal(app.timers.size, 0); app.open();
+    assert.match(text(app.flush()), /SYSTEM LOGIN/); assert.ok(!text(app.flush()).includes('Redirecting'));
+    let finishReset;
+    app.provider.resetPassword = () => new Promise(resolve => { finishReset = resolve; });
+    await app.click('Forgot Password?'); app.fill(p => p.placeholder === 'email@gmail.com or @username', 'learner@example.test');
+    const pending = app.click('SEND RESET LINK'); app.close(); finishReset(); await pending;
+    assert.equal(app.timers.size, 0, 'A late reset completion started a timer after close'); app.unmount();
 });

@@ -264,14 +264,14 @@ export function PythonLab() {
       updateActiveTab({ code: savedCode.code, savedId: savedCode.id, name: savedCode.title, isDirty: false });
     }
     localStorage.setItem('python-code', savedCode.code);
-  }, [tabs, activeTab, activeTabIndex, updateActiveTab]);
+  }, [tabs, activeTab, updateActiveTab]);
 
   useEffect(() => {
     const savedLang = localStorage.getItem('python-lab-language') as Language;
     if (savedLang) setLanguage(savedLang);
 
     const savedCode = localStorage.getItem('python-code');
-    if (savedCode) setCode(savedCode);
+    if (savedCode !== null) setTabs(previous => previous.map((tab, index) => index === 0 ? {...tab, code: savedCode} : tab));
 
     const savedTheme = localStorage.getItem('python-lab-theme') as 'dark' | 'light';
     if (savedTheme) {
@@ -350,7 +350,7 @@ export function PythonLab() {
     }
   };
 
-  const handleRun = useCallback(async () => {
+  const executeSource = useCallback(async (codeToRun: string) => {
     if (!isRuntimeReady || isRunningRef.current) return;
 
     isRunningRef.current = true;
@@ -384,8 +384,8 @@ export function PythonLab() {
         setOutput('');
 
         const result = await (isCFile
-          ? executeC(code, collectedInputsRef.current)
-          : executePython(code, collectedInputsRef.current, onStream));
+          ? executeC(codeToRun, collectedInputsRef.current)
+          : executePython(codeToRun, collectedInputsRef.current, onStream));
 
         if (result.needsInput) {
           // Show whatever was streamed so far, then show the prompt
@@ -415,26 +415,28 @@ export function PythonLab() {
           if (result.error) {
             setError(result.error);
             setErrorLine(result.errorLine);
-            setLastExecution({ code, error: result.error });
+            setLastExecution({ code: codeToRun, error: result.error });
             if (helpMode === 'auto') {
-              await explainError(code, result.error, language);
+              await explainError(codeToRun, result.error, language);
             }
           } else {
             setLastExecution(null);
           }
 
-          await saveToHistory(code, result.output, result.error);
+          await saveToHistory(codeToRun, result.output, result.error);
         }
       }
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Execution failed';
       setError(errorMsg);
-      setLastExecution({ code, error: errorMsg });
+      setLastExecution({ code: codeToRun, error: errorMsg });
     } finally {
       isRunningRef.current = false;
       setIsRunning(false);
     }
-  }, [code, isRuntimeReady, isCFile, executeC, executePython, helpMode, language, explainError, saveToHistory, clearExplanation]);
+  }, [isRuntimeReady, isCFile, executeC, executePython, helpMode, language, explainError, saveToHistory, clearExplanation]);
+
+  const handleRun = useCallback(() => executeSource(code), [code, executeSource]);
 
   // Global F5 Shortcut for Running Code
   useEffect(() => {
@@ -454,14 +456,14 @@ export function PythonLab() {
   const handleRunFromSaved = useCallback((savedCode: string) => {
     setCode(savedCode);
     localStorage.setItem('python-code', savedCode);
-    setTimeout(() => handleRun(), 100);
-  }, [handleRun]);
+    void executeSource(savedCode);
+  }, [executeSource, setCode]);
 
   const handleExplainFromSaved = useCallback((savedCode: string) => {
     setCode(savedCode);
     localStorage.setItem('python-code', savedCode);
     setShowAskAI(true);
-  }, []);
+  }, [setCode]);
 
   const handleGetAIHelp = useCallback(async () => {
     if (lastExecution) {
@@ -477,7 +479,7 @@ export function PythonLab() {
     clearExplanation();
     setMobileTab('editor');
     localStorage.setItem('python-code', fixedCode);
-  }, [clearExplanation]);
+  }, [clearExplanation, setCode]);
 
   const handleClearCode = useCallback(() => {
     setCode('');
@@ -486,7 +488,7 @@ export function PythonLab() {
     setErrorLine(null);
     clearExplanation();
     localStorage.setItem('python-code', '');
-  }, [clearExplanation]);
+  }, [clearExplanation, setCode]);
 
   const handleClearOutput = useCallback(() => {
     setOutput('');
@@ -499,7 +501,7 @@ export function PythonLab() {
     setOutput(item.output);
     setError(item.error);
     localStorage.setItem('python-code', item.code);
-  }, []);
+  }, [setCode]);
 
   const handleDeleteHistory = useCallback((id: string) => {
     deleteFromHistory(id);
