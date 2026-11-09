@@ -176,7 +176,7 @@
     "src/components/content/ListsMCQ.tsx": "e0ce4e89e22bd1fd9a2e4f3682cfe2470d43d2c8f104ad1462fab97c2667d763",
     "src/components/content/MCQSection.tsx": "2815f425531f42fc0f55a7407b610b2dec3dbfaf605345bb345e92a01d0b66b7",
     "src/components/content/NotesLayout.tsx": "fc600d86dc57361195465f9e377d9a73733c114f1f095b3edc9f192766d13c55",
-    "src/components/content/SidebarLayout.tsx": "fc702ccb74174953c2f1b1b8ea72f49bfae35d572ad919c9a1c40b24f1e421b6",
+    "src/components/content/SidebarLayout.tsx": "b00cc67ba4037dd2227d3cbc8ac90dde763f929b9b3deefcd2581061048a8e85",
     "src/components/layout/BootScreen.tsx": "81c52508afe54e2101b6b5f12d383bea879cc69da9e680555e9ca466840976a7",
     "src/components/news/NewsLoader.tsx": "f841126a4d47aebbe3a64eef5c1deddd42820d2c25778eb8f699a7dd878a45a7",
     "src/components/news/TechNewsCard.tsx": "931590502336e09c214a07b8f9d184ca1f020d383eae61b6191e9cdf65f25a6e",
@@ -277,7 +277,7 @@
     "tests/setup-firebase-tools.mjs": "84a0e1ab6fb8b1ffdd37631c41df6aa602c1b37a616eb0f7e7993f9cce29cc14",
     "tests/start-firebase-emulators.mjs": "51392bc3bc703285f4ec988f8c14ecff1efff9f2b4a363d23c459fae91c6dee1",
     "tests/task-compiler-navigation.test.mjs": "8ddacfbef514c7af12a9211b699a8f6084a40d652559a5c5e10eddd9fa57d5df",
-    "tests/theme-contrast.test.mjs": "53e75c7e0558afc883bffb4e73f46c02714f3451544a5cfcd862d790a76f61fc",
+    "tests/theme-contrast.test.mjs": "5953c3b2668fe9ad18068b8ee839a17ba6882ce975189618fa90ce59e091ad3a",
     "tests/typing-flow.test.mjs": "b8454f4040755a14e17c00e8ac70fde1f2d671d5e3dec324af5eeb2627bce8c3",
     "tests/web-draft-safety.test.mjs": "17f8773514372452a9747db131a300755a7b3fa04796a88717a3871a55bb5b28",
     "tsconfig.json": "03e81cf9e5ee64accf67ad6686cef2b0584f862f6ab75622dda6711cea1e829a"
