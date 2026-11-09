@@ -493,7 +493,7 @@ function ExamSession({ testId }: { testId: string }) {
                         </div>
                         <div className="flex-1 overflow-y-auto p-4 space-y-5">
                             <div>
-                                <span className="text-[10px] font-bold uppercase tracking-wider block mb-2" style={{ color: '#94a3b8' }}>Questions</span>
+                                <span className="text-[10px] font-bold uppercase tracking-wider block mb-2" style={{ color: '#475569' }}>Questions</span>
                                 <div className="grid grid-cols-5 gap-2">
                                     {questions.map((q, idx) => (
                                         <button key={q.id} onClick={() => { setCurrentIndex(idx); setVisitedSet(v => new Set(v).add(q.id)); setMobileDrawerOpen(false); }}
@@ -540,7 +540,7 @@ function ExamSession({ testId }: { testId: string }) {
                                 </div>
                                 <div>
                                     <h2 className="text-lg font-black" style={{ color: '#0f172a' }}>{resultData.statusType === 'AUTO_SUBMITTED' ? 'Auto-Submitted' : 'Exam Submitted'}</h2>
-                                    <p className="text-[11px] font-medium" style={{ color: '#94a3b8' }}>
+                                    <p className="text-[11px] font-medium" style={{ color: '#475569' }}>
                                         {resultData.accuracy >= 70 ? '🎉 Excellent Performance!' : resultData.accuracy >= 40 ? '👍 Good Effort!' : '📈 Keep Practicing!'}
                                     </p>
                                 </div>
@@ -589,7 +589,7 @@ function ExamSession({ testId }: { testId: string }) {
                                 <div className="text-center rounded-xl p-2.5" style={{ background: '#f8fafc', border: '1px solid #e2e8f0' }}>
                                     <div className="text-sm mb-0.5">⏭️</div>
                                     <div className="text-lg font-black" style={{ color: '#64748b' }}>{resultData.skippedCount}</div>
-                                    <div className="text-[8px] font-bold uppercase tracking-wider" style={{ color: '#94a3b8' }}>Skipped</div>
+                                    <div className="text-[8px] font-bold uppercase tracking-wider" style={{ color: '#475569' }}>Skipped</div>
                                 </div>
                             </div>
                         </div>
@@ -614,7 +614,7 @@ function ExamSession({ testId }: { testId: string }) {
                                 <div className="h-11 w-11 rounded-2xl flex items-center justify-center text-white font-black text-lg" style={{ background: 'linear-gradient(135deg, #6366f1, #8b5cf6)', boxShadow: '0 4px 14px rgba(99,102,241,0.4)' }}>K</div>
                                 <div>
                                     <h2 className="text-lg font-black" style={{ color: '#0f172a' }}>Secure Exam Mode</h2>
-                                    <p className="text-[11px] font-medium" style={{ color: '#94a3b8' }}>Anti-cheat protocols are active</p>
+                                    <p className="text-[11px] font-medium" style={{ color: '#475569' }}>Anti-cheat protocols are active</p>
                                 </div>
                             </div>
                             <div className="rounded-2xl p-4 mb-4" style={{ background: 'linear-gradient(135deg, #eef2ff, #e0e7ff)', border: '1px solid #c7d2fe' }}>
@@ -622,15 +622,15 @@ function ExamSession({ testId }: { testId: string }) {
                                 <div className="grid grid-cols-3 gap-2">
                                     <div className="text-center rounded-xl py-2 px-1" style={{ background: 'rgba(255,255,255,0.7)' }}>
                                         <div className="text-base font-black" style={{ color: '#6366f1' }}>{testData?.duration_minutes || 30}</div>
-                                        <div className="text-[9px] font-bold uppercase" style={{ color: '#94a3b8' }}>Minutes</div>
+                                        <div className="text-[9px] font-bold uppercase" style={{ color: '#475569' }}>Minutes</div>
                                     </div>
                                     <div className="text-center rounded-xl py-2 px-1" style={{ background: 'rgba(255,255,255,0.7)' }}>
                                         <div className="text-base font-black" style={{ color: '#10b981' }}>{questions.length}</div>
-                                        <div className="text-[9px] font-bold uppercase" style={{ color: '#94a3b8' }}>Questions</div>
+                                        <div className="text-[9px] font-bold uppercase" style={{ color: '#475569' }}>Questions</div>
                                     </div>
                                     <div className="text-center rounded-xl py-2 px-1" style={{ background: 'rgba(255,255,255,0.7)' }}>
                                         <div className="text-base font-black" style={{ color: '#f59e0b' }}>{testData?.xp_reward || questions.length}</div>
-                                        <div className="text-[9px] font-bold uppercase" style={{ color: '#94a3b8' }}>Total Points</div>
+                                        <div className="text-[9px] font-bold uppercase" style={{ color: '#475569' }}>Total Points</div>
                                     </div>
                                 </div>
                             </div>
@@ -652,7 +652,7 @@ function ExamSession({ testId }: { testId: string }) {
                             <button onClick={createAttemptAndStart} className="w-full py-3.5 rounded-2xl text-white text-sm font-bold flex items-center justify-center gap-2 transition-all hover:scale-[1.02] hover:shadow-xl active:scale-[0.98]" style={{ background: 'linear-gradient(135deg, #6d28d9, #7c3aed)', boxShadow: '0 8px 25px rgba(109,40,217,0.4)' }}>
                                 ▶ Enter Fullscreen & Start Exam
                             </button>
-                            <p className="mt-3 text-center text-[10px] font-medium" style={{ color: '#94a3b8' }}>By clicking Start, you agree to the monitoring rules.</p>
+                            <p className="mt-3 text-center text-[10px] font-medium" style={{ color: '#475569' }}>By clicking Start, you agree to the monitoring rules.</p>
                         </div>
                     </div>
                 </div>
@@ -708,7 +708,7 @@ function ExamSession({ testId }: { testId: string }) {
                                     <span className="text-base font-black text-white">{currentIndex + 1}</span>
                                 </div>
                                 <div>
-                                    <div className="text-base font-bold" style={{ color: '#0f172a' }}>Question {currentIndex + 1} <span className="font-medium" style={{ color: '#94a3b8' }}>/ {questions.length}</span></div>
+                                    <div className="text-base font-bold" style={{ color: '#0f172a' }}>Question {currentIndex + 1} <span className="font-medium" style={{ color: '#475569' }}>/ {questions.length}</span></div>
                                     <div className="text-[11px] font-semibold" style={{ color: '#10b981' }}>✓ {countAnswered()} answered</div>
                                 </div>
                             </div>
@@ -760,7 +760,7 @@ function ExamSession({ testId }: { testId: string }) {
                                                     ? { background: 'linear-gradient(135deg, #6d28d9, #7c3aed)', border: '2px solid #7c3aed', color: '#ffffff', boxShadow: '0 4px 20px rgba(109,40,217,0.3)' }
                                                     : { background: '#ffffff', border: '1.5px solid #e2e8f0', color: '#374151', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
                                                 <div className="mt-0.5 h-9 w-9 rounded-xl flex items-center justify-center text-[13px] font-black flex-shrink-0 transition-all"
-                                                    style={isSelected ? { background: 'rgba(255,255,255,0.25)', color: '#ffffff', border: '1px solid rgba(255,255,255,0.4)' } : { background: '#f1f5f9', color: '#94a3b8', border: '1px solid #e2e8f0' }}>
+                                                    style={isSelected ? { background: 'rgba(255,255,255,0.25)', color: '#ffffff', border: '1px solid rgba(255,255,255,0.4)' } : { background: '#f1f5f9', color: '#475569', border: '1px solid #e2e8f0' }}>
                                                     {letters[oi] || oi + 1}
                                                 </div>
                                                 <div className="flex-1 pt-1.5 text-[14px] sm:text-[15px] font-medium">{opt.option_text}</div>
@@ -790,7 +790,7 @@ function ExamSession({ testId }: { testId: string }) {
                                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-[13px] font-bold transition-all hover:bg-gray-50 active:scale-[0.97] disabled:opacity-30" style={{ background: '#f1f5f9', color: '#64748b', border: '1px solid #e2e8f0' }}>
                                 ← Previous
                             </button>
-                            <div className="flex items-center gap-2 text-[12px] font-bold" style={{ color: '#94a3b8' }}>
+                            <div className="flex items-center gap-2 text-[12px] font-bold" style={{ color: '#475569' }}>
                                 <span>Q {currentIndex + 1} / {questions.length}</span>
                                 <span className="h-1 w-1 rounded-full" style={{ background: '#cbd5e1' }}></span>
                                 <span style={{ color: '#10b981' }}>{countAnswered()} done</span>
@@ -918,7 +918,7 @@ function ExamSession({ testId }: { testId: string }) {
                     border: 1.5px solid #e2e8f0 !important;
                 }
                 [data-exam-page][data-exam-page] textarea::placeholder {
-                    color: #94a3b8 !important;
+                    color: #475569 !important;
                 }
             `}</style>
         </div>

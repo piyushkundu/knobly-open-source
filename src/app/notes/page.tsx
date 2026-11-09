@@ -158,7 +158,7 @@ export default function NotesPage() {
                             <div key={i} className="rounded-xl p-4 text-center" style={{ background: '#f8fafc', border: '1px solid #e2e8f0' }}>
                                 <p className="text-2xl font-extrabold" style={{ color: '#6366f1' }}>{item.value}</p>
                                 <p className="text-xs font-bold mt-1" style={{ color: '#0f172a' }}>{item.label}</p>
-                                <p className="text-[10px]" style={{ color: '#94a3b8' }}>{item.sub}</p>
+                                <p className="text-[10px]" style={{ color: '#475569' }}>{item.sub}</p>
                             </div>
                         ))}
                     </div>
@@ -167,7 +167,7 @@ export default function NotesPage() {
                 {/* ── Footer ── */}
                 <div className="text-center py-8">
                     <p className="text-sm font-semibold" style={{ color: '#475569' }}>📖 Notes updated for 2025 exam pattern</p>
-                    <p className="text-xs mt-1" style={{ color: '#94a3b8' }}>© 2025 Knobly Web | O-Level Study Material</p>
+                    <p className="text-xs mt-1" style={{ color: '#475569' }}>© 2025 Knobly Web | O-Level Study Material</p>
                 </div>
             </main>
         </div>

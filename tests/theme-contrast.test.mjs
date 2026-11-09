@@ -11,6 +11,21 @@ const pythonLists = readFileSync(new URL('../src/app/python/lists/page.tsx', imp
 const pythonTuples = readFileSync(new URL('../src/app/python/tuples/page.tsx', import.meta.url), 'utf8');
 const savedCodes = readFileSync(new URL('../src/components/python/SavedCodesModal.tsx', import.meta.url), 'utf8');
 const aiTopic = readFileSync(new URL('../src/app/ai/topic/[slug]/page.tsx', import.meta.url), 'utf8');
+const notesPage = readFileSync(new URL('../src/app/notes/page.tsx', import.meta.url), 'utf8');
+const controlStatements = readFileSync(new URL('../src/app/python/control-statements/page.tsx', import.meta.url), 'utf8');
+const fundamentals = readFileSync(new URL('../src/app/python/fundamentals/page.tsx', import.meta.url), 'utf8');
+const reviewPage = readFileSync(new URL('../src/app/review/[id]/page.tsx', import.meta.url), 'utf8');
+const examPage = readFileSync(new URL('../src/app/test/[id]/page.tsx', import.meta.url), 'utf8');
+const contentPage = readFileSync(new URL('../src/components/content/ContentPage.tsx', import.meta.url), 'utf8');
+const notesLayout = readFileSync(new URL('../src/components/content/NotesLayout.tsx', import.meta.url), 'utf8');
+const newsLoader = readFileSync(new URL('../src/components/news/NewsLoader.tsx', import.meta.url), 'utf8');
+const itTools = readFileSync(new URL('../src/app/it-tools/page.tsx', import.meta.url), 'utf8');
+const controlMcq = readFileSync(new URL('../src/components/content/ControlMCQ.tsx', import.meta.url), 'utf8');
+const iotMcq = readFileSync(new URL('../src/components/content/IoTChap1MCQ.tsx', import.meta.url), 'utf8');
+const mcqSection = readFileSync(new URL('../src/components/content/MCQSection.tsx', import.meta.url), 'utf8');
+const listsMcq = readFileSync(new URL('../src/components/content/ListsMCQ.tsx', import.meta.url), 'utf8');
+const resetPassword = readFileSync(new URL('../src/app/reset-password/page.tsx', import.meta.url), 'utf8');
+const verifyEmail = readFileSync(new URL('../src/app/verify-email/page.tsx', import.meta.url), 'utf8');
 const styles = readFileSync(new URL('../src/app/globals.css', import.meta.url), 'utf8');
 
 function luminance(hex) {
@@ -80,4 +95,36 @@ test('typing keyboard labels stay readable against their key and page surfaces',
     assert.ok(contrastRatio('#475569', '#f3f4f6') >= 4.5);
     assert.ok(contrastRatio('#94a3b8', '#0f172a') >= 4.5);
     assert.ok(contrastRatio('#475569', '#f8fafc') >= 4.5);
+});
+
+test('notes and Python lesson metadata use readable text on light surfaces', () => {
+    for (const source of [notesPage, controlStatements, fundamentals, contentPage, notesLayout, newsLoader]) {
+        assert.doesNotMatch(source, /color:\s*['"]#(?:94a3b8|9ca3af)['"]/i);
+    }
+    assert.ok(contrastRatio('#475569', '#ffffff') >= 4.5);
+});
+
+test('exam and review status text use readable colors on light surfaces', () => {
+    for (const source of [reviewPage, examPage]) {
+        assert.doesNotMatch(source, /color:\s*['"]#94a3b8['"]/i);
+    }
+    assert.match(reviewPage, /label: 'Skipped', color: '#475569'/);
+    assert.match(examPage, /textarea::placeholder\s*\{\s*color: #475569 !important;/);
+    assert.ok(contrastRatio('#475569', '#f8fafc') >= 4.5);
+});
+
+test('unavailable IT tool cards and unselected MCQ markers remain readable', () => {
+    assert.doesNotMatch(itTools, /opacity-70|color:\s*['"]#(?:94a3b8|cbd5e1)['"]/i);
+    for (const source of [controlMcq, iotMcq, mcqSection, listsMcq]) {
+        assert.match(source, /isSel \? '#fff' : '#475569'/);
+    }
+    assert.ok(contrastRatio('#475569', '#f1f5f9') >= 4.5);
+});
+
+test('password and email verification helper text remains readable on pale auth surfaces', () => {
+    for (const source of [resetPassword, verifyEmail]) {
+        assert.doesNotMatch(source, /color:\s*['"]#94a3b8['"]/i);
+    }
+    assert.match(resetPassword, /Back to Home/);
+    assert.ok(contrastRatio('#475569', '#eef2f7') >= 4.5);
 });

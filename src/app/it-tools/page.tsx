@@ -210,7 +210,7 @@ export default function ITToolsPage() {
                     {CHAPTERS.map((ch) => (
                         <div
                             key={ch.num}
-                            className={`rounded-2xl overflow-hidden transition-all duration-300 ${ch.available ? 'hover:scale-[1.02] hover:-translate-y-1 cursor-pointer' : 'opacity-70 cursor-not-allowed'}`}
+                            className={`rounded-2xl overflow-hidden transition-all duration-300 ${ch.available ? 'hover:scale-[1.02] hover:-translate-y-1 cursor-pointer' : 'cursor-not-allowed'}`}
                             style={{
                                 background: '#ffffff',
                                 border: ch.available ? `2px solid ${ch.color}40` : '1px solid #e2e8f0',
@@ -224,7 +224,7 @@ export default function ITToolsPage() {
                                 {/* Coming Soon Overlay for unavailable */}
                                 {!ch.available && (
                                     <div className="absolute top-3 right-3">
-                                        <span className="flex items-center gap-1 text-[9px] uppercase tracking-[0.12em] font-bold px-2 py-1 rounded-full" style={{ background: '#f1f5f9', color: '#94a3b8', border: '1px solid #e2e8f0' }}>
+                                        <span className="flex items-center gap-1 text-[9px] uppercase tracking-[0.12em] font-bold px-2 py-1 rounded-full" style={{ background: '#f1f5f9', color: '#475569', border: '1px solid #e2e8f0' }}>
                                             <Lock size={9} /> Coming Soon
                                         </span>
                                     </div>
@@ -232,24 +232,24 @@ export default function ITToolsPage() {
 
                                 {/* Chapter badge + icon */}
                                 <div className="flex items-center justify-between mb-3">
-                                    <span className="text-[9px] uppercase tracking-[0.2em] font-bold px-2.5 py-1 rounded-full" style={{ background: ch.available ? `${ch.color}10` : '#f1f5f9', color: ch.available ? ch.color : '#94a3b8', border: `1px solid ${ch.available ? `${ch.color}20` : '#e2e8f0'}` }}>
+                                    <span className="text-[9px] uppercase tracking-[0.2em] font-bold px-2.5 py-1 rounded-full" style={{ background: ch.available ? `${ch.color}10` : '#f1f5f9', color: ch.available ? ch.color : '#475569', border: `1px solid ${ch.available ? `${ch.color}20` : '#e2e8f0'}` }}>
                                         Chapter {ch.num}
                                     </span>
                                     <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: ch.available ? ch.gradient : 'linear-gradient(135deg, #f1f5f9, #e2e8f0)' }}>
-                                        <span style={{ color: ch.available ? ch.color : '#94a3b8' }}>{ch.icon}</span>
+                                        <span style={{ color: ch.available ? ch.color : '#475569' }}>{ch.icon}</span>
                                     </div>
                                 </div>
 
                                 {/* Title */}
-                                <h3 className="text-base font-bold mb-2" style={{ color: ch.available ? '#0f172a' : '#94a3b8' }}>{ch.title}</h3>
+                                <h3 className="text-base font-bold mb-2" style={{ color: ch.available ? '#0f172a' : '#475569' }}>{ch.title}</h3>
 
                                 {/* Description */}
-                                <p className="text-xs leading-relaxed mb-3" style={{ color: ch.available ? '#64748b' : '#cbd5e1' }}>{ch.desc}</p>
+                                <p className="text-xs leading-relaxed mb-3" style={{ color: '#475569' }}>{ch.desc}</p>
 
                                 {/* Topic tags */}
                                 <div className="flex flex-wrap gap-1.5 mb-4">
                                     {ch.topics.map((topic, j) => (
-                                        <span key={j} className="text-[10px] font-medium px-2 py-0.5 rounded-full" style={{ background: ch.available ? '#f1f5f9' : '#f8fafc', color: ch.available ? '#475569' : '#cbd5e1' }}>
+                                            <span key={j} className="text-[10px] font-medium px-2 py-0.5 rounded-full" style={{ background: ch.available ? '#f1f5f9' : '#f8fafc', color: '#475569' }}>
                                             {topic}
                                         </span>
                                     ))}
@@ -264,7 +264,7 @@ export default function ITToolsPage() {
                                         Open Chapter
                                     </Link>
                                 ) : (
-                                    <div className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold cursor-not-allowed" style={{ background: '#f1f5f9', color: '#94a3b8', border: '1px solid #e2e8f0' }}>
+                                    <div className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold cursor-not-allowed" style={{ background: '#f1f5f9', color: '#475569', border: '1px solid #e2e8f0' }}>
                                         <Lock size={13} />
                                         Coming Soon
                                     </div>
@@ -290,7 +290,7 @@ export default function ITToolsPage() {
                             <div key={i} className="rounded-xl p-4 text-center" style={{ background: '#f0f9ff', border: '1px solid #bae6fd' }}>
                                 <p className="text-2xl font-extrabold" style={{ color: '#0ea5e9' }}>{item.value}</p>
                                 <p className="text-xs font-bold mt-1" style={{ color: '#0f172a' }}>{item.label}</p>
-                                <p className="text-[10px]" style={{ color: '#94a3b8' }}>{item.sub}</p>
+                                <p className="text-[10px]" style={{ color: '#475569' }}>{item.sub}</p>
                             </div>
                         ))}
                     </div>
@@ -299,7 +299,7 @@ export default function ITToolsPage() {
                 {/* ── Footer ── */}
                 <div className="text-center py-8">
                     <p className="text-sm font-semibold" style={{ color: '#475569' }}>💻 IT Tools Module 1 — Updated for 2025 exam</p>
-                    <p className="text-xs mt-1" style={{ color: '#94a3b8' }}>© 2025 Knobly Web | O-Level Study Material</p>
+                    <p className="text-xs mt-1" style={{ color: '#475569' }}>© 2025 Knobly Web | O-Level Study Material</p>
                 </div>
             </main>
         </div>

@@ -285,7 +285,7 @@ export default function PythonFundamentals() {
                                 </div>
                                 <div>
                                     <h3 className="text-sm font-bold" style={{ color: '#1e293b' }}>Watch the Video Lesson</h3>
-                                    <p className="text-[11px]" style={{ color: '#94a3b8' }}>Python Fundamentals — Knobly YouTube</p>
+                                    <p className="text-[11px]" style={{ color: '#475569' }}>Python Fundamentals — Knobly YouTube</p>
                                 </div>
                                 <div className="ml-auto hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider" style={{ background: '#fef2f2', color: '#dc2626', border: '1px solid #fecaca' }}>
                                     <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" /> YouTube
@@ -514,7 +514,7 @@ export default function PythonFundamentals() {
                                     <div className="p-4">
                                         <p className="text-sm mb-2" style={{ color: '#475569' }}>Output kya hoga? Pehle socho, phir check karo! 🤔</p>
                                         <CB code={item.code} />
-                                        <p className="text-xs" style={{ color: '#94a3b8' }}>💡 <strong>Hint:</strong> {item.h}</p>
+                                        <p className="text-xs" style={{ color: '#475569' }}>💡 <strong>Hint:</strong> {item.h}</p>
                                     </div>
                                 </div>
                             ))}

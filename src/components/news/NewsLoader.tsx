@@ -21,7 +21,7 @@ export default function NewsLoader() {
           boxShadow: '0 0 20px rgba(59,130,246,0.6)'
         }} />
       </div>
-      <p style={{ color: '#9ca3af', fontWeight: 500, letterSpacing: '0.05em', fontSize: '1.1rem' }}>
+      <p style={{ color: '#475569', fontWeight: 500, letterSpacing: '0.05em', fontSize: '1.1rem' }}>
         Fetching today&apos;s top news...
       </p>
       <style>{`

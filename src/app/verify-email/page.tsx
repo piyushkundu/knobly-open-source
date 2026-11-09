@@ -78,7 +78,7 @@ function VerifyEmailContent() {
             }}>KNOBLY</span>
           </div>
           <p style={{
-            margin: '2px 0 0', color: '#94a3b8', fontSize: '11px', letterSpacing: '0.5px',
+            margin: '2px 0 0', color: '#475569', fontSize: '11px', letterSpacing: '0.5px',
           }}>O-Level & Python Learning Platform</p>
         </div>
 
@@ -132,7 +132,7 @@ function VerifyEmailContent() {
                 Go to Home Page 🏠
               </a>
               
-              <p style={{ margin: 0, color: '#94a3b8', fontSize: '12px', fontWeight: 600 }}>
+              <p style={{ margin: 0, color: '#475569', fontSize: '12px', fontWeight: 600 }}>
                 Redirecting automatically in {countdown}s...
               </p>
             </div>
@@ -171,7 +171,7 @@ export default function VerifyEmailPage() {
       <div style={{
         minHeight: '100vh', background: '#eef2f7',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        color: '#94a3b8', fontFamily: 'Arial, sans-serif', fontSize: '14px',
+        color: '#475569', fontFamily: 'Arial, sans-serif', fontSize: '14px',
       }}>Loading...</div>
     }>
       <VerifyEmailContent />

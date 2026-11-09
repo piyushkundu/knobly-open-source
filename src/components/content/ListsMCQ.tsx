@@ -52,7 +52,7 @@ export default function ListsMCQ() {
                                     else if (isSel) { bg = '#eef2ff'; border = '#a5b4fc'; tc = '#4338ca'; }
                                     return (
                                         <button key={oi} onClick={() => handleSelect(qi, oi)} disabled={!!revealed} className="flex items-center gap-2.5 px-3.5 py-3 rounded-xl text-left text-xs font-medium transition-all hover:shadow-md" style={{ background: bg, border: `1.5px solid ${border}`, color: tc }}>
-                                            <span className="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-[10px] font-bold" style={{ background: isSel ? (revealed ? (isCor ? '#22c55e' : '#ef4444') : '#6366f1') : '#f1f5f9', color: isSel ? '#fff' : '#94a3b8' }}>
+                                            <span className="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-[10px] font-bold" style={{ background: isSel ? (revealed ? (isCor ? '#22c55e' : '#ef4444') : '#6366f1') : '#f1f5f9', color: isSel ? '#fff' : '#475569' }}>
                                                 {revealed && isCor ? <CheckCircle2 size={14} /> : revealed && isSel ? <XCircle size={14} /> : String.fromCharCode(65 + oi)}
                                             </span>{opt}
                                         </button>

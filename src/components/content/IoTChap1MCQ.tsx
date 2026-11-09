@@ -103,7 +103,7 @@ export default function IoTChap1MCQ() {
                                             style={{ background: bg, border: `1.5px solid ${border}`, color: tc }}>
                                             <span className="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-[10px] font-bold" style={{
                                                 background: isSel ? (revealed ? (isCor ? '#22c55e' : '#ef4444') : '#06b6d4') : '#f1f5f9',
-                                                color: isSel ? '#fff' : '#94a3b8', border: `1px solid ${isSel ? 'transparent' : '#e2e8f0'}`,
+                                                color: isSel ? '#fff' : '#475569', border: `1px solid ${isSel ? 'transparent' : '#e2e8f0'}`,
                                             }}>
                                                 {revealed && isCor ? <CheckCircle2 size={14} /> : revealed && isSel ? <XCircle size={14} /> : String.fromCharCode(65 + oi)}
                                             </span>

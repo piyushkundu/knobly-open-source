@@ -103,7 +103,7 @@ function ResetPasswordForm() {
     transform: 'translateY(-50%)',
     background: 'none',
     border: 'none',
-    color: '#94a3b8',
+    color: '#475569',
     cursor: 'pointer',
     fontSize: '16px',
     padding: '4px',
@@ -136,7 +136,7 @@ function ResetPasswordForm() {
             }}>KNOBLY</span>
           </div>
           <p style={{
-            margin: '2px 0 0', color: '#94a3b8', fontSize: '11px', letterSpacing: '0.5px',
+            margin: '2px 0 0', color: '#475569', fontSize: '11px', letterSpacing: '0.5px',
           }}>O-Level & Python Learning Platform</p>
         </div>
 
@@ -181,7 +181,7 @@ function ResetPasswordForm() {
           ) : (
             <>
               <h2 style={{ margin: '0 0 4px', color: '#1e293b', fontSize: '20px', fontWeight: 700 }}>Reset Password</h2>
-              <p style={{ margin: '0 0 22px', color: '#94a3b8', fontSize: '13px' }}>Create a new password for your account</p>
+              <p style={{ margin: '0 0 22px', color: '#475569', fontSize: '13px' }}>Create a new password for your account</p>
 
               {status === 'error' && errorMessage && (
                 <div style={{
@@ -260,7 +260,7 @@ function ResetPasswordForm() {
                   style={{
                     width: '100%', padding: '12px',
                     background: isValid && status !== 'loading' ? 'linear-gradient(135deg, #4a9fe5, #6db3f2)' : '#e2e8f0',
-                    color: isValid && status !== 'loading' ? '#fff' : '#94a3b8',
+                    color: isValid && status !== 'loading' ? '#fff' : '#475569',
                     fontSize: '14px', fontWeight: 700,
                     border: 'none', borderRadius: '12px',
                     cursor: isValid && status !== 'loading' ? 'pointer' : 'not-allowed',
@@ -278,7 +278,7 @@ function ResetPasswordForm() {
 
         {status !== 'success' && (
           <div style={{ textAlign: 'center', marginTop: '18px' }}>
-            <a href="/" style={{ color: '#94a3b8', fontSize: '12px', textDecoration: 'none' }}>← Back to Home</a>
+            <a href="/" style={{ color: '#475569', fontSize: '12px', textDecoration: 'none' }}>← Back to Home</a>
           </div>
         )}
       </div>
@@ -292,7 +292,7 @@ export default function ResetPasswordPage() {
       <div style={{
         minHeight: '100vh', background: '#eef2f7',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        color: '#94a3b8', fontFamily: 'Arial, sans-serif', fontSize: '14px',
+        color: '#475569', fontFamily: 'Arial, sans-serif', fontSize: '14px',
       }}>Loading...</div>
     }>
       <ResetPasswordForm />

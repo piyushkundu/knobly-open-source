@@ -245,7 +245,7 @@ export default function ControlStatements() {
                                     <div className="w-10 h-10 rounded-xl flex items-center justify-center font-black text-white text-sm" style={{ background: item.tc }}>{i + 1}</div>
                                     <div className="flex-1">
                                         <span className="text-sm font-bold" style={{ color: item.tc }}>{item.label}</span>
-                                        <p className="text-[11px] mt-0.5" style={{ color: '#94a3b8' }}>{item.desc}</p>
+                                        <p className="text-[11px] mt-0.5" style={{ color: '#475569' }}>{item.desc}</p>
                                     </div>
                                     <ExternalLink size={16} style={{ color: item.tc }} className="group-hover:translate-x-0.5 transition-transform" />
                                 </a>
