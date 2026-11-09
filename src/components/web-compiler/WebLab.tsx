@@ -470,6 +470,7 @@ export function WebLab() {
     { id: 'css', name: 'style.css', language: 'css', code: '' },
     { id: 'js', name: 'script.js', language: 'javascript', code: '' },
   ]);
+  const [draftsReady, setDraftsReady] = useState(false);
   const [activeTabIndex, setActiveTabIndex] = useState(0);
 
   // Runtime & UI state
@@ -492,6 +493,8 @@ export function WebLab() {
   const isDraggingRef = useRef(false);
   const mainRef = useRef<HTMLDivElement>(null);
   const autoRunTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const draftStorageReadyRef = useRef(false);
+  const persistedDraftsRef = useRef<(string | null)[]>([null, null, null]);
 
   // Load saved state from localStorage on initial render
   useEffect(() => {
@@ -512,38 +515,19 @@ export function WebLab() {
       const savedHtml = localStorage.getItem('knobly_web_draft_html');
       const savedCss = localStorage.getItem('knobly_web_draft_css');
       const savedJs = localStorage.getItem('knobly_web_draft_js');
-
-      // If user had the old starter boilerplate saved, clear it so they start completely blank
-      const isOldBoilerplate = savedHtml && (
-        savedHtml.includes('Knobly Web Compiler') ||
-        savedHtml.includes('Welcome to the AI-powered live web development lab') ||
-        savedHtml.includes('interactive-box')
-      );
-
-      if (isOldBoilerplate) {
-        localStorage.removeItem('knobly_web_draft_html');
-        localStorage.removeItem('knobly_web_draft_css');
-        localStorage.removeItem('knobly_web_draft_js');
-        setTabs([
-          { id: 'html', name: 'index.html', language: 'html', code: '' },
-          { id: 'css', name: 'style.css', language: 'css', code: '' },
-          { id: 'js', name: 'script.js', language: 'javascript', code: '' },
-        ]);
-      } else if (savedHtml || savedCss || savedJs) {
-        setTabs([
-          { id: 'html', name: 'index.html', language: 'html', code: savedHtml ?? '' },
-          { id: 'css', name: 'style.css', language: 'css', code: savedCss ?? '' },
-          { id: 'js', name: 'script.js', language: 'javascript', code: savedJs ?? '' },
-        ]);
-      } else {
-        setTabs([
-          { id: 'html', name: 'index.html', language: 'html', code: '' },
-          { id: 'css', name: 'style.css', language: 'css', code: '' },
-          { id: 'js', name: 'script.js', language: 'javascript', code: '' },
-        ]);
-      }
+      persistedDraftsRef.current = [savedHtml, savedCss, savedJs];
+      draftStorageReadyRef.current = true;
+      setTabs([
+        { id: 'html', name: 'index.html', language: 'html', code: savedHtml ?? '' },
+        { id: 'css', name: 'style.css', language: 'css', code: savedCss ?? '' },
+        { id: 'js', name: 'script.js', language: 'javascript', code: savedJs ?? '' },
+      ]);
     } catch (e) {
+      // If storage cannot be read, keep the draft store disabled so blank state
+      // can never overwrite data that this session could not restore.
       console.error('Failed to restore draft:', e);
+    } finally {
+      setDraftsReady(true);
     }
   }, []);
 
@@ -637,33 +621,49 @@ ${createPreviewConsoleBridge(window.location.origin)}
     return finalHtml;
   }, []);
 
+  const compileTabs = useCallback((sourceTabs: WebEditorTab[]) => {
+    setBundledHtml(bundleCode(sourceTabs));
+  }, [bundleCode]);
+
   // Update bundled preview
   const handleCompile = useCallback(() => {
     setIsRunning(true);
-    const bundled = bundleCode(tabs);
-    setBundledHtml(bundled);
-
-    // Save drafts to localStorage
-    try {
-      const htmlCode = tabs.find((t) => t.language === 'html')?.code || '';
-      const cssCode = tabs.find((t) => t.language === 'css')?.code || '';
-      const jsCode = tabs.find((t) => t.language === 'javascript')?.code || '';
-      localStorage.setItem('knobly_web_draft_html', htmlCode);
-      localStorage.setItem('knobly_web_draft_css', cssCode);
-      localStorage.setItem('knobly_web_draft_js', jsCode);
-    } catch (e) {}
+    compileTabs(tabs);
 
     setTimeout(() => setIsRunning(false), 300);
-  }, [bundleCode, tabs]);
+  }, [compileTabs, tabs]);
 
-  // Initial compile
+  // Do not render an empty preview until saved drafts have been restored.
   useEffect(() => {
-    handleCompile();
-  }, []);
+    if (draftsReady) setBundledHtml(bundleCode(tabs));
+  }, [draftsReady, bundleCode, tabs]);
+
+  // Persist only draft keys changed after successful restoration. Compiling and
+  // React's mount/effect replay do not write local drafts.
+  useEffect(() => {
+    if (!draftsReady || !draftStorageReadyRef.current) return;
+
+    const draftValues = [
+      tabs.find((tab) => tab.language === 'html')?.code ?? '',
+      tabs.filter((tab) => tab.language === 'css').map((tab) => tab.code).join('\n\n'),
+      tabs.filter((tab) => tab.language === 'javascript').map((tab) => tab.code).join('\n\n'),
+    ];
+    const keys = ['knobly_web_draft_html', 'knobly_web_draft_css', 'knobly_web_draft_js'];
+
+    try {
+      draftValues.forEach((value, index) => {
+        if ((persistedDraftsRef.current[index] ?? '') === value) return;
+        localStorage.setItem(keys[index], value);
+        persistedDraftsRef.current[index] = value;
+      });
+    } catch (e) {
+      // Retain the in-memory editor if browser storage becomes unavailable.
+    }
+  }, [draftsReady, tabs]);
 
   // Auto-run debounce
   useEffect(() => {
-    if (!autoRun) return;
+    if (!draftsReady || !autoRun) return;
     if (autoRunTimerRef.current) clearTimeout(autoRunTimerRef.current);
 
     autoRunTimerRef.current = setTimeout(() => {
@@ -674,7 +674,7 @@ ${createPreviewConsoleBridge(window.location.origin)}
     return () => {
       if (autoRunTimerRef.current) clearTimeout(autoRunTimerRef.current);
     };
-  }, [tabs, autoRun, bundleCode]);
+  }, [tabs, autoRun, bundleCode, draftsReady]);
 
   // Code change in active tab
   const handleCodeChange = (newCode: string) => {
@@ -722,14 +722,15 @@ ${createPreviewConsoleBridge(window.location.origin)}
   };
 
   const handleSelectTemplate = (tpl: typeof TEMPLATES[0]) => {
-    setTabs([
+    const nextTabs = [
       { id: 'html', name: 'index.html', language: 'html', code: tpl.html },
       { id: 'css', name: 'style.css', language: 'css', code: tpl.css },
       { id: 'js', name: 'script.js', language: 'javascript', code: tpl.js },
-    ]);
+    ] satisfies WebEditorTab[];
+    setTabs(nextTabs);
+    compileTabs(nextTabs);
     setActiveTabIndex(0);
     setShowTemplates(false);
-    setTimeout(() => handleCompile(), 100);
   };
 
   const handleFormatCode = () => {
@@ -762,44 +763,46 @@ ${createPreviewConsoleBridge(window.location.origin)}
 
   const handleReset = () => {
     if (window.confirm('Reset code to blank? Unsaved changes will be lost.')) {
-      setTabs([
+      const blankTabs: WebEditorTab[] = [
         { id: 'html', name: 'index.html', language: 'html', code: '' },
         { id: 'css', name: 'style.css', language: 'css', code: '' },
         { id: 'js', name: 'script.js', language: 'javascript', code: '' },
-      ]);
+      ];
+      setTabs(blankTabs);
       try {
         localStorage.removeItem('knobly_web_draft_html');
         localStorage.removeItem('knobly_web_draft_css');
         localStorage.removeItem('knobly_web_draft_js');
+        if (draftStorageReadyRef.current) persistedDraftsRef.current = ['', '', ''];
       } catch (e) {}
       setActiveTabIndex(0);
-      setTimeout(() => handleCompile(), 100);
+      compileTabs(blankTabs);
     }
   };
 
   const handleLoadSavedProject = (proj: SavedWebProject) => {
-    setTabs([
+    const projectTabs: WebEditorTab[] = [
       { id: 'html', name: 'index.html', language: 'html', code: proj.html },
       { id: 'css', name: 'style.css', language: 'css', code: proj.css },
       { id: 'js', name: 'script.js', language: 'javascript', code: proj.js },
-    ]);
+    ];
+    setTabs(projectTabs);
+    compileTabs(projectTabs);
     setActiveTabIndex(0);
-    setTimeout(() => handleCompile(), 100);
     setStatusNotification('Loaded project "' + proj.title + '"!');
     setTimeout(() => setStatusNotification(null), 2500);
   };
 
   const handleApplyAICode = (code: string) => {
-    setTabs((prev) =>
-      prev.map((tab) => {
+    const updatedTabs = tabs.map((tab) => {
         if (tab.language === 'html') {
           return { ...tab, code };
         }
         return tab;
-      })
-    );
+      });
+    setTabs(updatedTabs);
+    compileTabs(updatedTabs);
     setActiveTabIndex(0);
-    setTimeout(() => handleCompile(), 100);
     setStatusNotification('Applied AI code to index.html! 🎉');
     setTimeout(() => setStatusNotification(null), 3000);
   };

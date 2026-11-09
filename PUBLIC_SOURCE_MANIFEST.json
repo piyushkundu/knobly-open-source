@@ -197,7 +197,7 @@
     "src/components/typing/typingData.ts": "c98e703a63f80da22e067208df5f36884ccdf70cf118a462b10d6698d26c16d4",
     "src/components/web-compiler/WebAIAssistant.tsx": "2ea9065a67cae4373cc37cefc7ed569101480c02c0278bbe2c6241ed60759fd6",
     "src/components/web-compiler/WebCodeEditor.tsx": "3a805c3e2e940d9d2aca483750ea98381478d7601ee1b70a8204afa90bd475f6",
-    "src/components/web-compiler/WebLab.tsx": "76af53a8eb43ef6d85c68beb62971429b13c0dd6ad618c6f9b0657a172b7fdb8",
+    "src/components/web-compiler/WebLab.tsx": "005f123a2d0a276159188b4f97a6ffd8cde11caa571edde21e5c4f04f3a47940",
     "src/components/web-compiler/WebPreviewConsole.tsx": "6ed766c43c7525641669523644b0726a7e63c24b255b3e1344f40807b73556d1",
     "src/components/web-compiler/WebSavedProjects.tsx": "484c141e13c84428c25ab3e482a79700e79f12a76365be89ba07dc08dd17371c",
     "src/components/web-compiler/web-compiler.css": "f55455dcaa55d96062d855328e8a6bdd3839fbff1c02e43e3645864768fda8a8",
@@ -278,6 +278,7 @@
     "tests/start-firebase-emulators.mjs": "51392bc3bc703285f4ec988f8c14ecff1efff9f2b4a363d23c459fae91c6dee1",
     "tests/task-compiler-navigation.test.mjs": "8ddacfbef514c7af12a9211b699a8f6084a40d652559a5c5e10eddd9fa57d5df",
     "tests/typing-flow.test.mjs": "b8454f4040755a14e17c00e8ac70fde1f2d671d5e3dec324af5eeb2627bce8c3",
+    "tests/web-draft-safety.test.mjs": "17f8773514372452a9747db131a300755a7b3fa04796a88717a3871a55bb5b28",
     "tsconfig.json": "03e81cf9e5ee64accf67ad6686cef2b0584f862f6ab75622dda6711cea1e829a"
   },
   "releaseReviewRequired": [
