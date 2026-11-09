@@ -197,7 +197,7 @@
     "src/components/typing/typingData.ts": "c98e703a63f80da22e067208df5f36884ccdf70cf118a462b10d6698d26c16d4",
     "src/components/web-compiler/WebAIAssistant.tsx": "2ea9065a67cae4373cc37cefc7ed569101480c02c0278bbe2c6241ed60759fd6",
     "src/components/web-compiler/WebCodeEditor.tsx": "3a805c3e2e940d9d2aca483750ea98381478d7601ee1b70a8204afa90bd475f6",
-    "src/components/web-compiler/WebLab.tsx": "005f123a2d0a276159188b4f97a6ffd8cde11caa571edde21e5c4f04f3a47940",
+    "src/components/web-compiler/WebLab.tsx": "d4f324945b7096dbe3eb43fc4e002bc00c5de83bdbf89b0b3e937f9973f13ccb",
     "src/components/web-compiler/WebPreviewConsole.tsx": "6ed766c43c7525641669523644b0726a7e63c24b255b3e1344f40807b73556d1",
     "src/components/web-compiler/WebSavedProjects.tsx": "484c141e13c84428c25ab3e482a79700e79f12a76365be89ba07dc08dd17371c",
     "src/components/web-compiler/web-compiler.css": "f55455dcaa55d96062d855328e8a6bdd3839fbff1c02e43e3645864768fda8a8",

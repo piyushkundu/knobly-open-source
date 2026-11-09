@@ -656,7 +656,7 @@ ${createPreviewConsoleBridge(window.location.origin)}
         localStorage.setItem(keys[index], value);
         persistedDraftsRef.current[index] = value;
       });
-    } catch (e) {
+    } catch {
       // Retain the in-memory editor if browser storage becomes unavailable.
     }
   }, [draftsReady, tabs]);
