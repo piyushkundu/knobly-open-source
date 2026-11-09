@@ -19,7 +19,7 @@ const TABS = [
     { id: 'categories', label: 'Categories', icon: <FolderOpen size={15} />, color: '#0ea5e9' },
 ];
 
-const inp = "w-full p-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder:text-gray-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 transition shadow-sm";
+const inp = "w-full p-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder:text-gray-600 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 transition shadow-sm";
 const card = "bg-white rounded-2xl border border-gray-100 shadow-sm";
 const btn = "px-4 py-2 rounded-xl text-xs font-bold transition-all";
 
@@ -82,7 +82,7 @@ export default function SuperAdminPage() {
                         <Shield size={28} className="text-white" />
                     </div>
                     <h1 className="text-2xl font-black text-gray-900 tracking-wide">SUPER ADMIN</h1>
-                    <p className="text-xs text-gray-400 mt-1 font-medium">Knobly Web Control Panel</p>
+                    <p className="text-xs text-gray-600 mt-1 font-medium">Knobly Web Control Panel</p>
                 </div>
                 <form onSubmit={e => { e.preventDefault(); d.login(loginEmail, loginPass); }} className="flex flex-col gap-3">
                     <input value={loginEmail} onChange={e => setLoginEmail(e.target.value)} type="email" required className={inp} placeholder="Admin Email" />
@@ -109,9 +109,9 @@ export default function SuperAdminPage() {
                     <div className="p-4 border-b border-gray-100 flex items-center justify-between">
                         <div className="flex items-center gap-3">
                             <div className="w-9 h-9 rounded-xl flex items-center justify-center font-black text-sm text-white shadow-md" style={{ background: 'linear-gradient(135deg, #6366f1, #8b5cf6)' }}>K</div>
-                            <div><div className="text-sm font-black text-gray-900">Super Admin</div><div className="text-[9px] text-gray-400 font-semibold">Knobly Web v7.0</div></div>
+                            <div><div className="text-sm font-black text-gray-900">Super Admin</div><div className="text-[9px] text-gray-600 font-semibold">Knobly Web v7.0</div></div>
                         </div>
-                        <button onClick={() => setSideOpen(false)} className="md:hidden text-gray-400 hover:text-gray-900"><X size={18} /></button>
+                        <button onClick={() => setSideOpen(false)} className="md:hidden text-gray-600 hover:text-gray-900"><X size={18} /></button>
                     </div>
                     <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
                         {TABS.map(t => (
@@ -145,7 +145,7 @@ export default function SuperAdminPage() {
                         </div>
                         <div className="flex items-center gap-2">
                             {d.syncing && <span className="text-[10px] text-indigo-500 flex items-center gap-1"><Loader2 size={11} className="animate-spin" />Syncing...</span>}
-                            <button onClick={d.refreshAll} className="w-8 h-8 rounded-lg hover:bg-gray-50 flex items-center justify-center text-gray-400 hover:text-gray-900 transition"><RefreshCw size={14} /></button>
+                            <button onClick={d.refreshAll} className="w-8 h-8 rounded-lg hover:bg-gray-50 flex items-center justify-center text-gray-600 hover:text-gray-900 transition"><RefreshCw size={14} /></button>
                         </div>
                     </header>
 
@@ -163,7 +163,7 @@ export default function SuperAdminPage() {
                                     ].map((s, i) => (
                                         <div key={i} className={`${card} p-5 flex items-center gap-4 hover:shadow-md transition-all hover:-translate-y-0.5`}>
                                             <div className="h-12 w-12 rounded-xl flex items-center justify-center shadow-sm" style={{ background: s.bg, color: s.color }}>{s.icon}</div>
-                                            <div><div className="text-2xl font-black text-gray-900">{s.value}</div><div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{s.label}</div></div>
+                                            <div><div className="text-2xl font-black text-gray-900">{s.value}</div><div className="text-[10px] font-bold text-gray-600 uppercase tracking-wider">{s.label}</div></div>
                                         </div>
                                     ))}
                                 </div>
@@ -178,11 +178,11 @@ export default function SuperAdminPage() {
                                     </div>
                                     <div className="overflow-x-auto">
                                         <table className="w-full text-left text-sm min-w-[700px]">
-                                            <thead className="bg-gray-50 text-gray-400 text-[10px] uppercase border-b border-gray-100">
+                                            <thead className="bg-gray-50 text-gray-600 text-[10px] uppercase border-b border-gray-100">
                                                 <tr><th className="p-3 w-14 text-center">Rank</th><th className="p-3">Name</th><th className="p-3">Email</th><th className="p-3 text-center">Points</th><th className="p-3 text-center">Level</th><th className="p-3 w-28 text-center">Action</th></tr>
                                             </thead>
                                             <tbody className="divide-y divide-gray-50">
-                                                {d.leaderboard.length === 0 && <tr><td colSpan={6} className="p-8 text-center text-gray-400 text-xs">No users in leaderboard.</td></tr>}
+                                                {d.leaderboard.length === 0 && <tr><td colSpan={6} className="p-8 text-center text-gray-600 text-xs">No users in leaderboard.</td></tr>}
                                                 {d.leaderboard.map((row: any) => (
                                                     <tr key={row.id} className="hover:bg-gray-50/50 transition group">
                                                         <td className="p-3 text-center">
@@ -192,7 +192,7 @@ export default function SuperAdminPage() {
                                                             </div>
                                                         </td>
                                                         <td className="p-3 font-bold text-gray-900 text-xs">{row.full_name}</td>
-                                                        <td className="p-3 text-[11px] text-gray-400">{row.email}</td>
+                                                        <td className="p-3 text-[11px] text-gray-600">{row.email}</td>
                                                         <td className="p-3 text-center">
                                                             {editingPointsId === row.id ? (
                                                                 <div className="flex items-center justify-center gap-1">
@@ -210,7 +210,7 @@ export default function SuperAdminPage() {
                                                                     <button onClick={() => { d.updateLeaderboardPoints(row.id, row.stateDocId, parseInt(editingPointsVal) || 0); setEditingPointsId(null); }}
                                                                         className="text-emerald-500 hover:text-emerald-700 p-0.5"><Check size={14} /></button>
                                                                     <button onClick={() => setEditingPointsId(null)}
-                                                                        className="text-gray-400 hover:text-red-500 p-0.5"><X size={14} /></button>
+                                                                        className="text-gray-600 hover:text-red-500 p-0.5"><X size={14} /></button>
                                                                 </div>
                                                             ) : (
                                                                 <button onClick={() => { setEditingPointsId(row.id); setEditingPointsVal(String(row.total_xp || 0)); }}
@@ -263,11 +263,11 @@ export default function SuperAdminPage() {
                                                                 <span className={`text-[8px] px-2 py-0.5 rounded-full font-bold ${t.mode === 'LIVE' ? 'text-white' : 'bg-emerald-50 text-emerald-600'}`} style={t.mode === 'LIVE' ? { background: 'linear-gradient(135deg, #ef4444, #dc2626)' } : {}}>{t.mode}</span>
                                                             </div>
                                                         </div>
-                                                        <div className="text-[10px] text-gray-400 font-semibold mb-1.5">{t.duration_minutes} min • {t.total_marks} Q • {t.xp_reward} pts</div>
+                                                        <div className="text-[10px] text-gray-600 font-semibold mb-1.5">{t.duration_minutes} min • {t.total_marks} Q • {t.xp_reward} pts</div>
                                                         <div className="flex items-center justify-between">
                                                             <div className="flex gap-1.5 flex-wrap">
                                                                 {t.category && <span className="text-[8px] px-2 py-0.5 rounded-full font-bold" style={{ background: `${catColor}15`, color: catColor, border: `1px solid ${catColor}30` }}>{t.category}</span>}
-                                                                <span className={`text-[8px] px-2 py-0.5 rounded-full font-bold ${t.is_active ? 'bg-emerald-50 text-emerald-600 border border-emerald-200' : 'bg-gray-100 text-gray-400 border border-gray-200'}`}>{t.is_active ? '● Active' : '○ Hidden'}</span>
+                                                                <span className={`text-[8px] px-2 py-0.5 rounded-full font-bold ${t.is_active ? 'bg-emerald-50 text-emerald-600 border border-emerald-200' : 'bg-gray-100 text-gray-600 border border-gray-200'}`}>{t.is_active ? '● Active' : '○ Hidden'}</span>
                                                             </div>
                                                             <div className="flex items-center gap-1">
                                                                 <button onClick={async (e) => { e.stopPropagation(); setLoadingPreviewId(t.id); const qs = await d.getTestPreviewData(t.id); setPreviewData({ test: t, questions: qs }); setLoadingPreviewId(null); }} className="text-blue-400 hover:text-white hover:bg-blue-500 p-1.5 rounded-lg transition-all" title="Preview Test">
@@ -290,10 +290,10 @@ export default function SuperAdminPage() {
                                     </div>
                                     <div className="space-y-4">
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                            <div className="md:col-span-2"><label className="text-[10px] font-bold text-gray-400 uppercase block mb-1">Test Title</label><input value={testForm.title} onChange={e => setTestForm({ ...testForm, title: e.target.value })} className={inp} placeholder="e.g. Chapter 6: Python Basics Test" /></div>
-                                            <div><label className="text-[10px] font-bold text-gray-400 uppercase block mb-1">Mode</label><select value={testForm.mode} onChange={e => setTestForm({ ...testForm, mode: e.target.value })} className={inp}><option value="PRACTICE">PRACTICE</option><option value="LIVE">LIVE</option></select></div>
+                                            <div className="md:col-span-2"><label className="text-[10px] font-bold text-gray-600 uppercase block mb-1">Test Title</label><input value={testForm.title} onChange={e => setTestForm({ ...testForm, title: e.target.value })} className={inp} placeholder="e.g. Chapter 6: Python Basics Test" /></div>
+                                            <div><label className="text-[10px] font-bold text-gray-600 uppercase block mb-1">Mode</label><select value={testForm.mode} onChange={e => setTestForm({ ...testForm, mode: e.target.value })} className={inp}><option value="PRACTICE">PRACTICE</option><option value="LIVE">LIVE</option></select></div>
                                             <div>
-                                                <label className="text-[10px] font-bold text-gray-400 uppercase block mb-1">📂 Category (Dashboard Filter)</label>
+                                                <label className="text-[10px] font-bold text-gray-600 uppercase block mb-1">📂 Category (Dashboard Filter)</label>
                                                 <select value={testForm.category || ''} onChange={e => setTestForm({ ...testForm, category: e.target.value })} className={inp}>
                                                     <option value="">-- Select Category --</option>
                                                     {d.categories.map((c: any) => (
@@ -302,7 +302,7 @@ export default function SuperAdminPage() {
                                                 </select>
                                             </div>
                                             <div>
-                                                <label className="text-[10px] font-bold text-gray-400 uppercase block mb-1">📊 Assign to Level</label>
+                                                <label className="text-[10px] font-bold text-gray-600 uppercase block mb-1">📊 Assign to Level</label>
                                                 <select value={testForm.level_id || ''} onChange={e => setTestForm({ ...testForm, level_id: e.target.value })} className={inp}>
                                                     <option value="">No Level (Always visible)</option>
                                                     {d.levels.map((l: any) => <option key={l.id} value={l.id}>Lv {l.level_no}: {l.title}</option>)}
@@ -310,9 +310,9 @@ export default function SuperAdminPage() {
                                             </div>
                                         </div>
                                         <div className="grid grid-cols-3 gap-3">
-                                            <div><label className="text-[10px] font-bold text-gray-400 uppercase block mb-1">⏱ Duration (Min)</label><input value={testForm.duration_minutes} onChange={e => setTestForm({ ...testForm, duration_minutes: Number(e.target.value) })} type="number" className={inp} /></div>
-                                            <div><label className="text-[10px] font-bold text-gray-400 uppercase block mb-1">📝 Total Questions</label><input value={testForm.total_marks} onChange={e => setTestForm({ ...testForm, total_marks: Number(e.target.value) })} type="number" className={inp} /></div>
-                                            <div><label className="text-[10px] font-bold text-gray-400 uppercase block mb-1">⭐ Total Points</label><input value={testForm.xp_reward} onChange={e => setTestForm({ ...testForm, xp_reward: Number(e.target.value) })} type="number" className={inp} /></div>
+                                            <div><label className="text-[10px] font-bold text-gray-600 uppercase block mb-1">⏱ Duration (Min)</label><input value={testForm.duration_minutes} onChange={e => setTestForm({ ...testForm, duration_minutes: Number(e.target.value) })} type="number" className={inp} /></div>
+                                            <div><label className="text-[10px] font-bold text-gray-600 uppercase block mb-1">📝 Total Questions</label><input value={testForm.total_marks} onChange={e => setTestForm({ ...testForm, total_marks: Number(e.target.value) })} type="number" className={inp} /></div>
+                                            <div><label className="text-[10px] font-bold text-gray-600 uppercase block mb-1">⭐ Total Points</label><input value={testForm.xp_reward} onChange={e => setTestForm({ ...testForm, xp_reward: Number(e.target.value) })} type="number" className={inp} /></div>
                                         </div>
                                         <div className="flex items-start gap-2 p-2.5 rounded-lg" style={{ background: '#f0fdf4', border: '1px solid #bbf7d0' }}>
                                             <span className="text-xs mt-0.5">💡</span>
@@ -323,7 +323,7 @@ export default function SuperAdminPage() {
                                             <button onClick={() => setTestForm({ ...testForm, is_active: !testForm.is_active })} className={`w-10 h-5 rounded-full transition-all relative ${testForm.is_active ? 'bg-emerald-500' : 'bg-gray-300'}`}>
                                                 <div className={`w-4 h-4 bg-white rounded-full absolute top-0.5 transition-all shadow-sm ${testForm.is_active ? 'right-0.5' : 'left-0.5'}`} />
                                             </button>
-                                            <span className={`text-[10px] font-bold ${testForm.is_active ? 'text-emerald-600' : 'text-gray-400'}`}>{testForm.is_active ? '● Active' : '○ Hidden'}</span>
+                                            <span className={`text-[10px] font-bold ${testForm.is_active ? 'text-emerald-600' : 'text-gray-600'}`}>{testForm.is_active ? '● Active' : '○ Hidden'}</span>
                                         </div>
                                         {testForm.mode === 'LIVE' && (
                                             <div className="p-4 rounded-xl grid grid-cols-1 md:grid-cols-2 gap-3" style={{ background: '#fffbeb', border: '1px solid #fde68a' }}>
@@ -441,12 +441,12 @@ export default function SuperAdminPage() {
                                 {selTestId && (
                                     <div className={`${card} rounded-2xl overflow-hidden overflow-x-auto`}>
                                         <table className="w-full text-left text-sm min-w-[600px]">
-                                            <thead className="bg-gray-50 text-gray-400 text-xs uppercase border-b border-gray-100"><tr><th className="p-3 w-10 text-center">#</th><th className="p-3">Question Text</th><th className="p-3 w-24">Type</th><th className="p-3 w-20 text-center">Points</th><th className="p-3 w-28 text-center">Actions</th></tr></thead>
+                                            <thead className="bg-gray-50 text-gray-600 text-xs uppercase border-b border-gray-100"><tr><th className="p-3 w-10 text-center">#</th><th className="p-3">Question Text</th><th className="p-3 w-24">Type</th><th className="p-3 w-20 text-center">Points</th><th className="p-3 w-28 text-center">Actions</th></tr></thead>
                                             <tbody className="divide-y divide-gray-50">
-                                                {d.questions.length === 0 && <tr><td colSpan={5} className="p-8 text-center text-gray-400 text-xs">No questions. Add or import.</td></tr>}
+                                                {d.questions.length === 0 && <tr><td colSpan={5} className="p-8 text-center text-gray-600 text-xs">No questions. Add or import.</td></tr>}
                                                 {d.questions.map((q: any, i) => (
                                                     <tr key={q.id} className="hover:bg-gray-50/50 transition">
-                                                        <td className="p-3 text-center text-gray-400 font-bold">{i + 1}</td>
+                                                        <td className="p-3 text-center text-gray-600 font-bold">{i + 1}</td>
                                                          <td className="p-3 text-gray-700 max-w-lg text-sm leading-relaxed">{q.question_text.split('\n').map((line: string, li: number) => { const isCode = /^[a-zA-Z_$].*[=(\[{]|^print\(|^#/.test(line.trim()) && !/\?$/.test(line.trim()) && !line.includes('|'); return isCode ? <code key={li} className="block font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded mt-0.5 text-violet-700">{line}</code> : <span key={li} className="block">{line}</span>; })}</td>
                                                         <td className="p-3"><span className="px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600 text-[10px] font-bold">{q.question_type}</span></td>
                                                         <td className="p-3 text-center font-bold text-gray-900">1</td>
@@ -481,9 +481,9 @@ export default function SuperAdminPage() {
                                         </div>
                                         <div className={`${card} rounded-2xl overflow-hidden overflow-x-auto`}>
                                             <table className="w-full text-left text-sm min-w-[850px]">
-                                                <thead className="bg-gray-50 text-gray-400 text-xs uppercase border-b border-gray-100"><tr><th className="p-3">Student</th><th className="p-3">Test</th><th className="p-3 text-center">Score</th><th className="p-3 text-center">Acc%</th><th className="p-3 text-center">Points</th><th className="p-3 text-center">Date & Time</th><th className="p-3 text-center">Status</th><th className="p-3 text-center">Detail</th></tr></thead>
+                                                <thead className="bg-gray-50 text-gray-600 text-xs uppercase border-b border-gray-100"><tr><th className="p-3">Student</th><th className="p-3">Test</th><th className="p-3 text-center">Score</th><th className="p-3 text-center">Acc%</th><th className="p-3 text-center">Points</th><th className="p-3 text-center">Date & Time</th><th className="p-3 text-center">Status</th><th className="p-3 text-center">Detail</th></tr></thead>
                                                 <tbody className="divide-y divide-gray-50">
-                                                    {d.results.length === 0 && <tr><td colSpan={8} className="p-8 text-center text-gray-400 text-xs">No results.</td></tr>}
+                                                    {d.results.length === 0 && <tr><td colSpan={8} className="p-8 text-center text-gray-600 text-xs">No results.</td></tr>}
                                                     {d.results.map((r: any) => (
                                                         <tr key={r.id} className="hover:bg-gray-50/50">
                                                             <td className="p-3 font-bold text-gray-900">{d.users.find(u => u.id === r.user_id)?.full_name || r.user_id}</td>
@@ -513,7 +513,7 @@ export default function SuperAdminPage() {
                                         {analyticsData.length > 0 ? (
                                             <div className={`${card} rounded-2xl overflow-hidden overflow-x-auto`}>
                                                 <table className="w-full text-left text-sm min-w-[700px]">
-                                                    <thead className="bg-gray-50 text-gray-400 text-xs uppercase border-b border-gray-100">
+                                                    <thead className="bg-gray-50 text-gray-600 text-xs uppercase border-b border-gray-100">
                                                         <tr>
                                                             <th className="p-3 w-10 text-center">#</th>
                                                             <th className="p-3">Question Text</th>
@@ -525,7 +525,7 @@ export default function SuperAdminPage() {
                                                     <tbody className="divide-y divide-gray-50">
                                                         {analyticsData.map((q: any, i: number) => (
                                                             <tr key={q.id} className={`hover:bg-gray-50/50 transition ${q.accuracy < 50 ? 'bg-red-50/30' : ''}`}>
-                                                                <td className="p-3 text-center text-gray-400 font-bold">{i + 1}</td>
+                                                                <td className="p-3 text-center text-gray-600 font-bold">{i + 1}</td>
                                                                 <td className="p-3 text-gray-700 text-sm leading-relaxed">
                                                                     <div className="font-medium mb-2">{q.text.split('\n').map((line: string, li: number) => { const isCode = /^[a-zA-Z_$].*[=(\[{]|^print\(|^#/.test(line.trim()) && !/\?$/.test(line.trim()) && !line.includes('|'); return isCode ? <code key={li} className="block font-mono text-xs bg-gray-100 px-1.5 py-0.5 rounded mt-0.5 text-violet-700">{line}</code> : <span key={li} className="block">{line}</span>; })}</div>
                                                                     {q.options && q.options.length > 0 && (
@@ -550,7 +550,7 @@ export default function SuperAdminPage() {
                                                 </table>
                                             </div>
                                         ) : (
-                                            <div className={`${card} p-10 text-center text-gray-400 text-xs`}>
+                                            <div className={`${card} p-10 text-center text-gray-600 text-xs`}>
                                                 Select a test and click "Load Analytics" to see which questions students are struggling with.
                                             </div>
                                         )}
@@ -562,7 +562,7 @@ export default function SuperAdminPage() {
                         {/* ═══ USERS ═══ */}
                         {tab === 'users' && (
                             <div className="space-y-4">
-                                <div className="relative"><Search size={14} className="absolute left-3 top-3.5 text-gray-400" /><input value={userSearch} onChange={e => setUserSearch(e.target.value)} placeholder="Search by name or email..." className={`${inp} pl-9`} /></div>
+                                <div className="relative"><Search size={14} className="absolute left-3 top-3.5 text-gray-600" /><input value={userSearch} onChange={e => setUserSearch(e.target.value)} placeholder="Search by name or email..." className={`${inp} pl-9`} /></div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                                     {filteredUsers.map(u => (
                                         <div key={u.id} className={`${card} p-4 flex items-center justify-between hover:shadow-md transition`}>
@@ -570,7 +570,7 @@ export default function SuperAdminPage() {
                                                 <div className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-white text-xs shadow-sm" style={{ background: 'linear-gradient(135deg, #6366f1, #8b5cf6)' }}>{u.full_name ? u.full_name.substring(0, 2).toUpperCase() : 'UN'}</div>
                                                 <div className="min-w-0">
                                                     <div className="font-bold text-gray-900 text-xs truncate">{u.full_name || 'No Name'}</div>
-                                                    <div className="text-[10px] text-gray-400 truncate">{u.email}</div>
+                                                    <div className="text-[10px] text-gray-600 truncate">{u.email}</div>
                                                     <div className="flex gap-1 mt-0.5">
                                                         {u.role === 'admin' && <span className="text-[8px] bg-red-50 text-red-500 px-1.5 py-0.5 rounded-full font-bold border border-red-200">ADMIN</span>}
                                                         {u.role !== 'admin' && <span className="text-[8px] bg-blue-50 text-blue-500 px-1.5 py-0.5 rounded-full font-bold border border-blue-200">USER</span>}
@@ -613,7 +613,7 @@ export default function SuperAdminPage() {
                                                 <div key={i} className="text-center p-3 rounded-xl transition-all hover:shadow-md hover:scale-[1.02]" style={{ background: r.bg, border: `1px solid ${r.color}25` }}>
                                                     <span className="text-2xl block mb-1">{r.icon}</span>
                                                     <div className="text-[11px] font-black" style={{ color: r.color }}>{r.name}</div>
-                                                    <div className="text-[9px] font-bold text-gray-400 mt-0.5">{r.pts} pts</div>
+                                                    <div className="text-[9px] font-bold text-gray-600 mt-0.5">{r.pts} pts</div>
                                                 </div>
                                             ))}
                                         </div>
@@ -644,7 +644,7 @@ export default function SuperAdminPage() {
                                         <div className="space-y-2 max-h-80 overflow-y-auto pr-1">
                                             {d.levels.map((l: any) => (
                                                 <div key={l.id} className={`${card} p-3 flex justify-between items-center text-xs group hover:shadow-md transition`}>
-                                                    <div><span className="font-bold text-gray-900">Lv {l.level_no}: {l.title}</span><div className="text-[10px] text-gray-400">{l.required_xp} Points required</div></div>
+                                                    <div><span className="font-bold text-gray-900">Lv {l.level_no}: {l.title}</span><div className="text-[10px] text-gray-600">{l.required_xp} Points required</div></div>
                                                     <div className="flex gap-1 opacity-40 group-hover:opacity-100 transition">
                                                         <button onClick={() => { setEditLevelId(l.id); setLevelForm(l); }} className="text-blue-500 hover:bg-blue-50 p-1.5 rounded-lg"><Pencil size={12} /></button>
                                                         <button onClick={() => { if (confirm('Delete?')) d.deleteLevel(l.id); }} className="text-red-400 hover:bg-red-50 p-1.5 rounded-lg"><Trash2 size={12} /></button>
@@ -672,7 +672,7 @@ export default function SuperAdminPage() {
                                                 <div key={b.id} onClick={() => { setEditBadgeId(b.id); setBadgeForm(b); }} className={`${card} p-3 cursor-pointer group hover:shadow-md transition relative`}>
                                                     <div className="flex justify-between"><Medal size={16} className="text-emerald-500" /><span className="text-[9px] bg-emerald-50 text-emerald-600 px-1.5 py-0.5 rounded-full font-bold">+{b.xp_reward} pts</span></div>
                                                     <div className="font-bold text-xs text-gray-900 mt-1 truncate">{b.badge_name}</div>
-                                                    <div className="text-[10px] text-gray-400 truncate">{b.description || 'No description'}</div>
+                                                    <div className="text-[10px] text-gray-600 truncate">{b.description || 'No description'}</div>
                                                     <button onClick={e => { e.stopPropagation(); if (confirm('Delete?')) d.deleteBadge(b.id); }} className="absolute top-2 right-2 text-red-400 opacity-0 group-hover:opacity-100 hover:bg-red-50 p-1 rounded-lg transition"><Trash2 size={11} /></button>
                                                 </div>
                                             ))}
@@ -689,7 +689,7 @@ export default function SuperAdminPage() {
                                     <h3 className="text-sm font-black text-blue-600 mb-3 flex items-center gap-2"><Bell size={15} /> Broadcast Notification</h3>
                                     <div className="flex gap-3"><input value={notifMsg} onChange={e => setNotifMsg(e.target.value)} placeholder="Message..." className={`${inp} flex-1`} /><input value={notifLink} onChange={e => setNotifLink(e.target.value)} placeholder="Link (opt)" className={`${inp} w-1/3 hidden md:block`} /><button onClick={async () => { if (!notifMsg) return; await d.sendNotification(notifMsg, notifLink); setNotifMsg(''); setNotifLink(''); alert('Sent!'); }} className={`${btn} shadow-md`} style={{ background: 'linear-gradient(135deg, #3b82f6, #2563eb)', color: '#ffffff' }}><Send size={12} className="inline mr-1" />Send</button></div>
                                     <div className="mt-3 max-h-32 overflow-y-auto space-y-1">
-                                        {d.notifications.length === 0 && <div className="text-xs text-gray-400 italic">No notifications.</div>}
+                                        {d.notifications.length === 0 && <div className="text-xs text-gray-600 italic">No notifications.</div>}
                                         {d.notifications.map(n => (
                                             <div key={n.id} className="flex justify-between items-center p-2.5 border-b border-gray-100 hover:bg-gray-50 rounded-lg transition">
                                                 <div className="text-xs text-gray-700 break-words pr-2">{n.message} {n.link && <span className="text-blue-500 text-[10px]">({n.link})</span>}</div>
@@ -765,13 +765,13 @@ export default function SuperAdminPage() {
 
                                         {/* Name */}
                                         <div className="mb-4">
-                                            <label className="text-[10px] font-bold text-gray-400 uppercase block mb-1">Category Name</label>
+                                            <label className="text-[10px] font-bold text-gray-600 uppercase block mb-1">Category Name</label>
                                             <input value={catForm.name} onChange={e => setCatForm({ ...catForm, name: e.target.value })} placeholder="e.g. Python, Web Design, IoT..." className={inp} />
                                         </div>
 
                                         {/* Icon Picker */}
                                         <div className="mb-4">
-                                            <label className="text-[10px] font-bold text-gray-400 uppercase block mb-1">Select Icon</label>
+                                            <label className="text-[10px] font-bold text-gray-600 uppercase block mb-1">Select Icon</label>
                                             <div className="flex items-center gap-3 mb-2">
                                                 <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl border-2 border-dashed border-gray-200" style={{ background: catForm.bgColor }}>{catForm.emoji}</div>
                                                 <button onClick={() => setShowIconPicker(!showIconPicker)} className={`${btn} text-xs`} style={{ background: showIconPicker ? '#6366f1' : '#f1f5f9', color: showIconPicker ? '#fff' : '#475569' }}>
@@ -795,7 +795,7 @@ export default function SuperAdminPage() {
                                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                                             {/* Badge Color */}
                                             <div>
-                                                <label className="text-[10px] font-bold text-gray-400 uppercase block mb-1">🎨 Badge / Tab Color</label>
+                                                <label className="text-[10px] font-bold text-gray-600 uppercase block mb-1">🎨 Badge / Tab Color</label>
                                                 <div className="flex items-center gap-2 mb-2">
                                                     <input type="color" value={catForm.color} onChange={e => setCatForm({ ...catForm, color: e.target.value })} className="w-8 h-8 rounded-lg border border-gray-200 cursor-pointer" />
                                                     <input value={catForm.color} onChange={e => setCatForm({ ...catForm, color: e.target.value })} className={`${inp} flex-1`} />
@@ -808,7 +808,7 @@ export default function SuperAdminPage() {
                                             </div>
                                             {/* Background Color */}
                                             <div>
-                                                <label className="text-[10px] font-bold text-gray-400 uppercase block mb-1">🖼️ Background Color</label>
+                                                <label className="text-[10px] font-bold text-gray-600 uppercase block mb-1">🖼️ Background Color</label>
                                                 <div className="flex items-center gap-2 mb-2">
                                                     <input type="color" value={catForm.bgColor} onChange={e => setCatForm({ ...catForm, bgColor: e.target.value })} className="w-8 h-8 rounded-lg border border-gray-200 cursor-pointer" />
                                                     <input value={catForm.bgColor} onChange={e => setCatForm({ ...catForm, bgColor: e.target.value })} className={`${inp} flex-1`} />
@@ -821,7 +821,7 @@ export default function SuperAdminPage() {
                                             </div>
                                             {/* Text Color */}
                                             <div>
-                                                <label className="text-[10px] font-bold text-gray-400 uppercase block mb-1">✍️ Text Color</label>
+                                                <label className="text-[10px] font-bold text-gray-600 uppercase block mb-1">✍️ Text Color</label>
                                                 <div className="flex items-center gap-2 mb-2">
                                                     <input type="color" value={catForm.textColor} onChange={e => setCatForm({ ...catForm, textColor: e.target.value })} className="w-8 h-8 rounded-lg border border-gray-200 cursor-pointer" />
                                                     <input value={catForm.textColor} onChange={e => setCatForm({ ...catForm, textColor: e.target.value })} className={`${inp} flex-1`} />
@@ -836,7 +836,7 @@ export default function SuperAdminPage() {
 
                                         {/* Live Preview */}
                                         <div className="p-4 rounded-xl bg-gray-50 border border-gray-200 mb-4">
-                                            <label className="text-[10px] font-bold text-gray-400 uppercase block mb-3">👁️ LIVE PREVIEW</label>
+                                            <label className="text-[10px] font-bold text-gray-600 uppercase block mb-3">👁️ LIVE PREVIEW</label>
                                             <div className="flex flex-wrap items-center gap-3">
                                                 {/* Badge style */}
                                                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold" style={{ background: `${catForm.color}15`, color: catForm.color, border: `1.5px solid ${catForm.color}30` }}>{catForm.emoji} {catForm.name || 'Category'}</div>
@@ -867,7 +867,7 @@ export default function SuperAdminPage() {
 
                                     {/* Category Cards Grid */}
                                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                                        {d.categories.length === 0 && <div className="col-span-full text-center py-12 text-gray-400 text-sm">📂 No categories yet. Add one above!</div>}
+                                        {d.categories.length === 0 && <div className="col-span-full text-center py-12 text-gray-600 text-sm">📂 No categories yet. Add one above!</div>}
                                         {d.categories.map((c: any) => (
                                             <div key={c.id} className={`${card} p-4 hover:shadow-lg transition-all group`}>
                                                 <div className="flex items-center justify-between mb-3">
@@ -919,7 +919,7 @@ export default function SuperAdminPage() {
                             </div>
                             {qForm.type !== 'SHORT' && (
                                 <div className="bg-gray-50 p-3 rounded-xl space-y-2 border border-gray-200">
-                                    <div className="text-[10px] text-gray-400 uppercase font-bold">Options (select correct)</div>
+                                    <div className="text-[10px] text-gray-600 uppercase font-bold">Options (select correct)</div>
                                     {qForm.options.map((opt, idx) => (
                                         <div key={idx} className="flex gap-2 items-center">
                                             <input type="radio" name="correctOpt" checked={opt.is_correct === true || String(opt.is_correct) === 'true'} onChange={() => setQForm({ ...qForm, options: qForm.options.map((o, i) => ({ ...o, is_correct: i === idx })) })} className="accent-emerald-500" />
@@ -931,7 +931,7 @@ export default function SuperAdminPage() {
                                 </div>
                             )}
                             <div className="flex justify-end gap-3 mt-4">
-                                <button onClick={() => setShowQModal(false)} className={`${btn} text-gray-400`}>Cancel</button>
+                                <button onClick={() => setShowQModal(false)} className={`${btn} text-gray-600`}>Cancel</button>
                                 <button disabled={saving} onClick={async () => { if (saving) return; setSaving(true); try { await d.saveQuestion(selTestId, qForm); setShowQModal(false); } finally { setSaving(false); } }} className={`${btn}`} style={{ background: 'linear-gradient(135deg, #10b981, #059669)', color: '#ffffff', opacity: saving ? 0.6 : 1 }}>{saving ? 'Saving...' : 'Save'}</button>
                             </div>
                         </div>
@@ -943,9 +943,9 @@ export default function SuperAdminPage() {
             {attemptDetail && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm p-4">
                     <div className={`${card} w-full max-w-2xl p-6 shadow-2xl max-h-[90vh] overflow-y-auto relative`}>
-                        <button onClick={() => setAttemptDetail(null)} className="absolute top-4 right-4 text-gray-400 hover:text-gray-900"><X size={20} /></button>
+                        <button onClick={() => setAttemptDetail(null)} className="absolute top-4 right-4 text-gray-600 hover:text-gray-900"><X size={20} /></button>
                         <h3 className="text-lg font-black text-gray-900 mb-1">Attempt Analysis</h3>
-                        <div className="text-xs text-gray-400 mb-4 font-medium">User: {attemptDetail.userName} | Test: {attemptDetail.testTitle}</div>
+                        <div className="text-xs text-gray-600 mb-4 font-medium">User: {attemptDetail.userName} | Test: {attemptDetail.testTitle}</div>
                         <div className="space-y-3">
                             {attemptDetail.questions.map((q: any, i: number) => (
                                 <div key={i} className="bg-gray-50 p-4 rounded-xl border border-gray-200">
@@ -960,7 +960,7 @@ export default function SuperAdminPage() {
                                     </div>
                                 </div>
                             ))}
-                            {attemptDetail.questions.length === 0 && <div className="text-center text-gray-400 text-xs py-4">No response data.</div>}
+                            {attemptDetail.questions.length === 0 && <div className="text-center text-gray-600 text-xs py-4">No response data.</div>}
                         </div>
                     </div>
                 </div>
@@ -970,17 +970,17 @@ export default function SuperAdminPage() {
             {profileModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm p-4">
                     <div className={`${card} w-full max-w-md p-6 shadow-2xl relative`}>
-                        <button onClick={() => setProfileModal(null)} className="absolute top-4 right-4 text-gray-400 hover:text-gray-900"><X size={20} /></button>
+                        <button onClick={() => setProfileModal(null)} className="absolute top-4 right-4 text-gray-600 hover:text-gray-900"><X size={20} /></button>
                         <div className="text-center mb-6">
                             <div className="w-20 h-20 rounded-2xl mx-auto mb-3 flex items-center justify-center text-2xl font-bold text-white shadow-lg" style={{ background: 'linear-gradient(135deg, #6366f1, #8b5cf6)' }}>{profileModal.full_name?.substring(0, 1)}</div>
                             <h3 className="text-xl font-black text-gray-900">{profileModal.full_name}</h3>
-                            <div className="text-xs text-gray-400 font-mono">{profileModal.email}</div>
+                            <div className="text-xs text-gray-600 font-mono">{profileModal.email}</div>
                             <div className="mt-2 text-indigo-600 font-black text-lg">{profileModal.total_xp || 0} Points</div>
                         </div>
-                        <div><div className="text-[10px] text-gray-400 uppercase font-bold mb-2">Badges</div>
+                        <div><div className="text-[10px] text-gray-600 uppercase font-bold mb-2">Badges</div>
                             <div className="flex flex-wrap gap-2">
                                 {profileModal.badgeNames?.map((b: string, i: number) => <div key={i} className="px-2.5 py-1 bg-emerald-50 border border-emerald-200 rounded-full text-[10px] text-emerald-600 font-bold">{b}</div>)}
-                                {(!profileModal.badgeNames || profileModal.badgeNames.length === 0) && <div className="text-xs text-gray-400">No badges earned yet.</div>}
+                                {(!profileModal.badgeNames || profileModal.badgeNames.length === 0) && <div className="text-xs text-gray-600">No badges earned yet.</div>}
                             </div>
                         </div>
                     </div>
@@ -991,7 +991,7 @@ export default function SuperAdminPage() {
             {previewData && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm p-4">
                     <div className={`${card} w-full max-w-3xl p-6 shadow-2xl max-h-[90vh] flex flex-col relative`}>
-                        <button onClick={() => { setPreviewData(null); setAiFeedback({}); }} className="absolute top-4 right-4 text-gray-400 hover:text-gray-900 z-10"><X size={20} /></button>
+                        <button onClick={() => { setPreviewData(null); setAiFeedback({}); }} className="absolute top-4 right-4 text-gray-600 hover:text-gray-900 z-10"><X size={20} /></button>
                         <div className="border-b border-gray-100 pb-4 mb-4 shrink-0 pr-8 flex items-center justify-between">
                             <div>
                                 <h3 className="text-lg font-black text-gray-900 flex items-center gap-2"><Eye size={18} className="text-blue-500"/> Test Preview: {previewData.test.title}</h3>
@@ -1021,7 +1021,7 @@ export default function SuperAdminPage() {
                             </button>
                         </div>
                         <div className="overflow-y-auto flex-1 pr-2 space-y-4">
-                            {previewData.questions.length === 0 && <div className="text-center text-gray-400 text-sm py-8">No questions added yet.</div>}
+                            {previewData.questions.length === 0 && <div className="text-center text-gray-600 text-sm py-8">No questions added yet.</div>}
                             {previewData.questions.map((q: any, i: number) => (
                                 <div key={q.id} className={`p-4 rounded-xl border transition-colors ${aiFeedback[q.id] ? 'bg-amber-50 border-amber-300' : 'bg-gray-50 border-gray-200'}`}>
                                     <div className="text-sm font-bold text-gray-900 mb-3 flex items-start gap-2">

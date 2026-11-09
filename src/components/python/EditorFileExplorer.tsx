@@ -533,7 +533,7 @@ export function EditorFileExplorer({
                 
                 {/* Footer Tip */}
                 <div className="text-center pt-4 pb-2">
-                  <p className="text-xs text-gray-400">
+                  <p className="text-xs text-gray-600 dark:text-gray-300">
                     Press <kbd className="px-1.5 py-0.5 rounded border border-gray-200 dark:border-[var(--border-color)] bg-gray-50 dark:bg-black/20">Esc</kbd> or click outside to close this window
                   </p>
                 </div>

@@ -276,7 +276,7 @@ export default function IoTPage() {
                                             <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Ch. {topic.chapter}</span>
                                             {topic.completed && <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold">Done</span>}
                                             {topic.current && <span className="px-2 py-0.5 rounded-full bg-cyan-100 text-cyan-700 text-[10px] font-bold animate-pulse">Current</span>}
-                                            {topic.locked && <Lock size={16} className="text-gray-400" />}
+                                            {topic.locked && <Lock size={16} className="text-gray-600" />}
                                         </div>
                                     </div>
                                     <h4 className="font-bold text-gray-900 mb-2 text-lg group-hover:text-cyan-700 transition-colors">{topic.title}</h4>
@@ -299,7 +299,7 @@ export default function IoTPage() {
                                         </div>
                                     )}
                                     {topic.locked && (
-                                        <div className="flex items-center gap-2 text-xs text-gray-400 bg-gray-50 rounded-xl px-3 py-2.5">
+                                        <div className="flex items-center gap-2 text-xs text-gray-600 bg-gray-50 rounded-xl px-3 py-2.5">
                                             <Lock size={12} /><span>Complete previous chapters</span>
                                         </div>
                                     )}

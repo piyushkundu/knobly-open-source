@@ -116,7 +116,7 @@ export default function SyllabusPage() {
                                         key={u.unit} 
                                         className={`flex items-start gap-4 p-3 rounded-2xl transition-colors duration-300 hover:${subject.bgLight} group/item cursor-default`}
                                     >
-                                        <div className={`flex-shrink-0 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-sm font-bold text-slate-400 group-hover/item:${subject.textColor} group-hover/item:bg-white shadow-sm transition-all duration-300`}>
+                                        <div className={`flex-shrink-0 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-sm font-bold text-slate-600 group-hover/item:${subject.textColor} group-hover/item:bg-white shadow-sm transition-all duration-300`}>
                                             {u.unit}
                                         </div>
                                         <div className="flex-1 pt-1">

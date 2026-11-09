@@ -195,12 +195,12 @@ export default function TaskPage({ params }: { params: Promise<{ id: string }> }
                             </Link>
                         )}
                         {prevId && (
-                            <Link href={`/html/tasks/${prevId}`} className="text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 p-1.5 rounded-lg transition-colors" title={`Task ${prevId}`}>
+                            <Link href={`/html/tasks/${prevId}`} className="text-gray-600 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 p-1.5 rounded-lg transition-colors" title={`Task ${prevId}`}>
                                 <ChevronLeft size={16} />
                             </Link>
                         )}
                         {nextId && (
-                            <Link href={`/html/tasks/${nextId}`} className="text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 p-1.5 rounded-lg transition-colors" title={`Task ${nextId}`}>
+                            <Link href={`/html/tasks/${nextId}`} className="text-gray-600 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 p-1.5 rounded-lg transition-colors" title={`Task ${nextId}`}>
                                 <ChevronRight size={16} />
                             </Link>
                         )}
@@ -212,7 +212,7 @@ export default function TaskPage({ params }: { params: Promise<{ id: string }> }
             {/* Content State: Loading, Locked, or Unlocked */}
             {unlocked === null ? (
                 <div className="flex-1 flex items-center justify-center bg-slate-50">
-                    <div className="text-center text-slate-400">
+                    <div className="text-center text-slate-600">
                         <RefreshCw size={24} className="animate-spin mx-auto mb-2 text-orange-500" />
                         <p className="text-xs font-medium">Checking task status...</p>
                     </div>
@@ -253,7 +253,7 @@ export default function TaskPage({ params }: { params: Promise<{ id: string }> }
                                     {/* Small Lock Icon for Admin */}
                                     <button
                                         onClick={() => setShowAdminControls(true)}
-                                        className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-amber-700 transition-colors p-1"
+                                        className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-amber-700 transition-colors p-1"
                                         title="Admin Unlock"
                                     >
                                         <Lock size={12} />
@@ -271,7 +271,7 @@ export default function TaskPage({ params }: { params: Promise<{ id: string }> }
                                     <button
                                         type="button"
                                         onClick={() => setShowAdminControls(false)}
-                                        className="text-[11px] text-slate-400 hover:text-slate-600"
+                                        className="text-[11px] text-slate-600 hover:text-slate-700"
                                     >
                                         Cancel
                                     </button>

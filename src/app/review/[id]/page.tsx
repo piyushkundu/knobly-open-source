@@ -321,7 +321,7 @@ function ReviewSession({ attemptId }: { attemptId: string }) {
                         <div className="flex flex-wrap items-center gap-3">
                             {/* AI Language Selection */}
                             <div className="flex items-center p-1 rounded-xl bg-white shadow-sm" style={{ border: '1px solid #e2e8f0' }}>
-                                <span className="text-[10px] font-bold text-gray-400 tracking-wider px-2"><Sparkles size={10} className="inline mr-1 text-purple-400" />Explanation Language</span>
+                                <span className="text-[10px] font-bold text-gray-600 tracking-wider px-2"><Sparkles size={10} className="inline mr-1 text-purple-600" />Explanation Language</span>
                                 <button onClick={() => setAiLanguage('Hindi')} className={`text-[10px] px-3 py-1 font-bold rounded-lg transition-all ${aiLanguage === 'Hindi' ? 'bg-indigo-100 text-indigo-700' : 'text-gray-500 hover:bg-gray-50'}`}>Hindi</button>
                                 <button onClick={() => setAiLanguage('English')} className={`text-[10px] px-3 py-1 font-bold rounded-lg transition-all ${aiLanguage === 'English' ? 'bg-indigo-100 text-indigo-700' : 'text-gray-500 hover:bg-gray-50'}`}>English</button>
                             </div>

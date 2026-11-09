@@ -106,21 +106,21 @@ function SaveFileDialog({ isOpen, onClose, initialName, onSave, existingFolders 
                     onChange={(e) => setFileName(e.target.value)}
                     onKeyDown={(e) => { if (e.key === 'Enter') handleSave(); }}
                     placeholder="Enter file name..."
-                    className="flex-1 bg-transparent text-sm font-mono text-gray-900 outline-none placeholder:text-gray-400"
+                    className="flex-1 bg-transparent text-sm font-mono text-gray-900 outline-none placeholder:text-gray-500"
                   />
-                  <span className="text-xs text-gray-400 font-mono">.py</span>
+                  <span className="text-xs text-gray-600 font-mono">.py</span>
                 </div>
               </div>
 
               {/* Description */}
               <div>
-                <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1.5 block">Description <span className="font-normal text-gray-400">(optional)</span></label>
+                <label className="text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1.5 block">Description <span className="font-normal text-gray-600">(optional)</span></label>
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="What does this code do?"
                   rows={2}
-                  className="w-full bg-gray-50 rounded-xl border border-gray-200 px-3 py-2.5 text-sm text-gray-900 outline-none placeholder:text-gray-400 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 transition-all resize-none"
+                  className="w-full bg-gray-50 rounded-xl border border-gray-200 px-3 py-2.5 text-sm text-gray-900 outline-none placeholder:text-gray-500 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 transition-all resize-none"
                 />
               </div>
 
