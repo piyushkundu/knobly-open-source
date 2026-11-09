@@ -29,6 +29,9 @@ const verifyEmail = readFileSync(new URL('../src/app/verify-email/page.tsx', imp
 const aiWidget = readFileSync(new URL('../src/components/ai/KnoblyAI.tsx', import.meta.url), 'utf8');
 const appCard = readFileSync(new URL('../src/components/apps/AppCard.tsx', import.meta.url), 'utf8');
 const cybersecurity = readFileSync(new URL('../src/app/cybersecurity/page.tsx', import.meta.url), 'utf8');
+const homePage = readFileSync(new URL('../src/app/page.tsx', import.meta.url), 'utf8');
+const oLevelChapter = readFileSync(new URL('../src/app/olevel/chapter-1/page.tsx', import.meta.url), 'utf8');
+const iotApplications = readFileSync(new URL('../src/app/iot/applications/page.tsx', import.meta.url), 'utf8');
 const styles = readFileSync(new URL('../src/app/globals.css', import.meta.url), 'utf8');
 
 function luminance(hex) {
@@ -147,4 +150,20 @@ test('app launcher, typing characters and cybersecurity footer are not dimmed', 
     assert.match(typing, /color: '#475569',\s*background: '#fff'/);
     assert.doesNotMatch(cybersecurity, /color: '#94a3b8'/);
     assert.ok(contrastRatio('#475569', '#ffffff') >= 4.5);
+});
+
+test('home topic-explainer modal labels use theme-appropriate muted text', () => {
+    assert.match(homePage, /color: isDark \? '#94a3b8' : '#475569'/);
+    assert.doesNotMatch(homePage, /color: isDark \? '#64748b' : '#94a3b8'/);
+    assert.doesNotMatch(homePage, /color: isDark \? '#374151' : '#d1d5db'/);
+    assert.ok(contrastRatio('#94a3b8', '#0f172a') >= 4.5);
+    assert.ok(contrastRatio('#475569', '#ffffff') >= 4.5);
+});
+
+test('IoT light-status text and O-Level navigation markers stay visible', () => {
+    assert.match(iotApplications, /color: ledOn \? '#ea580c' : '#475569'/);
+    assert.match(iotApplications, /color: ledOn \? '#c2410c' : '#475569'/);
+    assert.match(iotApplications, /ledOn \? 'text-white' : 'text-slate-700'/);
+    assert.match(oLevelChapter, /color: activeSection === item\.id \? '#fff' : '#475569'/);
+    assert.ok(contrastRatio('#475569', '#f1f5f9') >= 4.5);
 });

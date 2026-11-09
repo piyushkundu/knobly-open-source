@@ -450,7 +450,7 @@ export default function OLevelChapter1() {
                                     color: activeSection === item.id ? item.color : '#64748b' 
                                 }}
                             >
-                                <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 transition-colors" style={{ background: activeSection === item.id ? item.color : '#f1f5f9', color: activeSection === item.id ? '#fff' : '#94a3b8' }}>
+                                <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 transition-colors" style={{ background: activeSection === item.id ? item.color : '#f1f5f9', color: activeSection === item.id ? '#fff' : '#475569' }}>
                                     {item.icon}
                                 </div>
                                 {item.label}

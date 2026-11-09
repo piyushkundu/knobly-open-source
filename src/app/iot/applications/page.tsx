@@ -2988,11 +2988,11 @@ function LDRPracticalSection() {
                         <div className="p-3 rounded-xl border transition-all duration-500" style={{ background: ledOn ? '#fff7ed' : '#f8fafc', border: `1px solid ${ledOn ? '#fed7aa' : '#e2e8f0'}` }}>
                             <div className="flex items-center gap-2">
                                 <div className="w-5 h-5 rounded-full transition-all duration-500 flex items-center justify-center" style={{ background: ledOn ? '#f97316' : '#cbd5e1', boxShadow: ledOn && isAnimating ? '0 0 12px #f97316' : 'none' }}>
-                                    <Lightbulb size={11} className={ledOn ? 'text-white' : 'text-slate-400'} />
+                                    <Lightbulb size={11} className={ledOn ? 'text-white' : 'text-slate-700'} />
                                 </div>
                                 <div>
-                                    <p className="text-xs font-bold" style={{ color: ledOn ? '#ea580c' : '#94a3b8' }}>LED {ledOn ? 'ON 🔆' : 'OFF 🌑'}</p>
-                                    <p className="text-[10px]" style={{ color: ledOn ? '#c2410c' : '#94a3b8' }}>{ledOn ? 'Andhera detect hua!' : 'Roshni hai, LED off'}</p>
+                                    <p className="text-xs font-bold" style={{ color: ledOn ? '#ea580c' : '#475569' }}>LED {ledOn ? 'ON 🔆' : 'OFF 🌑'}</p>
+                                    <p className="text-[10px]" style={{ color: ledOn ? '#c2410c' : '#475569' }}>{ledOn ? 'Andhera detect hua!' : 'Roshni hai, LED off'}</p>
                                 </div>
                             </div>
                         </div>

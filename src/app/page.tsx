@@ -770,7 +770,7 @@ export default function HomePage() {
                   <div className="relative w-48 md:w-64 lg:w-80 group hidden md:block">
                     <div className="relative rounded-2xl p-[1px] overflow-hidden" style={{ background: 'linear-gradient(90deg, rgba(139,92,246,0.3), rgba(56,189,248,0.3), rgba(236,72,153,0.3), rgba(139,92,246,0.3))', backgroundSize: '300% 100%', animation: 'gradientSlide 6s linear infinite' }}>
                       <div className="search-shell relative rounded-2xl flex items-center px-4 py-2.5">
-                        <i className="ph-bold ph-magnifying-glass mr-3 transition-colors text-sm search-shell-icon" style={{ color: isDark ? '#64748b' : '#94a3b8' }} />
+                        <i className="ph-bold ph-magnifying-glass mr-3 transition-colors text-sm search-shell-icon" style={{ color: isDark ? '#94a3b8' : '#475569' }} />
                         <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
                           placeholder="Search system... (Ctrl+K)"
                           className="bg-transparent w-full text-sm focus:outline-none font-medium"
@@ -1582,7 +1582,7 @@ export default function HomePage() {
                     <h3 className="text-base font-extrabold" style={{ color: isDark ? '#f1f5f9' : '#1e293b' }}>
                       Topic Explainer
                     </h3>
-                    <p className="text-[10px] font-medium" style={{ color: isDark ? '#64748b' : '#94a3b8' }}>
+                    <p className="text-[10px] font-medium" style={{ color: isDark ? '#94a3b8' : '#475569' }}>
                       AI-powered detailed explanation
                     </p>
                   </div>
@@ -1604,8 +1604,8 @@ export default function HomePage() {
               <div className="px-6 pb-6 flex flex-col gap-4">
                 {/* Subject (Optional) */}
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[9px] font-bold uppercase tracking-[0.18em]" style={{ color: isDark ? '#64748b' : '#94a3b8' }}>
-                    Subject <span style={{ color: isDark ? '#475569' : '#cbd5e1', fontWeight: 500, textTransform: 'none' }}>(optional)</span>
+                  <label className="text-[9px] font-bold uppercase tracking-[0.18em]" style={{ color: isDark ? '#94a3b8' : '#475569' }}>
+                    Subject <span style={{ color: isDark ? '#94a3b8' : '#475569', fontWeight: 500, textTransform: 'none' }}>(optional)</span>
                   </label>
                   <input
                     type="text"
@@ -1625,7 +1625,7 @@ export default function HomePage() {
 
                 {/* Topic (Required) */}
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[9px] font-bold uppercase tracking-[0.18em]" style={{ color: isDark ? '#64748b' : '#94a3b8' }}>
+                  <label className="text-[9px] font-bold uppercase tracking-[0.18em]" style={{ color: isDark ? '#94a3b8' : '#475569' }}>
                     Topic <span style={{ color: '#ef4444' }}>*</span>
                   </label>
                   <input
@@ -1656,7 +1656,7 @@ export default function HomePage() {
 
                 {/* Language Selector */}
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[9px] font-bold uppercase tracking-[0.18em]" style={{ color: isDark ? '#64748b' : '#94a3b8' }}>
+                  <label className="text-[9px] font-bold uppercase tracking-[0.18em]" style={{ color: isDark ? '#94a3b8' : '#475569' }}>
                     Language
                   </label>
                   <div className="flex gap-2">
@@ -1680,7 +1680,7 @@ export default function HomePage() {
                         <div className="text-sm font-bold" style={{ color: teLang === l.id ? (isDark ? '#c4b5fd' : '#7c3aed') : (isDark ? '#94a3b8' : '#64748b') }}>
                           {l.label}
                         </div>
-                        <div className="text-[9px] font-medium mt-0.5" style={{ color: isDark ? '#475569' : '#94a3b8' }}>
+                        <div className="text-[9px] font-medium mt-0.5" style={{ color: isDark ? '#94a3b8' : '#475569' }}>
                           {l.sub}
                         </div>
                       </button>
@@ -1705,7 +1705,7 @@ export default function HomePage() {
                     background: teTopic.trim()
                       ? 'linear-gradient(135deg, #8b5cf6, #6366f1, #38bdf8)'
                       : (isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'),
-                    color: teTopic.trim() ? '#fff' : (isDark ? '#475569' : '#94a3b8'),
+                    color: teTopic.trim() ? '#fff' : (isDark ? '#94a3b8' : '#475569'),
                     cursor: teTopic.trim() ? 'pointer' : 'not-allowed',
                     boxShadow: teTopic.trim() ? '0 8px 30px rgba(139,92,246,0.3), 0 0 20px rgba(56,189,248,0.15)' : 'none',
                     border: 'none',
@@ -1718,7 +1718,7 @@ export default function HomePage() {
                 </button>
 
                 {/* Privacy note */}
-                <p className="text-[9px] text-center font-medium" style={{ color: isDark ? '#374151' : '#d1d5db' }}>
+                <p className="text-[9px] text-center font-medium" style={{ color: isDark ? '#94a3b8' : '#475569' }}>
                   Powered by KnoblyAI • Sarvam + Groq Engine
                 </p>
               </div>
