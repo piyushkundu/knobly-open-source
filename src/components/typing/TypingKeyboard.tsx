@@ -9,6 +9,7 @@ interface Props {
   highlightKeys?: string[];
   showFingers?: boolean;
   weakKeys?: Record<string, number>;
+  isDark?: boolean;
 }
 
 // Realistic keyboard layout with modifier keys
@@ -20,7 +21,7 @@ const ROWS = [
   [{ k:'ctrl-l',w:1.3,label:'ctrl' },{ k:'alt-l',w:1.1,label:'alt' },{ k:'cmd-l',w:1.3,label:'cmd' },{ k:' ',w:6.2 },{ k:'cmd-r',w:1.3,label:'cmd' },{ k:'alt-r',w:1.1,label:'alt' },{ k:'ctrl-r',w:1.3,label:'ctrl' }],
 ];
 
-const TypingKeyboard = React.memo(function TypingKeyboard({ activeKey, pressedKey, isCorrect, highlightKeys = [], showFingers = true, weakKeys }: Props) {
+const TypingKeyboard = React.memo(function TypingKeyboard({ activeKey, pressedKey, isCorrect, highlightKeys = [], showFingers = true, weakKeys, isDark = false }: Props) {
   const isModifier = (k: string) => ['tab','caps','delete','enter','shift-l','shift-r','ctrl-l','ctrl-r','alt-l','alt-r','cmd-l','cmd-r'].includes(k);
 
   const getKeyStyle = (keyData: { k: string; w: number; label?: string }): React.CSSProperties => {
@@ -58,7 +59,7 @@ const TypingKeyboard = React.memo(function TypingKeyboard({ activeKey, pressedKe
 
     if (isMod) {
       base.background = '#f3f4f6';
-      base.color = '#9ca3af';
+      base.color = '#475569';
       base.fontSize = 9;
     }
 
@@ -134,7 +135,7 @@ const TypingKeyboard = React.memo(function TypingKeyboard({ activeKey, pressedKe
           {Object.entries(FINGER_COLORS).map(([n, c]) => (
             <div key={n} className="flex items-center gap-1">
               <div style={{ width: 8, height: 8, borderRadius: 2, background: c }} />
-              <span style={{ fontSize: 9, color: '#94a3b8', textTransform: 'capitalize' }}>{n.replace('-', ' ')}</span>
+              <span style={{ fontSize: 9, color: isDark ? '#94a3b8' : '#475569', textTransform: 'capitalize' }}>{n.replace('-', ' ')}</span>
             </div>
           ))}
         </div>

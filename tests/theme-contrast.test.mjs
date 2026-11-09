@@ -3,11 +3,14 @@ import {readFileSync} from 'node:fs';
 import {test} from 'node:test';
 
 const dashboard = readFileSync(new URL('../src/app/page.tsx', import.meta.url), 'utf8');
+const studentDashboard = readFileSync(new URL('../src/app/dashboard/page.tsx', import.meta.url), 'utf8');
 const shortcuts = readFileSync(new URL('../src/app/shortcuts/page.tsx', import.meta.url), 'utf8');
 const typing = readFileSync(new URL('../src/app/typing/page.tsx', import.meta.url), 'utf8');
+const typingKeyboard = readFileSync(new URL('../src/components/typing/TypingKeyboard.tsx', import.meta.url), 'utf8');
 const pythonLists = readFileSync(new URL('../src/app/python/lists/page.tsx', import.meta.url), 'utf8');
 const pythonTuples = readFileSync(new URL('../src/app/python/tuples/page.tsx', import.meta.url), 'utf8');
 const savedCodes = readFileSync(new URL('../src/components/python/SavedCodesModal.tsx', import.meta.url), 'utf8');
+const aiTopic = readFileSync(new URL('../src/app/ai/topic/[slug]/page.tsx', import.meta.url), 'utf8');
 const styles = readFileSync(new URL('../src/app/globals.css', import.meta.url), 'utf8');
 
 function luminance(hex) {
@@ -54,5 +57,27 @@ test('saved-code modal metadata and code annotations use readable light-surface 
     assert.doesNotMatch(savedCodes, /#(?:94a3b8|9ca3af|d1d5db|b8c0cc|c4cbd4|cbd5e1)/i);
     assert.match(savedCodes, /color:'#475569'/);
     assert.match(savedCodes, /color: '#475569'/);
+    assert.ok(contrastRatio('#475569', '#f8fafc') >= 4.5);
+});
+
+test('AI topic footer text uses readable theme-specific colors', () => {
+    assert.match(aiTopic, /fontSize: 13, color: isDark \? '#94a3b8' : '#475569'/);
+    assert.ok(contrastRatio('#94a3b8', '#0f172a') >= 4.5);
+    assert.ok(contrastRatio('#475569', '#ffffff') >= 4.5);
+});
+
+test('student dashboard metadata stays readable on pale cards without dimming locked text', () => {
+    assert.doesNotMatch(studentDashboard, /style=\{\{[^}]*color:\s*'#94a3b8'/);
+    assert.doesNotMatch(studentDashboard, /style=\{\{[^}]*color:\s*'#64748b'/);
+    assert.doesNotMatch(studentDashboard, /opacity-60/);
+    assert.ok(contrastRatio('#475569', '#f1f5f9') >= 4.5);
+    assert.match(studentDashboard, /name: 'Silver', pts: '50', color: '#94a3b8'/);
+});
+
+test('typing keyboard labels stay readable against their key and page surfaces', () => {
+    assert.match(typingKeyboard, /base\.color = '#475569'/);
+    assert.match(typingKeyboard, /color: isDark \? '#94a3b8' : '#475569'/);
+    assert.ok(contrastRatio('#475569', '#f3f4f6') >= 4.5);
+    assert.ok(contrastRatio('#94a3b8', '#0f172a') >= 4.5);
     assert.ok(contrastRatio('#475569', '#f8fafc') >= 4.5);
 });

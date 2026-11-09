@@ -564,7 +564,7 @@ export default function TypingPage() {
 
                     {/* Keyboard */}
                     <div className="px-4 md:px-8 py-4 relative" style={{ background: isDark ? 'rgba(15,23,42,0.3)' : 'rgba(248,250,252,0.8)' }}>
-                      <TypingKeyboard activeKey={kbActiveKey} pressedKey={kbPressedKey} isCorrect={kbCorrect} highlightKeys={lesson.keys} showFingers />
+                        <TypingKeyboard activeKey={kbActiveKey} pressedKey={kbPressedKey} isCorrect={kbCorrect} highlightKeys={lesson.keys} showFingers isDark={isDark} />
                       <TypingHands activeKey={kbActiveKey} />
                     </div>
                   </div>
@@ -589,7 +589,7 @@ export default function TypingPage() {
                     <div className="rounded-2xl p-6 md:p-8" style={{ background: panelBg, border: `1px solid ${borderC}`, backdropFilter: 'blur(20px)' }}>
                       {renderChars(practiceText, practiceCharsRef)}
                     </div>
-                    <TypingKeyboard activeKey={kbActiveKey} pressedKey={kbPressedKey} isCorrect={kbCorrect} showFingers />
+                      <TypingKeyboard activeKey={kbActiveKey} pressedKey={kbPressedKey} isCorrect={kbCorrect} showFingers isDark={isDark} />
                   </div>
                 )}
 
@@ -666,7 +666,7 @@ export default function TypingPage() {
                     </div>
                     <div className="rounded-2xl p-4" style={{ background: panelBg, border: `1px solid ${borderC}` }}>
                       <h3 style={{ fontSize: 12, fontWeight: 700, color: textSub, textTransform: 'uppercase', marginBottom: 12 }}>Key Weakness Heatmap</h3>
-                      <TypingKeyboard showFingers={false} weakKeys={stats.keyErrors} />
+                        <TypingKeyboard showFingers={false} weakKeys={stats.keyErrors} isDark={isDark} />
                     </div>
                     {smartExercise && <div className="rounded-2xl p-6" style={{ background: panelBg, border: `1px solid ${borderC}` }}>{renderChars(smartExercise, smartCharsRef)}</div>}
                   </div>
