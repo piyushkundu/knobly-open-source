@@ -909,7 +909,7 @@ export default function HomePage() {
                             placeholder="Enter a name to display in greeting" />
                         </label>
                         <button onClick={saveUserName}
-                          className="self-start mt-1 px-3 py-1.5 rounded-xl bg-slate-700 text-slate-50 text-[10px] font-bold uppercase tracking-[0.18em] hover:bg-slate-600 transition-all">
+                          className="theme-fixed self-start mt-1 px-3 py-1.5 rounded-xl bg-slate-700 text-white text-[10px] font-bold uppercase tracking-[0.18em] hover:bg-slate-600 transition-all">
                           Save Guest Name
                         </button>
                       </div>
@@ -947,7 +947,7 @@ export default function HomePage() {
                           </div>
                           {existingUserId ? (
                             <div className="flex flex-col gap-2">
-                              <div className="flex items-center gap-2 bg-emerald-900/20 border border-emerald-500/20 p-3 rounded-lg">
+                              <div className="theme-fixed flex items-center gap-2 bg-emerald-900/20 border border-emerald-500/20 p-3 rounded-lg">
                                 <i className="ph-bold ph-check-circle text-emerald-400 text-lg" />
                                 <div>
                                   <div className="text-emerald-300 text-xs font-bold">User ID Active</div>

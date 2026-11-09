@@ -167,7 +167,7 @@ export default function ShortcutsPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {filteredGroups.map((group) => (
                         <div key={group.title} className="glass-panel rounded-2xl overflow-hidden border border-white/5">
-                            <div className={`bg-gradient-to-r ${group.gradient} px-5 py-3 flex items-center gap-2`}>
+                            <div className={`theme-fixed bg-gradient-to-r ${group.gradient} px-5 py-3 flex items-center gap-2`}>
                                 <i className={`${group.icon} text-white text-lg`} />
                                 <h2 className="text-sm font-bold text-white">{group.title}</h2>
                                 <span className="ml-auto text-[10px] text-white/70 font-bold">{group.shortcuts.length} shortcuts</span>
