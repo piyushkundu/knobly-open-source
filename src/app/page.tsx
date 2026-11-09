@@ -66,6 +66,11 @@ const WEB_DESIGN_CHAPTERS: KnoblyApp[] = [
 ];
 
 const TABS = ['Main', 'OLevel', 'CCC', 'Favourites'] as const;
+type ActiveNav = 'home' | 'apps' | 'youtube' | 'stats' | 'settings';
+
+function isActiveNav(value: string): value is ActiveNav {
+  return value === 'home' || value === 'apps' || value === 'youtube' || value === 'stats' || value === 'settings';
+}
 
 const WALLPAPER_OPTIONS = [
   { id: 'default', label: 'Core', thumbClass: 'wallpaper-thumb-default', thumbBg: 'radial-gradient(circle at 15% 30%, #38bdf8 0%, transparent 55%), radial-gradient(circle at 85% 70%, #8b5cf6 0%, transparent 55%), radial-gradient(circle at 50% 50%, #1e3a5f 0%, #0f172a 100%)' },
@@ -98,14 +103,6 @@ const SETTINGS_TABS = [
   { id: 'apps', label: 'Apps' },
 ];
 
-const ICON_LIBRARY = [
-  'ph-bold ph-globe', 'ph-bold ph-code', 'ph-bold ph-game-controller',
-  'ph-bold ph-music-notes', 'ph-bold ph-camera', 'ph-bold ph-chat',
-  'ph-bold ph-shopping-cart', 'ph-bold ph-briefcase', 'ph-bold ph-book',
-  'ph-bold ph-monitor', 'ph-bold ph-pencil', 'ph-bold ph-rocket',
-  'ti ti-brand-github', 'ti ti-brand-twitter', 'ti ti-brand-instagram',
-];
-
 export default function HomePage() {
   const router = useRouter();
   const { user, isAdmin, logout, createUserId, getUserIdForCurrentUser } = useAuth();
@@ -126,7 +123,7 @@ export default function HomePage() {
   }, []);
 
   // ── Navigation ──
-  const [activeNav, setActiveNav] = useState<'home' | 'apps' | 'youtube' | 'stats' | 'settings'>('home');
+  const [activeNav, setActiveNav] = useState<ActiveNav>('home');
   const [activeTab, setActiveTab] = useState<string>('Main');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -243,7 +240,7 @@ export default function HomePage() {
     const savedITTools = sessionStorage.getItem('knobly-it-tools-view');
     const savedWebDesign = sessionStorage.getItem('knobly-web-design-view');
     if (savedTab) setActiveTab(savedTab);
-    if (savedNav) setActiveNav(savedNav as any);
+    if (savedNav && isActiveNav(savedNav)) setActiveNav(savedNav);
     if (savedITTools === 'true') setShowITToolsChapters(true);
     if (savedWebDesign === 'true') setShowWebDesignChapters(true);
     setIsStateLoaded(true);
@@ -285,11 +282,15 @@ export default function HomePage() {
 
   // ── Fetch weather ──
   useEffect(() => {
+    let disposed = false;
+    let weatherInterval: ReturnType<typeof setInterval> | undefined;
+
     const fetchWeather = async (lat?: number, lon?: number) => {
       try {
         const url = lat && lon ? `/api/weather?lat=${lat}&lon=${lon}` : '/api/weather';
         const res = await fetch(url);
         const data = await res.json();
+        if (disposed) return;
         if (data.temp != null) {
           setWeatherTemp(`${data.temp}°C`);
           setWeatherCity(data.city || '');
@@ -305,30 +306,34 @@ export default function HomePage() {
       } catch { /* silently ignore */ }
     };
 
+    const startWeatherRefresh = (lat?: number, lon?: number) => {
+      if (disposed) return;
+      void fetchWeather(lat, lon);
+      weatherInterval = setInterval(() => {
+        if (!disposed) void fetchWeather(lat, lon);
+      }, 600000);
+    };
+
     // Try browser geolocation for accurate location
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
-          fetchWeather(pos.coords.latitude, pos.coords.longitude);
-          // Refresh every 10 min with same location
-          const id = setInterval(() => fetchWeather(pos.coords.latitude, pos.coords.longitude), 600000);
-          (window as any).__weatherInterval = id;
+          startWeatherRefresh(pos.coords.latitude, pos.coords.longitude);
         },
         () => {
           // Permission denied → fallback to IP-based
-          fetchWeather();
-          const id = setInterval(() => fetchWeather(), 600000);
-          (window as any).__weatherInterval = id;
+          startWeatherRefresh();
         },
         { timeout: 5000 }
       );
     } else {
-      fetchWeather();
-      const id = setInterval(() => fetchWeather(), 600000);
-      (window as any).__weatherInterval = id;
+      startWeatherRefresh();
     }
 
-    return () => clearInterval((window as any).__weatherInterval);
+    return () => {
+      disposed = true;
+      if (weatherInterval) clearInterval(weatherInterval);
+    };
   }, []);
 
   // ── Load global apps from Firestore (one-time fetch) ──
@@ -391,7 +396,7 @@ export default function HomePage() {
     const q = searchQuery.toLowerCase();
     const filterVisible = (list: KnoblyApp[]) => list.filter((a) => !hiddenAppsSet.has(a.id));
     if (activeNav === 'apps') {
-      let base = appsFilter === 'hidden'
+      const base = appsFilter === 'hidden'
         ? allAppsList.filter((a) => hiddenAppsSet.has(a.id))
         : allAppsList.filter((a) => !hiddenAppsSet.has(a.id));
       return q ? base.filter((a) => a.name.toLowerCase().includes(q)) : base;
@@ -439,12 +444,6 @@ export default function HomePage() {
       if (link.startsWith('http')) window.open(link, '_blank');
       else router.push(link);
     }
-  };
-
-  const toggleFavourite = (appId: string) => {
-    const newFavs = favourites.includes(appId) ? favourites.filter((f) => f !== appId) : [...favourites, appId];
-    setFavourites(newFavs);
-    localStorage.setItem('knobly-favourites', JSON.stringify(newFavs));
   };
 
   const toggleAppVisibility = (app: KnoblyApp) => {
@@ -1003,9 +1002,9 @@ export default function HomePage() {
                                     setExistingUserId(userIdInput.trim().toLowerCase());
                                     setUserIdInput('');
                                     setUserIdPassword('');
-                                  } catch (err: any) {
+                                  } catch (err: unknown) {
                                     setUserIdStatus('error');
-                                    setUserIdMsg(err.message || 'Error creating User ID');
+                                    setUserIdMsg(err instanceof Error ? err.message : 'Error creating User ID');
                                   }
                                 }}
                                 disabled={userIdStatus === 'loading' || userIdInput.length < 3 || userIdPassword.length < 6}
