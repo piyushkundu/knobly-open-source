@@ -1,7 +1,7 @@
 {
   "format": 1,
   "license": "MIT",
-  "purpose": "Separate source-only review package; not published/deployed",
+  "purpose": "Public source-only MIT community package; not a production deployment",
   "omitted": {
     "publicFiles": 198,
     "sourceBinaryFiles": 7
@@ -10,10 +10,10 @@
   "files": {
     ".env.example": "cf2a84e2153f24b490a0c8be3f792a7bef9bc80f1c1e0d8c207cdc0a4c3c6a9b",
     ".gitignore": "31c5198721e02eef0ff087a01fa3624059760a563c0b4a7ed57e5c5ec00e58c0",
-    "ASSETS.md": "d8c32381e7580207df6d9c11687580fc882a1f15ec249f1af35ac028f9aef1a9",
+    "ASSETS.md": "2dffee1f70c56ab59a93db379234f5227cd60de431836e1aacffabc02376be4e",
     "CONTRIBUTING.md": "c996570d8874e5f85ec083699adbd9360bd23fa84a53ba1ef9f598a7547ea215",
     "LICENSE": "690f556c446fe0be0c02d959238fc1266f23ccc77c58645b77d8b27dab5b1909",
-    "README.md": "35e5bf0b6577f44f2f46d18d054e206e63d41b4d007bf56ed3e7263a0e2b3f15",
+    "README.md": "8dba1d9cb1d69da1cf66cdae8cb299c1f333aa8f1bfda92e45bc412aae986e04",
     "SECURITY.md": "b9b7031d89c461798305ebc83f0b32b56c2d7841a2f52af1119fee56f972bf3d",
     "THIRD_PARTY_NOTICES.md": "118d08fd684f54c8aae6cd537c34aea5a6306d0092122de04e54ab938d0c536c",
     "data/html-tasks-state.example.json": "48473719055dbe46aeaf226bef685dff799c5e0c059330fcca1ba40b663b2f48",
