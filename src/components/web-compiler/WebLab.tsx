@@ -1,19 +1,16 @@
 'use client';
 
 import { useState, useCallback, useEffect, useRef } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
   Play, Sparkles, Code2, Sun, Moon, RotateCcw, Download,
-  FolderOpen, ChevronDown, Check, Eye, Terminal, ArrowLeft,
-  Smartphone, Tablet, Monitor, Save, Share2, Layers, AlignLeft
+  FolderOpen, ChevronDown, ArrowLeft
 } from 'lucide-react';
 import { WebCodeEditor } from './WebCodeEditor';
 import { WebPreviewConsole } from './WebPreviewConsole';
 import { WebAIAssistant } from './WebAIAssistant';
 import { WebSavedProjects } from './WebSavedProjects';
 import { WebEditorTab, DeviceMode, Language, SavedWebProject } from '@/types/web-compiler';
-import { useAuth } from '@/context/AuthContext';
 import LoginModal from '@/components/auth/LoginModal';
 import { createPreviewConsoleBridge } from '@/lib/preview-sandbox';
 
@@ -176,11 +173,6 @@ if (colorBtn) {
     console.log("Accent color switched to hue:", newHue);
   });
 }`;
-
-// Empty defaults so students start with a clean blank canvas without pre-filled boilerplate
-const DEFAULT_HTML = '';
-const DEFAULT_CSS = '';
-const DEFAULT_JS = '';
 
 const TEMPLATES = [
   {
@@ -462,7 +454,6 @@ tr:hover td { background: #24324a; }
 
 export function WebLab() {
   const router = useRouter();
-  const { user } = useAuth();
 
   // Tabs state - blank by default as requested
   const [tabs, setTabs] = useState<WebEditorTab[]>([
@@ -774,7 +765,7 @@ ${createPreviewConsoleBridge(window.location.origin)}
         localStorage.removeItem('knobly_web_draft_css');
         localStorage.removeItem('knobly_web_draft_js');
         if (draftStorageReadyRef.current) persistedDraftsRef.current = ['', '', ''];
-      } catch (e) {}
+      } catch {}
       setActiveTabIndex(0);
       compileTabs(blankTabs);
     }
