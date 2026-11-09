@@ -69,9 +69,9 @@ private Drive download links are excluded pending rights review. Generic local
 placeholders replace illustrations. Download-only course pages explain that
 optional content is not bundled. See `ASSETS.md` before adding any material.
 
-Code is MIT licensed. That does not grant rights to third-party media, trademarks
-or separately licensed dependencies. See `LICENSE` and `THIRD_PARTY_NOTICES.md`.
-Review ownership/attribution of educational text before a public release.
+Code and course text are authored by Piyush Kundu and licensed under MIT. That
+license does not grant rights to third-party media, trademarks or separately
+licensed dependencies. See `LICENSE`, `ASSETS.md` and `THIRD_PARTY_NOTICES.md`.
 
 ## Verification
 

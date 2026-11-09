@@ -238,7 +238,7 @@ export function WebPreviewConsole({
                 <div className="flex-1 max-w-[280px] mx-2 px-2 py-0.5 rounded-md bg-white border border-gray-300 text-center truncate font-mono text-[10px] text-gray-600">
                   https://knobly.local/index.html
                 </div>
-                <span className="font-mono text-[10px] uppercase font-semibold text-gray-400">
+                <span className="font-mono text-[10px] uppercase font-semibold text-gray-600">
                   {deviceMode}
                 </span>
               </div>

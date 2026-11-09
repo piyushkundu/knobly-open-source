@@ -156,7 +156,7 @@ export default function HtmlIntro() {
                                 <h1 className="text-xs sm:text-sm font-bold text-gray-900">
                                     {isHindi ? 'HTML का परिचय' : 'Introduction to HTML'}
                                 </h1>
-                                <span className="text-[9px] text-gray-400 uppercase tracking-wider">HTML Course</span>
+                                <span className="text-[9px] text-gray-600 uppercase tracking-wider">HTML Course</span>
                             </div>
                         </div>
                     </div>
@@ -771,7 +771,7 @@ export default function HtmlIntro() {
                 {/* Next Steps: Link to Elements Page */}
                 <Link
                     href="/html/elements"
-                    className="group flex items-center justify-between bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 rounded-2xl p-5 sm:p-6 shadow-lg shadow-orange-500/20 hover:shadow-xl hover:scale-[1.01] transition-all mb-4 text-white"
+                    className="group flex items-center justify-between bg-gradient-to-r from-orange-700 via-red-700 to-pink-700 rounded-2xl p-5 sm:p-6 shadow-lg shadow-orange-500/20 hover:from-orange-800 hover:via-red-800 hover:to-pink-800 hover:shadow-xl hover:scale-[1.01] transition-all mb-4 text-white"
                 >
                     <div>
                         <span className="text-[10px] font-bold text-orange-200 uppercase tracking-wider">

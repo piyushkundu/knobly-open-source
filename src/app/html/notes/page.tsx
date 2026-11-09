@@ -42,7 +42,7 @@ export default function HtmlNotesPage() {
                                     Coming Soon
                                 </span>
                             </div>
-                            <span className="text-[9px] text-gray-400 uppercase tracking-wider">
+                            <span className="text-[9px] text-gray-600 uppercase tracking-wider">
                                 O-Level M2-R5 Web Design
                             </span>
                         </div>

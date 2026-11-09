@@ -178,11 +178,11 @@ export default function HtmlElements() {
                 <div className="absolute top-3 right-6 text-white/8 text-5xl sm:text-7xl font-black select-none pointer-events-none">&lt;/&gt;</div>
                 <div className="relative z-10">
                     <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white mb-1.5">Elements, Tags, and Attributes</h1>
-                    <p className="text-blue-200 text-xs sm:text-sm mb-4">Complete reference for HTML elements — live practice tasks appear as each tag group is completed.</p>
+                    <p className="text-white text-xs sm:text-sm mb-4">Complete reference for HTML elements — live practice tasks appear as each tag group is completed.</p>
                     <div className="flex flex-wrap gap-2">
-                        <span className="px-2.5 py-1 rounded-full bg-white/15 text-white text-[10px] font-semibold backdrop-blur-sm">23 Chapters</span>
-                        <span className="px-2.5 py-1 rounded-full bg-white/15 text-white text-[10px] font-semibold backdrop-blur-sm">50+ Code Examples</span>
-                        <span className="px-2.5 py-1 rounded-full bg-white/15 text-white text-[10px] font-semibold backdrop-blur-sm">15 Hands-on Tasks</span>
+                        <span className="px-2.5 py-1 rounded-full bg-black/20 text-white text-[10px] font-semibold backdrop-blur-sm">23 Chapters</span>
+                        <span className="px-2.5 py-1 rounded-full bg-black/20 text-white text-[10px] font-semibold backdrop-blur-sm">50+ Code Examples</span>
+                        <span className="px-2.5 py-1 rounded-full bg-black/20 text-white text-[10px] font-semibold backdrop-blur-sm">15 Hands-on Tasks</span>
                     </div>
                 </div>
             </div>
