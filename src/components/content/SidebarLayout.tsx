@@ -66,7 +66,7 @@ export default function SidebarLayout({ title, backHref, sidebarTitle, items, ch
                                     router.push(backHref);
                                 }
                             }}
-                            className="text-gray-400 hover:text-gray-900 transition-colors p-1 rounded-lg hover:bg-gray-100"
+                            className="text-gray-600 hover:text-gray-900 transition-colors p-1 rounded-lg hover:bg-gray-100"
                             title="Go Back"
                         >
                             <ArrowLeft size={18} />
@@ -87,7 +87,7 @@ export default function SidebarLayout({ title, backHref, sidebarTitle, items, ch
                                     style={{ width: `${((activeIndex + 1) / items.length) * 100}%` }}
                                 />
                             </div>
-                            <span className="text-[10px] text-gray-400 font-mono">{activeIndex + 1}/{items.length}</span>
+                            <span className="text-[10px] text-gray-600 font-mono">{activeIndex + 1}/{items.length}</span>
                         </div>
                         <button
                             onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -95,7 +95,7 @@ export default function SidebarLayout({ title, backHref, sidebarTitle, items, ch
                         >
                             {sidebarOpen ? <X size={16} /> : <Menu size={16} />}
                         </button>
-                        <Link href="/" className="text-gray-400 hover:text-gray-900 p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
+                        <Link href="/" className="text-gray-600 hover:text-gray-900 p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
                             <Home size={16} />
                         </Link>
                     </div>
@@ -125,7 +125,7 @@ export default function SidebarLayout({ title, backHref, sidebarTitle, items, ch
                                 >
                                     <span className={`inline-flex items-center justify-center w-5 h-5 rounded-md text-[9px] font-bold mr-2 ${activeId === item.id
                                             ? 'bg-blue-600 text-white shadow-sm'
-                                            : 'bg-gray-100 text-gray-400'
+                                            : 'bg-gray-100 text-gray-600'
                                         }`}>{i + 1}</span>
                                     {item.label}
                                 </button>

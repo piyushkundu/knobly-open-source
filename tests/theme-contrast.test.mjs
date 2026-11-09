@@ -32,6 +32,7 @@ const cybersecurity = readFileSync(new URL('../src/app/cybersecurity/page.tsx', 
 const homePage = readFileSync(new URL('../src/app/page.tsx', import.meta.url), 'utf8');
 const oLevelChapter = readFileSync(new URL('../src/app/olevel/chapter-1/page.tsx', import.meta.url), 'utf8');
 const iotApplications = readFileSync(new URL('../src/app/iot/applications/page.tsx', import.meta.url), 'utf8');
+const sidebarLayout = readFileSync(new URL('../src/components/content/SidebarLayout.tsx', import.meta.url), 'utf8');
 const styles = readFileSync(new URL('../src/app/globals.css', import.meta.url), 'utf8');
 
 function luminance(hex) {
@@ -182,5 +183,12 @@ test('Python syntax/example labels and light-card action icons use darker foregr
             }
         }
     }
+    assert.ok(contrastRatio('#475569', '#ffffff') >= 4.5);
+});
+
+test('lesson sidebar navigation icons and progress labels remain readable on white', () => {
+    assert.match(sidebarLayout, /className="text-gray-600 hover:text-gray-900[^\"]*"\s+title="Go Back"/);
+    assert.match(sidebarLayout, /text-\[10px\] text-gray-600 font-mono/);
+    assert.match(sidebarLayout, /bg-gray-100 text-gray-600/);
     assert.ok(contrastRatio('#475569', '#ffffff') >= 4.5);
 });
