@@ -417,7 +417,7 @@ export default function CybersecurityPage() {
                     {/* ── Footer ── */}
                     <div className="text-center py-8">
                         <p className="text-sm font-semibold" style={{ color: '#475569' }}>🛡️ सुरक्षित रहें, जागरूक रहें। Cyber crime से बचाव ही असली बचाव है!</p>
-                        <p className="text-xs mt-2" style={{ color: '#94a3b8' }}>© 2025 Knobly Web | Cyber Security Awareness</p>
+                        <p className="text-xs mt-2" style={{ color: '#475569' }}>© 2025 Knobly Web | Cyber Security Awareness</p>
                     </div>
                 </main>
             </div>

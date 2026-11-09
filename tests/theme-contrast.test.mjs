@@ -26,6 +26,9 @@ const mcqSection = readFileSync(new URL('../src/components/content/MCQSection.ts
 const listsMcq = readFileSync(new URL('../src/components/content/ListsMCQ.tsx', import.meta.url), 'utf8');
 const resetPassword = readFileSync(new URL('../src/app/reset-password/page.tsx', import.meta.url), 'utf8');
 const verifyEmail = readFileSync(new URL('../src/app/verify-email/page.tsx', import.meta.url), 'utf8');
+const aiWidget = readFileSync(new URL('../src/components/ai/KnoblyAI.tsx', import.meta.url), 'utf8');
+const appCard = readFileSync(new URL('../src/components/apps/AppCard.tsx', import.meta.url), 'utf8');
+const cybersecurity = readFileSync(new URL('../src/app/cybersecurity/page.tsx', import.meta.url), 'utf8');
 const styles = readFileSync(new URL('../src/app/globals.css', import.meta.url), 'utf8');
 
 function luminance(hex) {
@@ -127,4 +130,21 @@ test('password and email verification helper text remains readable on pale auth 
     }
     assert.match(resetPassword, /Back to Home/);
     assert.ok(contrastRatio('#475569', '#eef2f7') >= 4.5);
+});
+
+test('AI widget muted labels stay readable in both themes', () => {
+    assert.match(aiWidget, /footerText: '#94a3b8'/);
+    assert.match(aiWidget, /footerText: '#475569'/);
+    assert.match(aiWidget, /color: isDark \? '#94a3b8' : '#475569'/);
+    assert.doesNotMatch(aiWidget, /isDark \? '#64748b' : '#94a3b8'/);
+    assert.ok(contrastRatio('#94a3b8', '#0f172a') >= 4.5);
+    assert.ok(contrastRatio('#475569', '#ffffff') >= 4.5);
+});
+
+test('app launcher, typing characters and cybersecurity footer are not dimmed', () => {
+    assert.doesNotMatch(appCard, /opacity-50/);
+    assert.match(appCard, /text-gray-400/);
+    assert.match(typing, /color: '#475569',\s*background: '#fff'/);
+    assert.doesNotMatch(cybersecurity, /color: '#94a3b8'/);
+    assert.ok(contrastRatio('#475569', '#ffffff') >= 4.5);
 });

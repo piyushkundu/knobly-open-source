@@ -437,7 +437,7 @@ const DARK = {
     inputBg: 'rgba(255,255,255,0.04)',
     inputBorder: 'rgba(139,92,246,0.28)',
     inputColor: '#f5f3ff',
-    footerText: '#4b5563',
+    footerText: '#94a3b8',
     promptBg: 'rgba(139,92,246,0.07)',
     promptBorder: 'rgba(139,92,246,0.2)',
     promptColor: '#ddd6fe',
@@ -469,7 +469,7 @@ const LIGHT = {
     inputBg: 'rgba(249,247,255,1)',
     inputBorder: 'rgba(139,92,246,0.2)',
     inputColor: '#111827',
-    footerText: '#9ca3af',
+    footerText: '#475569',
     promptBg: 'rgba(139,92,246,0.05)',
     promptBorder: 'rgba(139,92,246,0.15)',
     promptColor: '#4c1d95',
@@ -1098,7 +1098,7 @@ export default function KnoblyAI() {
                                             {/* Related Topics */}
                                             {m.relatedTopics && m.relatedTopics.length > 0 && (
                                                 <div style={{ marginTop: 10 }}>
-                                                    <div style={{ fontSize: 10, fontWeight: 700, color: isDark ? '#64748b' : '#94a3b8', marginBottom: 5, textTransform: 'uppercase', letterSpacing: '0.04em', display: 'flex', alignItems: 'center', gap: 4 }}>
+                                                    <div style={{ fontSize: 10, fontWeight: 700, color: isDark ? '#94a3b8' : '#475569', marginBottom: 5, textTransform: 'uppercase', letterSpacing: '0.04em', display: 'flex', alignItems: 'center', gap: 4 }}>
                                                         <Sparkles size={10} /> Related Topics
                                                     </div>
                                                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
@@ -1229,7 +1229,7 @@ export default function KnoblyAI() {
                                         position: 'absolute', right: 7, bottom: 7,
                                         width: 30, height: 30, borderRadius: '50%', border: 'none',
                                         background: input.trim() && !loading ? T.sendActive : (isDark ? 'rgba(255,255,255,.07)' : 'rgba(0,0,0,.07)'),
-                                        color: input.trim() && !loading ? '#fff' : (isDark ? '#6b7280' : '#9ca3af'),
+                                        color: input.trim() && !loading ? '#fff' : (isDark ? '#94a3b8' : '#475569'),
                                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                                         cursor: input.trim() && !loading ? 'pointer' : 'default',
                                         transition: 'all .2s', flexShrink: 0,

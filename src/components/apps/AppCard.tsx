@@ -18,7 +18,7 @@ export default function AppCard({ app, isFavourite, isNew, activeNav, onClick, o
         <div
             onClick={onClick}
             onContextMenu={onContextMenu}
-            className={`glass-card app-card rounded-[22px] flex flex-col items-center justify-center gap-2 cursor-pointer group relative overflow-hidden active-press ${isComingSoon ? 'opacity-50 pointer-events-auto cursor-not-allowed' : ''}`}
+            className={`glass-card app-card rounded-[22px] flex flex-col items-center justify-center gap-2 cursor-pointer group relative overflow-hidden active-press ${isComingSoon ? 'pointer-events-auto cursor-not-allowed' : ''}`}
             data-tilt
             data-tilt-scale="1.05"
         >
@@ -36,7 +36,7 @@ export default function AppCard({ app, isFavourite, isNew, activeNav, onClick, o
 
             {isComingSoon && (
                 <div className="absolute top-2 right-2 z-20">
-                    <i className="ph-bold ph-lock-simple text-gray-500 text-xs" />
+                    <i className="ph-bold ph-lock-simple text-gray-400 text-xs" />
                 </div>
             )}
 
@@ -56,7 +56,7 @@ export default function AppCard({ app, isFavourite, isNew, activeNav, onClick, o
                     </div>
                 )}
                 {activeNav !== 'apps' && (
-                    <p className={`text-[9px] mt-0.5 uppercase tracking-[0.14em] ${isComingSoon ? 'text-gray-600' : 'text-gray-400'}`}>
+                    <p className="text-[9px] mt-0.5 uppercase tracking-[0.14em] text-gray-400">
                         {app.type}
                     </p>
                 )}

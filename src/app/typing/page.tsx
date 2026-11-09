@@ -550,7 +550,7 @@ export default function TypingPage() {
                             fontSize: ch === ' ' ? 0 : 28,
                             fontWeight: 700,
                             fontFamily: "'Outfit', sans-serif",
-                            color: '#9ca3af',
+                            color: '#475569',
                             background: '#fff',
                             border: '2px solid #e5e7eb',
                             boxShadow: '0 2px 4px rgba(0,0,0,0.04)',
