@@ -191,10 +191,10 @@ export default function DictionaryPage() {
                         <h3 className="text-base font-bold mt-5 mb-2 text-slate-800">1. By assigning Value :</h3>
                         <p>Dictionary बनाने के लिए key:value pair को <code className="bg-slate-100 px-1 mx-1 rounded text-slate-700">{`{ }`}</code> में लिखा जाता है और उसे एक नाम में assign कर दिया जाता है।</p>
                         
-                        <p className="mt-4 text-[10px] font-bold uppercase text-slate-400">Syntax :</p>
+                        <p className="mt-4 text-[10px] font-bold uppercase text-slate-600">Syntax :</p>
                         <CB code={`<dictionary name> = { <key>:<value>, <key>:<value> }`} />
                         
-                        <p className="mt-2 text-[10px] font-bold uppercase text-slate-400">Example :</p>
+                        <p className="mt-2 text-[10px] font-bold uppercase text-slate-600">Example :</p>
                         <CB code={`players = {1:'Sachin', 2:'Dhoni', 3:'Rohit'}`} />
 
                         <div className="h-px bg-slate-100 my-6" />
@@ -202,10 +202,10 @@ export default function DictionaryPage() {
                         <h3 className="text-base font-bold mt-6 mb-2 text-slate-800">2. Dynamically via Keyboard :</h3>
                         <p>Input Function का प्रयोग करके dynamic dictionary बनाई जाती है।</p>
                         
-                        <p className="mt-4 text-[10px] font-bold uppercase text-slate-400">Syntax :</p>
+                        <p className="mt-4 text-[10px] font-bold uppercase text-slate-600">Syntax :</p>
                         <CB code={`<key variable> = input("any message")\n<value variable> = input("any message")`} />
                         
-                        <p className="mt-2 text-[10px] font-bold uppercase text-slate-400">Example :</p>
+                        <p className="mt-2 text-[10px] font-bold uppercase text-slate-600">Example :</p>
                         <CB code={`k = input("Enter dict key")\nv = input("Enter value")\ndict[k] = v`} />
 
                         <div className="mt-6 p-4 rounded-xl border border-teal-200 bg-teal-50">
@@ -225,7 +225,7 @@ export default function DictionaryPage() {
                         <h3 className="text-base font-bold mt-5 mb-2 text-slate-800">1. Accessing whole dictionary :</h3>
                         <p>पूरी डिक्शनरी को एक साथ access करने के लिए इसके नाम का प्रयोग किया जाता है।</p>
                         
-                        <p className="mt-4 text-[10px] font-bold uppercase text-slate-400">Example :</p>
+                        <p className="mt-4 text-[10px] font-bold uppercase text-slate-600">Example :</p>
                         <CB code={`marks = {1:38, 2:41, 3:29}\nprint(marks)`} />
                         
                         <IB type="tip"><strong>NOTE :</strong> * के साथ डिक्शनरी प्रिंट करते समय बिना punctuation marks के डिक्शनरी की key प्रिंट होती है।</IB>
@@ -235,10 +235,10 @@ export default function DictionaryPage() {
                         <h3 className="text-base font-bold mt-6 mb-2 text-slate-800">2. Accessing individual element :</h3>
                         <p>डिक्शनरी में data key:value pair के रूप में स्टोर होता है। key का प्रयोग करके उसकी value को access किया जाता है।</p>
                         
-                        <p className="mt-4 text-[10px] font-bold uppercase text-slate-400">Syntax :</p>
+                        <p className="mt-4 text-[10px] font-bold uppercase text-slate-600">Syntax :</p>
                         <CB code={`<dictionary name>[<key>]`} />
                         
-                        <p className="mt-2 text-[10px] font-bold uppercase text-slate-400">Example :</p>
+                        <p className="mt-2 text-[10px] font-bold uppercase text-slate-600">Example :</p>
                         <CB code={`marks = {1:38, 2:41, 3:29}\nprint(marks[2])`} />
 
                         <div className="mt-6 p-4 rounded-xl border border-teal-200 bg-teal-50">
@@ -255,10 +255,10 @@ export default function DictionaryPage() {
                     <Sec id="traversing" title="Traversing the Dictionary" icon={<Repeat size={18} className="text-teal-500" />}>
                         <p>डिक्शनरी के element access करने के लिए <code>for loop</code> में dictionary के नाम का प्रयोग किया जाता है। यह process traversing है।</p>
                         
-                        <p className="mt-4 text-[10px] font-bold uppercase text-slate-400">Syntax :</p>
+                        <p className="mt-4 text-[10px] font-bold uppercase text-slate-600">Syntax :</p>
                         <CB code={`for <control variable> in <dictionary name>:\n    body of loop`} />
                         
-                        <p className="mt-2 text-[10px] font-bold uppercase text-slate-400">Example :</p>
+                        <p className="mt-2 text-[10px] font-bold uppercase text-slate-600">Example :</p>
                         <CB code={`marks = {1:39, 2:46, 3:30, 4:37, 5:42}\nfor a in marks:\n    print(marks[a])`} />
                     </Sec>
 
@@ -267,27 +267,27 @@ export default function DictionaryPage() {
                         
                         <h3 className="text-base font-bold mt-2 mb-2 text-slate-800">1. Adding element to dictionary :</h3>
                         <p>Assignment method का प्रयोग करके डिक्शनरी में element जोड़े जाते हैं।</p>
-                        <p className="mt-4 text-[10px] font-bold uppercase text-slate-400">Syntax :</p>
+                        <p className="mt-4 text-[10px] font-bold uppercase text-slate-600">Syntax :</p>
                         <CB code={`<dictionary name>[<key>] = <value>`} />
-                        <p className="mt-2 text-[10px] font-bold uppercase text-slate-400">Example :</p>
+                        <p className="mt-2 text-[10px] font-bold uppercase text-slate-600">Example :</p>
                         <CB code={`Cricket = {1:'Virat', 2:'Dhoni'}\nCricket[3] = 'Sachin'\nprint(Cricket)`} />
 
                         <div className="h-px bg-slate-100 my-6" />
 
                         <h3 className="text-base font-bold mt-6 mb-2 text-slate-800">2. Creating dictionary using key & value separately :</h3>
                         <p><code>zip</code> function तथा <code>dict</code> function का प्रयोग करके key तथा value को separately input के द्वारा dictionary बनाई जाती है।</p>
-                        <p className="mt-4 text-[10px] font-bold uppercase text-slate-400">Syntax :</p>
+                        <p className="mt-4 text-[10px] font-bold uppercase text-slate-600">Syntax :</p>
                         <CB code={`<dictionary name> = dict(zip([<list of keys>], [<list of values>]))`} />
-                        <p className="mt-2 text-[10px] font-bold uppercase text-slate-400">Example :</p>
+                        <p className="mt-2 text-[10px] font-bold uppercase text-slate-600">Example :</p>
                         <CB code={`Cricket = dict(zip((1,2,3), ('Sachin','Dhoni','Virat')))\nprint(Cricket)`} />
 
                         <div className="h-px bg-slate-100 my-6" />
 
                         <h3 className="text-base font-bold mt-6 mb-2 text-slate-800">3. Creating dictionary using key:value pairs as list :</h3>
                         <p>इस method में key और value की list को <code>dict</code> function में argument pass किया जाता है।</p>
-                        <p className="mt-4 text-[10px] font-bold uppercase text-slate-400">Syntax :</p>
+                        <p className="mt-4 text-[10px] font-bold uppercase text-slate-600">Syntax :</p>
                         <CB code={`<dictionary name> = dict([[<key,value pair>], [<key,value pair>]])`} />
-                        <p className="mt-2 text-[10px] font-bold uppercase text-slate-400">Example :</p>
+                        <p className="mt-2 text-[10px] font-bold uppercase text-slate-600">Example :</p>
                         <CB code={`Cricket = dict([[1,"Sachin"], [2,"Rohit"], [3,"Dhoni"]])\nprint(Cricket)`} />
 
                         <div className="mt-6 p-4 rounded-xl border border-teal-200 bg-teal-50">
@@ -303,7 +303,7 @@ export default function DictionaryPage() {
 
                         <h3 className="text-base font-bold mt-6 mb-2 text-slate-800">4. Updating dictionary element :</h3>
                         <p>डिक्शनरी में पहले से उपस्थित key का प्रयोग करके element update किया जा सकता है। यह नए element जोड़ने के समान है।</p>
-                        <p className="mt-4 text-[10px] font-bold uppercase text-slate-400">Example :</p>
+                        <p className="mt-4 text-[10px] font-bold uppercase text-slate-600">Example :</p>
                         <CB code={`dict = {1:'a', 2:'b', 3:'c'}\n\n# update\ndict[1] = 'd'\n\n# new element\ndict[4] = 'e'`} />
 
                         <div className="h-px bg-slate-100 my-6" />
@@ -336,9 +336,9 @@ export default function DictionaryPage() {
 
                         <h3 className="text-base font-bold mt-6 mb-2 text-slate-800">6. Checking existing key :</h3>
                         <p>Membership Operator <code>in</code> तथा <code>not in</code> का प्रयोग करके dictionary में key की उपस्थिति check की जा सकती है।</p>
-                        <p className="mt-4 text-[10px] font-bold uppercase text-slate-400">Syntax :</p>
+                        <p className="mt-4 text-[10px] font-bold uppercase text-slate-600">Syntax :</p>
                         <CB code={`<key> in <dictionary name>\n<key> not in <dictionary name>`} />
-                        <p className="mt-2 text-[10px] font-bold uppercase text-slate-400">Example :</p>
+                        <p className="mt-2 text-[10px] font-bold uppercase text-slate-600">Example :</p>
                         <CB code={`players = {1:"Tendulkar", 2:"Sachin", 3:"Kapil"}\n\nk = 3\nif k in players:\n    print("player is", players[k])\nelse:\n    print("player is not exist")`} />
                     </Sec>
 
@@ -346,10 +346,10 @@ export default function DictionaryPage() {
                     <Sec id="nested" title="Nested Dictionary :" icon={<ListTree size={18} className="text-teal-600" />}>
                         <p>एक dictionary के अंदर अन्य dictionary होती है उसे nested dictionary कहते हैं। Internal dictionary outer dictionary की value होती है।</p>
                         
-                        <p className="mt-4 text-[10px] font-bold uppercase text-slate-400">Syntax :</p>
+                        <p className="mt-4 text-[10px] font-bold uppercase text-slate-600">Syntax :</p>
                         <CB code={`<dictionary name> = {<key>:{<key>:<value>}, <key>:{<key>:<value>}}`} />
                         
-                        <p className="mt-2 text-[10px] font-bold uppercase text-slate-400">Example :</p>
+                        <p className="mt-2 text-[10px] font-bold uppercase text-slate-600">Example :</p>
                         <CB code={`student = {\n1:{'name':'Sohan','mark':32},\n2:{'name':'Dinesh','mark':40},\n3:{'name':'Mohan','mark':42}\n}\n\nprint(student[1]['name'])\n\n# Output :\n# Sohan`} />
                     </Sec>
 
@@ -358,60 +358,60 @@ export default function DictionaryPage() {
                         
                         <MethodCard name="1. len()" desc="डिक्शनरी की key को count करने के लिए प्रयोग किया जाता है।" color="#0f766e">
                             <div className="flex flex-col gap-2">
-                                <div><span className="text-[10px] font-bold uppercase text-slate-400">Syntax</span><CB code={`len(<dictionary name>)`} /></div>
-                                <div><span className="text-[10px] font-bold uppercase text-slate-400">Example</span><CB code={`dic = {1:'abc', 2:'def', 3:'ghi'}\nprint(len(dic))\n\n# Output :\n# 3`} /></div>
+                                <div><span className="text-[10px] font-bold uppercase text-slate-600">Syntax</span><CB code={`len(<dictionary name>)`} /></div>
+                                <div><span className="text-[10px] font-bold uppercase text-slate-600">Example</span><CB code={`dic = {1:'abc', 2:'def', 3:'ghi'}\nprint(len(dic))\n\n# Output :\n# 3`} /></div>
                             </div>
                         </MethodCard>
 
                         <MethodCard name="2. clear()" desc="डिक्शनरी के सभी element हटाने के लिए प्रयोग किया जाता है।" color="#dc2626">
                             <div className="flex flex-col gap-2">
-                                <div><span className="text-[10px] font-bold uppercase text-slate-400">Syntax</span><CB code={`<dictionary name>.clear()`} /></div>
-                                <div><span className="text-[10px] font-bold uppercase text-slate-400">Example</span><CB code={`dic.clear()`} /></div>
+                                <div><span className="text-[10px] font-bold uppercase text-slate-600">Syntax</span><CB code={`<dictionary name>.clear()`} /></div>
+                                <div><span className="text-[10px] font-bold uppercase text-slate-600">Example</span><CB code={`dic.clear()`} /></div>
                             </div>
                         </MethodCard>
 
                         <MethodCard name="3. get()" desc="इस function का प्रयोग key द्वारा value प्राप्त करने के लिए किया जाता है।" color="#2563eb">
                             <p className="text-xs text-slate-600 font-medium mb-3">यह function दो argument लेता है: 1. key, 2. message</p>
                             <div className="flex flex-col gap-2">
-                                <div><span className="text-[10px] font-bold uppercase text-slate-400">Syntax</span><CB code={`<dictionary name>.get(<key>, <message>)`} /></div>
-                                <div><span className="text-[10px] font-bold uppercase text-slate-400">Example</span><CB code={`v = dic.get(4, "key does not exist")\nprint(v)`} /></div>
+                                <div><span className="text-[10px] font-bold uppercase text-slate-600">Syntax</span><CB code={`<dictionary name>.get(<key>, <message>)`} /></div>
+                                <div><span className="text-[10px] font-bold uppercase text-slate-600">Example</span><CB code={`v = dic.get(4, "key does not exist")\nprint(v)`} /></div>
                             </div>
                         </MethodCard>
 
                         <MethodCard name="4. has_key()" desc="यह function dictionary में key की presence check करता है तथा Boolean value return करता है।" color="#d97706">
                             <div className="flex flex-col gap-2">
-                                <div><span className="text-[10px] font-bold uppercase text-slate-400">Syntax</span><CB code={`<dictionary name>.has_key(<key>)`} /></div>
-                                <div><span className="text-[10px] font-bold uppercase text-slate-400">Example</span><CB code={`v = dic.has_key(3)\nprint(v)\n\n# Output :\n# True`} /></div>
+                                <div><span className="text-[10px] font-bold uppercase text-slate-600">Syntax</span><CB code={`<dictionary name>.has_key(<key>)`} /></div>
+                                <div><span className="text-[10px] font-bold uppercase text-slate-600">Example</span><CB code={`v = dic.has_key(3)\nprint(v)\n\n# Output :\n# True`} /></div>
                             </div>
                         </MethodCard>
 
                         <MethodCard name="5. items()" desc="यह function dictionary की सभी key:value pair को tuple में return करता है।" color="#7c3aed">
                             <div className="flex flex-col gap-2">
-                                <div><span className="text-[10px] font-bold uppercase text-slate-400">Syntax</span><CB code={`<dictionary name>.items()`} /></div>
-                                <div><span className="text-[10px] font-bold uppercase text-slate-400">Example</span><CB code={`dic.items()\n\n# Output :\n# dict_items([(1,'abc'), (2,'def'), (3,'ghi')])`} /></div>
+                                <div><span className="text-[10px] font-bold uppercase text-slate-600">Syntax</span><CB code={`<dictionary name>.items()`} /></div>
+                                <div><span className="text-[10px] font-bold uppercase text-slate-600">Example</span><CB code={`dic.items()\n\n# Output :\n# dict_items([(1,'abc'), (2,'def'), (3,'ghi')])`} /></div>
                             </div>
                         </MethodCard>
 
                         <MethodCard name="6. keys()" desc="यह function dictionary की सभी key को return करता है।" color="#0891b2">
                             <IB type="note"><strong>NOTE :</strong> Key list के रूप में return होती हैं।</IB>
                             <div className="flex flex-col gap-2">
-                                <div><span className="text-[10px] font-bold uppercase text-slate-400">Syntax</span><CB code={`<dictionary name>.keys()`} /></div>
-                                <div><span className="text-[10px] font-bold uppercase text-slate-400">Example</span><CB code={`dic.keys()\n\n# Output :\n# dict_keys([1,2,3])`} /></div>
+                                <div><span className="text-[10px] font-bold uppercase text-slate-600">Syntax</span><CB code={`<dictionary name>.keys()`} /></div>
+                                <div><span className="text-[10px] font-bold uppercase text-slate-600">Example</span><CB code={`dic.keys()\n\n# Output :\n# dict_keys([1,2,3])`} /></div>
                             </div>
                         </MethodCard>
 
                         <MethodCard name="7. values()" desc="यह function dictionary की सभी value को return करता है।" color="#16a34a">
                             <IB type="note"><strong>NOTE :</strong> Value list के रूप में return होती है।</IB>
                             <div className="flex flex-col gap-2">
-                                <div><span className="text-[10px] font-bold uppercase text-slate-400">Syntax</span><CB code={`<dictionary name>.values()`} /></div>
-                                <div><span className="text-[10px] font-bold uppercase text-slate-400">Example</span><CB code={`dic.values()\n\n# Output :\n# dict_values(['abc','def','ghi'])`} /></div>
+                                <div><span className="text-[10px] font-bold uppercase text-slate-600">Syntax</span><CB code={`<dictionary name>.values()`} /></div>
+                                <div><span className="text-[10px] font-bold uppercase text-slate-600">Example</span><CB code={`dic.values()\n\n# Output :\n# dict_values(['abc','def','ghi'])`} /></div>
                             </div>
                         </MethodCard>
 
                         <MethodCard name="8. update()" desc="यह function एक dictionary में दूसरी dictionary को जोड़ देता है।" color="#e11d48">
                             <div className="flex flex-col gap-2">
-                                <div><span className="text-[10px] font-bold uppercase text-slate-400">Syntax</span><CB code={`<original dictionary>.update(<new dictionary>)`} /></div>
-                                <div><span className="text-[10px] font-bold uppercase text-slate-400">Example</span><CB code={`Cricket.update(players)`} /></div>
+                                <div><span className="text-[10px] font-bold uppercase text-slate-600">Syntax</span><CB code={`<original dictionary>.update(<new dictionary>)`} /></div>
+                                <div><span className="text-[10px] font-bold uppercase text-slate-600">Example</span><CB code={`Cricket.update(players)`} /></div>
                             </div>
                             <p className="text-xs text-slate-600 font-medium mt-3">players dictionary के elements को Cricket dictionary में जोड़ दिया जाएगा।</p>
                         </MethodCard>

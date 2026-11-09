@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {readdirSync, readFileSync} from 'node:fs';
 import {test} from 'node:test';
 
 const dashboard = readFileSync(new URL('../src/app/page.tsx', import.meta.url), 'utf8');
@@ -166,4 +166,21 @@ test('IoT light-status text and O-Level navigation markers stay visible', () => 
     assert.match(iotApplications, /ledOn \? 'text-white' : 'text-slate-700'/);
     assert.match(oLevelChapter, /color: activeSection === item\.id \? '#fff' : '#475569'/);
     assert.ok(contrastRatio('#475569', '#f1f5f9') >= 4.5);
+});
+
+test('Python syntax/example labels and light-card action icons use darker foregrounds', () => {
+    const pythonRoot = new URL('../src/app/python/', import.meta.url);
+    for (const entry of readdirSync(pythonRoot, {withFileTypes: true})) {
+        if (!entry.isDirectory()) continue;
+        const page = readFileSync(new URL(`../src/app/python/${entry.name}/page.tsx`, import.meta.url), 'utf8');
+        for (const line of page.split('\n')) {
+            if (/Syntax|Example|Installation Command/.test(line)) {
+                assert.doesNotMatch(line, /text-slate-400/);
+            }
+            if (/bg-slate-50 text-slate-400/.test(line)) {
+                assert.fail(`Light-card action icon is too pale in ${entry.name}`);
+            }
+        }
+    }
+    assert.ok(contrastRatio('#475569', '#ffffff') >= 4.5);
 });

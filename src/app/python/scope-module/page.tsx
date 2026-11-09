@@ -22,7 +22,7 @@ function CB({ code }: { code: string }) {
                         <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
                         <span className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
                     </div>
-                    <span className="text-[9px] uppercase tracking-[0.18em] font-bold text-slate-400">python</span>
+                    <span className="text-[9px] uppercase tracking-[0.18em] font-bold text-slate-600">python</span>
                 </div>
                 <button onClick={copy} className="text-xs flex items-center gap-1 transition-colors" style={{ color: c ? '#34d399' : '#64748b' }}>
                     {c ? <><Check size={12} /> Copied</> : <><Copy size={12} /> Copy</>}
@@ -532,7 +532,7 @@ k after function = 25`} />
                         <p><code className="bg-amber-50 text-amber-700 px-1.5 py-0.5 rounded font-mono text-xs">global</code> keyword ka use karke kisi bhi function ke andar ke variable ko <strong>global variable</strong> banaya ja sakta hai। Isse function ke andar se global variable ko modify kiya ja sakta hai।</p>
 
                         <div className="mt-4 mb-2">
-                            <span className="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Syntax</span>
+                            <span className="text-[10px] font-bold uppercase text-slate-600 tracking-wider">Syntax</span>
                         </div>
                         <CB code={`global <variable name>`} />
 
@@ -687,11 +687,11 @@ def m(a, b):
                         <MC name="Step 2: Importing Module" desc="import function ka use karke module ko load karo" color="#8b5cf6">
                             <p className="text-sm text-slate-600 mb-3"><code>import</code> keyword ka use karke module ko import kiya jata hai।</p>
                             <div className="mt-2 mb-2">
-                                <span className="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Syntax</span>
+                                <span className="text-[10px] font-bold uppercase text-slate-600 tracking-wider">Syntax</span>
                             </div>
                             <CB code={`import <module name>`} />
                             <div className="mb-2">
-                                <span className="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Example</span>
+                                <span className="text-[10px] font-bold uppercase text-slate-600 tracking-wider">Example</span>
                             </div>
                             <CB code={`import write`} />
                         </MC>
@@ -1006,7 +1006,7 @@ Grade: A`} />
                                     <div className="text-slate-800 font-medium text-[15px] leading-relaxed pt-2">{q}</div>
                                     <button
                                         onClick={() => { const ev = new CustomEvent('toggle-knobly-ai'); window.dispatchEvent(ev); }}
-                                        className="ml-auto w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full bg-slate-50 text-slate-400 hover:bg-emerald-100 hover:text-emerald-600 transition-colors"
+                                        className="ml-auto w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full bg-slate-50 text-slate-600 hover:bg-emerald-100 hover:text-emerald-600 transition-colors"
                                         title="Ask AI to Explain"
                                     >
                                         <Sparkles size={16} />

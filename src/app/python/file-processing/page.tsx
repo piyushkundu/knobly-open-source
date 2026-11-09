@@ -724,7 +724,7 @@ print(f"\\nTotal Salary: ₹{total}")`} />
                         <IB type="tip"><code>with</code> statement Python का <strong>best practice</strong> है file handling के लिए। यह errors और memory leaks से बचाता है।</IB>
 
                         <div className="mt-2 mb-2">
-                            <span className="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Syntax</span>
+                            <span className="text-[10px] font-bold uppercase text-slate-600 tracking-wider">Syntax</span>
                         </div>
                         <CB code={`with open('<filename>', '<mode>') as <file_handle>:
     # file operations here
@@ -798,7 +798,7 @@ Done reading!`} />
                                     <div className="text-slate-800 font-medium text-[15px] leading-relaxed pt-2">{q}</div>
                                     <button
                                         onClick={() => { const ev = new CustomEvent('toggle-knobly-ai'); window.dispatchEvent(ev); }}
-                                        className="ml-auto w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full bg-slate-50 text-slate-400 hover:bg-pink-100 hover:text-pink-600 transition-colors"
+                                        className="ml-auto w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full bg-slate-50 text-slate-600 hover:bg-pink-100 hover:text-pink-600 transition-colors"
                                         title="Ask AI to Explain"
                                     >
                                         <Sparkles size={16} />

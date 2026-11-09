@@ -13,7 +13,7 @@ function CB({ code, lang = 'python' }: { code: string; lang?: string }) {
             <div className="flex items-center justify-between px-4 py-1.5" style={{ background: '#0f172a', borderBottom: '1px solid #334155' }}>
                 <div className="flex items-center gap-2">
                     <div className="flex gap-1"><span className="w-2.5 h-2.5 rounded-full bg-red-400/60" /><span className="w-2.5 h-2.5 rounded-full bg-yellow-400/60" /><span className="w-2.5 h-2.5 rounded-full bg-green-400/60" /></div>
-                    <span className="text-[9px] uppercase tracking-[0.18em] font-bold text-slate-400">{lang}</span>
+                    <span className="text-[9px] uppercase tracking-[0.18em] font-bold text-slate-600">{lang}</span>
                 </div>
                 <button onClick={copy} className="text-xs flex items-center gap-1 transition-colors" style={{ color: c ? '#34d399' : '#64748b' }}>
                     {c ? <><Check size={12} /> Copied</> : <><Copy size={12} /> Copy</>}

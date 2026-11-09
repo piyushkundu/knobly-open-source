@@ -408,7 +408,7 @@ Backward index → -6 -5 -4 -3 -2 -1`}
                             </MethodCard>
 
                             <MethodCard name="(6) strftime()" desc="यह function time tuple को format करके string में convert करता है।" color="#ef4444">
-                                <div><span className="text-[10px] font-bold uppercase text-slate-400">Syntax</span><CB code={`time.strftime(<format>, <time tuple>)`} /></div>
+                                <div><span className="text-[10px] font-bold uppercase text-slate-600">Syntax</span><CB code={`time.strftime(<format>, <time tuple>)`} /></div>
                                 
                                 <div className="mt-4 mb-2 overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
                                     <table className="w-full text-sm text-left">
@@ -440,13 +440,13 @@ Backward index → -6 -5 -4 -3 -2 -1`}
                                         </tbody>
                                     </table>
                                 </div>
-                                <div className="mt-4"><span className="text-[10px] font-bold uppercase text-slate-400">Example</span>
+                                <div className="mt-4"><span className="text-[10px] font-bold uppercase text-slate-600">Example</span>
                                 <CB code={`import time\nt = (2009,2,17,11,3,38,1,48,0)\n\nprint(time.strftime("%b %d %Y %I:%M:%S", t))\n\n# Output:\n# Feb 17 2009 11:03:38`} /></div>
                             </MethodCard>
 
                             <MethodCard name="(7) strptime()" desc="यह function string को time tuple में convert करता है।" color="#8b5cf6">
-                                <div><span className="text-[10px] font-bold uppercase text-slate-400">Syntax</span><CB code={`time.strptime(<time>, <format>)`} /></div>
-                                <div className="mt-4"><span className="text-[10px] font-bold uppercase text-slate-400">Example</span><CB code={`import time\nprint(time.strptime("30 Aug 1961", "%d %b %Y"))`} /></div>
+                                <div><span className="text-[10px] font-bold uppercase text-slate-600">Syntax</span><CB code={`time.strptime(<time>, <format>)`} /></div>
+                                <div className="mt-4"><span className="text-[10px] font-bold uppercase text-slate-600">Example</span><CB code={`import time\nprint(time.strptime("30 Aug 1961", "%d %b %Y"))`} /></div>
                             </MethodCard>
                         </div>
 
@@ -456,13 +456,13 @@ Backward index → -6 -5 -4 -3 -2 -1`}
 
                         <div className="space-y-4">
                             <MethodCard name="(1) calendar()" desc="यह पूरे year का calendar return करता है (multi-line string में)" color="#10b981">
-                                <div><span className="text-[10px] font-bold uppercase text-slate-400">Syntax</span><CB code={`calendar.calendar(<year>, <w>, <l>, <c>)`} /></div>
+                                <div><span className="text-[10px] font-bold uppercase text-slate-600">Syntax</span><CB code={`calendar.calendar(<year>, <w>, <l>, <c>)`} /></div>
                                 <ul className="list-disc pl-5 my-2 text-sm text-slate-600">
                                     <li><strong>w</strong> → width</li>
                                     <li><strong>l</strong> → lines</li>
                                     <li><strong>c</strong> → space between months</li>
                                 </ul>
-                                <div className="mt-4"><span className="text-[10px] font-bold uppercase text-slate-400">Example</span><CB code={`import calendar\nprint(calendar.calendar(2021, w=3, l=1, c=6))`} /></div>
+                                <div className="mt-4"><span className="text-[10px] font-bold uppercase text-slate-600">Example</span><CB code={`import calendar\nprint(calendar.calendar(2021, w=3, l=1, c=6))`} /></div>
                             </MethodCard>
 
                             <MethodCard name="(2) isleap()" desc="check करता है कि year leap year है या नहीं" color="#3b82f6">
@@ -523,7 +523,7 @@ Backward index → -6 -5 -4 -3 -2 -1`}
                                             const event = new CustomEvent('toggle-knobly-ai');
                                             window.dispatchEvent(event);
                                         }}
-                                        className="ml-auto w-8 h-8 flex items-center justify-center rounded-full bg-slate-50 text-slate-400 hover:bg-purple-100 hover:text-purple-600 transition-colors"
+                                        className="ml-auto w-8 h-8 flex items-center justify-center rounded-full bg-slate-50 text-slate-600 hover:bg-purple-100 hover:text-purple-600 transition-colors"
                                         title="Ask AI to Explain"
                                     >
                                         <Sparkles size={14} />
@@ -573,7 +573,7 @@ Backward index → -6 -5 -4 -3 -2 -1`}
                                             const event = new CustomEvent('toggle-knobly-ai');
                                             window.dispatchEvent(event);
                                         }}
-                                        className="ml-auto w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full bg-slate-50 text-slate-400 hover:bg-purple-100 hover:text-purple-600 transition-colors"
+                                        className="ml-auto w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full bg-slate-50 text-slate-600 hover:bg-purple-100 hover:text-purple-600 transition-colors"
                                         title="Ask AI to Explain"
                                     >
                                         <Sparkles size={16} />
