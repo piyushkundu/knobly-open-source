@@ -623,7 +623,7 @@ export default function SoftSkillsPage() {
                                     'व्यक्ति सकारात्मक बना रहता है।',
                                     'Productivity बढ़ती है।'
                                 ].map((item, i) => (
-                                    <div key={i} className="flex gap-2 items-center text-xs text-gray-700 font-semibold bg-gray-50 p-2 rounded-lg border border-gray-100"><CheckCircle2 size={14} className="text-green-500 flex-shrink-0" /> {item}</div>
+                                    <div key={i} className="flex gap-2 items-center text-xs text-gray-700 font-semibold bg-gray-50 p-2 rounded-lg border border-gray-100"><CheckCircle2 size={14} className="text-green-700 flex-shrink-0" /> {item}</div>
                                 ))}
                             </div>
                         </div>

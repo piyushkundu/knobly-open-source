@@ -282,8 +282,8 @@ export default function IoTPage() {
                                     <h4 className="font-bold text-gray-900 mb-2 text-lg group-hover:text-cyan-700 transition-colors">{topic.title}</h4>
                                     <p className="text-sm text-gray-600 mb-4 line-clamp-2 leading-relaxed">{topic.desc}</p>
                                     <div className="flex items-center gap-3 text-xs text-gray-500 mb-4">
-                                        <span className="flex items-center gap-1 bg-gray-50 px-2 py-1 rounded-lg"><Play size={12} className="text-cyan-500" />{topic.lessons} Lessons</span>
-                                        <span className="flex items-center gap-1 bg-gray-50 px-2 py-1 rounded-lg"><Clock size={12} className="text-orange-500" />{topic.duration}</span>
+                                        <span className="flex items-center gap-1 bg-gray-50 px-2 py-1 rounded-lg"><Play size={12} className="text-cyan-700" />{topic.lessons} Lessons</span>
+                                        <span className="flex items-center gap-1 bg-gray-50 px-2 py-1 rounded-lg"><Clock size={12} className="text-orange-700" />{topic.duration}</span>
                                     </div>
                                     {!topic.locked && (
                                         <div className="space-y-2">

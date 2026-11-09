@@ -490,7 +490,7 @@ export default function SuperAdminPage() {
                                                             <td className="p-3 text-xs text-gray-500">{d.tests.find(t => t.id === r.test_id)?.title || r.test_id}</td>
                                                             <td className="p-3 text-center font-bold text-emerald-600">{r.score}</td>
                                                             <td className="p-3 text-center font-bold">{r.accuracy}%</td>
-                                                            <td className="p-3 text-center text-amber-500 font-bold">+{r.xp_earned}</td>
+                                                            <td className="p-3 text-center text-amber-700 font-bold">+{r.xp_earned}</td>
                                                             <td className="p-3 text-center text-[10px] text-gray-500 whitespace-nowrap">{(() => { const ts = r.started_at || r.created_at; if (!ts) return '—'; const d2 = ts?.seconds ? new Date(ts.seconds * 1000) : new Date(ts); return isNaN(d2.getTime()) ? '—' : d2.toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }); })()}</td>
                                                             <td className="p-3 text-center"><span className={`text-[9px] uppercase px-2 py-0.5 rounded-full font-bold ${r.status === 'COMPLETED' ? 'bg-emerald-50 text-emerald-600' : 'bg-blue-50 text-blue-600'}`}>{r.status}</span></td>
                                                             <td className="p-3 text-center"><button onClick={async () => { const det = await d.viewAttemptDetail(r); setAttemptDetail(det); }} className="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-600 px-3 py-1 rounded-lg font-bold transition">View</button></td>
@@ -707,7 +707,7 @@ export default function SuperAdminPage() {
                                     </div>
                                     <button onClick={async () => { await d.deployApp(appForm.name, appForm.link, appForm.icon); setAppForm({ name: '', link: '', icon: '' }); }} className={`${btn} mt-3`} style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)', color: '#ffffff' }}>Deploy</button>
                                     <div className="mt-3 flex flex-wrap gap-2">
-                                        {d.apps.map(a => (<div key={a.id} className="bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 flex items-center gap-2"><Globe size={13} className="text-amber-500" /><span className="text-xs text-gray-900 font-medium">{a.name}</span><button onClick={() => d.deleteApp(a.id)} className="text-red-600 ml-1 hover:text-red-600"><X size={12} /></button></div>))}
+                                        {d.apps.map(a => (<div key={a.id} className="bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 flex items-center gap-2"><Globe size={13} className="text-amber-700" /><span className="text-xs text-gray-900 font-medium">{a.name}</span><button onClick={() => d.deleteApp(a.id)} className="text-red-600 ml-1 hover:text-red-700"><X size={12} /></button></div>))}
                                     </div>
                                 </div>
                                 <div className={`${card} p-5`}>

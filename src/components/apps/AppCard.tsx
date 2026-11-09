@@ -43,7 +43,7 @@ export default function AppCard({ app, isFavourite, isNew, activeNav, onClick, o
             <div
                 className={`w-12 h-12 sm:w-16 sm:h-16 app-icon-tile flex items-center justify-center transition-transform duration-300 bg-black/40 shadow-inner border z-10 backdrop-blur-md group-hover:scale-[1.03] rounded-full app-icon-accent-cyan ${app.borderClass}`}
             >
-                <i className={`${app.icon} devicon-fix ${app.color}`} />
+                <i className={`${app.icon} devicon-fix app-color-icon ${app.color}`} />
             </div>
 
             <div className="text-center z-10 pointer-events-none">
@@ -51,12 +51,12 @@ export default function AppCard({ app, isFavourite, isNew, activeNav, onClick, o
                     {app.name}
                 </h3>
                 {app.id === 'notes' && (
-                    <div className="text-[8px] text-emerald-400 mt-0.5 uppercase tracking-[0.16em]">
+                    <div className="app-saved-label text-[8px] text-emerald-400 mt-0.5 uppercase tracking-[0.16em]">
                         ● Saved
                     </div>
                 )}
                 {activeNav !== 'apps' && (
-                    <p className="text-[9px] mt-0.5 uppercase tracking-[0.14em] text-gray-400">
+                    <p className="app-type-label text-[9px] mt-0.5 uppercase tracking-[0.14em] text-gray-400">
                         {app.type}
                     </p>
                 )}

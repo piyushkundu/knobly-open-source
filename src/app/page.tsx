@@ -828,12 +828,12 @@ export default function HomePage() {
 
               {/* System Notifications */}
               <div className={`p-3 border-t ${isDark ? 'border-white/5' : 'border-gray-100'}`}>
-                <div className={`text-[9px] font-bold uppercase tracking-widest mb-2 px-1 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>System</div>
+                <div className={`text-[9px] font-bold uppercase tracking-widest mb-2 px-1 ${isDark ? 'text-gray-500' : 'text-gray-600'}`}>System</div>
                 <div className={`flex items-start gap-3 px-3 py-2 rounded-xl border ${isDark ? 'bg-cyan-500/5 border-cyan-500/10' : 'bg-cyan-50 border-cyan-100'}`}>
-                  <i className="ph-fill ph-info text-cyan-500 text-base mt-0.5" />
+                  <i className={`ph-fill ph-info ${isDark ? 'text-cyan-400' : 'text-cyan-700'} text-base mt-0.5`} />
                   <div>
                     <div className={`text-xs font-semibold ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>Welcome to Knobly Web!</div>
-                    <div className={`text-[10px] mt-0.5 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Explore courses, practice MCQs, and learn with KnoblyAI assistant.</div>
+                    <div className={`text-[10px] mt-0.5 ${isDark ? 'text-gray-400' : 'text-gray-700'}`}>Explore courses, practice MCQs, and learn with KnoblyAI assistant.</div>
                   </div>
                 </div>
               </div>
@@ -1047,11 +1047,11 @@ export default function HomePage() {
                       <div className="flex items-center justify-between">
                         <h3 className="text-base font-extrabold text-slate-800 tracking-tight">Manage Your Apps</h3>
                         <div className="flex items-center gap-2 text-[11px]">
-                          <span className="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-600 font-bold border border-emerald-200">{allAppsList.filter(a => !hiddenAppsSet.has(a.id || a.name)).length} visible</span>
-                          <span className="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-500 font-bold border border-slate-200">{allAppsList.filter(a => hiddenAppsSet.has(a.id || a.name)).length} hidden</span>
+                          <span className="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 font-bold border border-emerald-200">{allAppsList.filter(a => !hiddenAppsSet.has(a.id || a.name)).length} visible</span>
+                          <span className="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 font-bold border border-slate-200">{allAppsList.filter(a => hiddenAppsSet.has(a.id || a.name)).length} hidden</span>
                         </div>
                       </div>
-                      <p className="text-xs text-slate-400 mt-1">Control which apps appear on your dashboard.</p>
+                      <p className="text-xs text-slate-600 mt-1">Control which apps appear on your dashboard.</p>
                     </div>
 
                     <div className="flex-1 overflow-y-auto custom-scroll -mx-1 px-1">
@@ -1096,8 +1096,8 @@ export default function HomePage() {
                                   </div>
                                   
                                   {/* App Name & Type */}
-                                  <h4 className={`font-bold text-sm mt-3 truncate w-full text-center transition-colors ${isHidden ? 'text-slate-400' : 'text-slate-800'}`}>{app.name}</h4>
-                                  <span className={`text-[11px] font-medium mt-0.5 transition-colors ${isHidden ? 'text-slate-300' : 'text-slate-400'}`}>{app.type}</span>
+                                  <h4 className={`font-bold text-sm mt-3 truncate w-full text-center transition-colors ${isHidden ? 'text-slate-600' : 'text-slate-800'}`}>{app.name}</h4>
+                                  <span className={`text-[11px] font-medium mt-0.5 transition-colors ${isHidden ? 'text-slate-600' : 'text-slate-500'}`}>{app.type}</span>
                                   
                                   {/* Toggle */}
                                   <div className={`mt-3 relative w-[44px] h-[26px] rounded-full shrink-0 transition-all duration-300 ${isHidden ? 'bg-slate-200' : 'bg-gradient-to-r from-emerald-400 to-teal-500 shadow-[0_2px_10px_rgba(16,185,129,0.4)]'}`}>

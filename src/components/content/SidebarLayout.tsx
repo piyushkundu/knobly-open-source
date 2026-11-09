@@ -91,7 +91,7 @@ export default function SidebarLayout({ title, backHref, sidebarTitle, items, ch
                         </div>
                         <button
                             onClick={() => setSidebarOpen(!sidebarOpen)}
-                            className="lg:hidden text-gray-500 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 p-2 rounded-lg transition-colors"
+                            className="lg:hidden text-gray-700 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 p-2 rounded-lg transition-colors"
                         >
                             {sidebarOpen ? <X size={16} /> : <Menu size={16} />}
                         </button>
