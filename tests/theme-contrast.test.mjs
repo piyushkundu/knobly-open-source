@@ -5,6 +5,9 @@ import {test} from 'node:test';
 const dashboard = readFileSync(new URL('../src/app/page.tsx', import.meta.url), 'utf8');
 const shortcuts = readFileSync(new URL('../src/app/shortcuts/page.tsx', import.meta.url), 'utf8');
 const typing = readFileSync(new URL('../src/app/typing/page.tsx', import.meta.url), 'utf8');
+const pythonLists = readFileSync(new URL('../src/app/python/lists/page.tsx', import.meta.url), 'utf8');
+const pythonTuples = readFileSync(new URL('../src/app/python/tuples/page.tsx', import.meta.url), 'utf8');
+const savedCodes = readFileSync(new URL('../src/components/python/SavedCodesModal.tsx', import.meta.url), 'utf8');
 const styles = readFileSync(new URL('../src/app/globals.css', import.meta.url), 'utf8');
 
 function luminance(hex) {
@@ -38,4 +41,18 @@ test('typing helper text stays readable in both themes and colored labels use ne
     assert.match(typing, /color: textSub \}\}>\{l\.description\}/);
     assert.match(typing, /fontSize: 36, fontWeight: 900, color: textMain/);
     assert.doesNotMatch(typing, /opacity: u \? 1 : 0\.5/);
+});
+
+test('Python lesson method descriptions remain readable on light cards', () => {
+    for (const source of [pythonLists, pythonTuples]) {
+        assert.match(source, /style=\{\{ color: '#475569' \}\}>— \{desc\}/);
+    }
+    assert.ok(contrastRatio('#475569', '#ffffff') >= 4.5);
+});
+
+test('saved-code modal metadata and code annotations use readable light-surface colors', () => {
+    assert.doesNotMatch(savedCodes, /#(?:94a3b8|9ca3af|d1d5db|b8c0cc|c4cbd4|cbd5e1)/i);
+    assert.match(savedCodes, /color:'#475569'/);
+    assert.match(savedCodes, /color: '#475569'/);
+    assert.ok(contrastRatio('#475569', '#f8fafc') >= 4.5);
 });

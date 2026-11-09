@@ -42,7 +42,7 @@ function MethodCard({ name, desc, children, color }: { name: string; desc: strin
         <div className="rounded-2xl overflow-hidden mb-4" style={{ border: `1px solid ${color}30`, background: `${color}05` }}>
             <div className="px-4 py-3 flex items-center gap-2.5" style={{ borderBottom: `1px solid ${color}20` }}>
                 <code className="text-sm font-extrabold font-mono" style={{ color }}>{name}</code>
-                <span className="text-xs" style={{ color: '#94a3b8' }}>— {desc}</span>
+                <span className="text-xs" style={{ color: '#475569' }}>— {desc}</span>
             </div>
             <div className="p-4">{children}</div>
         </div>

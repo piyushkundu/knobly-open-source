@@ -30,14 +30,14 @@ function highlightPython(code: string): string {
 
   h = h.replace(pattern, (match, pStr, pCm, pKw, pNm) => {
     if (pStr) return `<span style="color:#059669">${pStr}</span>`;
-    if (pCm) return `<span style="color:#9ca3af;font-style:italic">${pCm}</span>`;
+    if (pCm) return `<span style="color:#475569;font-style:italic">${pCm}</span>`;
     if (pKw) return `<span style="color:#7c3aed;font-weight:700">${pKw}</span>`;
     if (pNm) return `<span style="color:#b45309">${pNm}</span>`;
     return match;
   });
 
   return h.split('\n').map((line, i) =>
-    `<span style="color:#d1d5db;font-size:9px;margin-right:10px;user-select:none;display:inline-block;width:18px;text-align:right;border-right:1.5px solid #e5e7eb;padding-right:6px">${i+1}</span>${line}`
+    `<span style="color:#475569;font-size:9px;margin-right:10px;user-select:none;display:inline-block;width:18px;text-align:right;border-right:1.5px solid #e5e7eb;padding-right:6px">${i+1}</span>${line}`
   ).join('\n');
 }
 
@@ -224,7 +224,7 @@ function SavedCodesDialog({
         .fm2-sb-row:hover { background: #f1f5f9; }
         .fm2-input { background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 10px; color: #1e293b; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; padding: 8px 12px; outline: none; transition: all 0.18s; width: 100%; }
         .fm2-input:focus { border-color: #818cf8; box-shadow: 0 0 0 3px rgba(129,140,248,0.1); background: #fff; }
-        .fm2-input::placeholder { color: #94a3b8; }
+        .fm2-input::placeholder { color: #475569; }
         .fm2-list-row { background: #ffffff; border: 1.5px solid #f1f5f9; border-radius: 12px; overflow: hidden; transition: all 0.18s; cursor: pointer; }
         .fm2-list-row:hover { border-color: #c7d2fe; box-shadow: 0 2px 12px rgba(99,102,241,0.07); }
         @keyframes fm2up { from { opacity:0; transform:translateY(10px) scale(0.98); } to { opacity:1; transform:none; } }
@@ -251,18 +251,18 @@ function SavedCodesDialog({
           <div style={{ flex:1, display:'flex', alignItems:'center', justifyContent:'center', gap:8 }}>
             <span style={{ fontSize:16 }}>🗂</span>
             <span style={{ fontWeight:800, fontSize:13, color:'#475569', letterSpacing:'0.01em' }}>Code Library</span>
-            <span style={{ fontSize:10, color:'#94a3b8', fontWeight:600, background:'#f1f5f9', border:'1px solid #e2e8f0', padding:'1px 9px', borderRadius:20 }}>{codes.length} snippets</span>
+            <span style={{ fontSize:10, color:'#475569', fontWeight:600, background:'#f1f5f9', border:'1px solid #e2e8f0', padding:'1px 9px', borderRadius:20 }}>{codes.length} snippets</span>
           </div>
           <div style={{ display:'flex', gap:8, alignItems:'center' }}>
             <div style={{ display:'flex', background:'#f1f5f9', borderRadius:9, padding:3, border:'1px solid #e2e8f0', gap:2 }}>
               {([['grid','⊞ Grid'],['list','≡ List']] as [string,string][]).map(([m,lbl]) => (
-                <button key={m} onClick={() => setViewMode(m as 'grid'|'list')} style={{ padding:'4px 10px', borderRadius:6, border:'none', cursor:'pointer', fontSize:10, fontWeight:800, background:viewMode===m?'#fff':'transparent', color:viewMode===m?'#4f46e5':'#94a3b8', boxShadow:viewMode===m?'0 1px 4px rgba(0,0,0,0.07)':'none', transition:'all 0.14s' }}>{lbl}</button>
+                <button key={m} onClick={() => setViewMode(m as 'grid'|'list')} style={{ padding:'4px 10px', borderRadius:6, border:'none', cursor:'pointer', fontSize:10, fontWeight:800, background:viewMode===m?'#fff':'transparent', color:viewMode===m?'#4f46e5':'#475569', boxShadow:viewMode===m?'0 1px 4px rgba(0,0,0,0.07)':'none', transition:'all 0.14s' }}>{lbl}</button>
               ))}
             </div>
             <button onClick={() => setShowSaveInput(s => !s)} style={{ display:'flex', alignItems:'center', gap:6, padding:'6px 14px', borderRadius:9, background:'linear-gradient(135deg, #4f46e5, #7c3aed)', color:'white', fontSize:11, fontWeight:800, border:'none', cursor:'pointer', boxShadow:'0 3px 12px rgba(79,70,229,0.25)' }}>
               <Plus size={12} strokeWidth={3}/> Save Snippet
             </button>
-            <button onClick={onClose} style={{ width:32, height:32, borderRadius:8, border:'1.5px solid #e2e8f0', background:'white', color:'#94a3b8', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center' }}>
+            <button onClick={onClose} style={{ width:32, height:32, borderRadius:8, border:'1.5px solid #e2e8f0', background:'white', color:'#475569', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center' }}>
               <X size={14}/>
             </button>
           </div>
@@ -273,11 +273,11 @@ function SavedCodesDialog({
 
           {/* ═══ VS Code Style Activity Bar (far left icons) ═══ */}
           <div style={{ width:48, minWidth:48, background:'#f0f1f4', borderRight:'1.5px solid #e2e8f0', display:'flex', flexDirection:'column', alignItems:'center', paddingTop:12, gap:4, flexShrink:0, userSelect:'none' }}>
-            <button onClick={() => setIsSidebarCollapsed(s => !s)} title="Explorer" style={{ width:38, height:38, borderRadius:10, border:'none', background: !isSidebarCollapsed ? '#ffffff' : 'transparent', color: !isSidebarCollapsed ? '#4f46e5' : '#94a3b8', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', transition:'all 0.18s', boxShadow: !isSidebarCollapsed ? '0 2px 8px rgba(79,70,229,0.10)' : 'none' }}
+            <button onClick={() => setIsSidebarCollapsed(s => !s)} title="Explorer" style={{ width:38, height:38, borderRadius:10, border:'none', background: !isSidebarCollapsed ? '#ffffff' : 'transparent', color: !isSidebarCollapsed ? '#4f46e5' : '#475569', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', transition:'all 0.18s', boxShadow: !isSidebarCollapsed ? '0 2px 8px rgba(79,70,229,0.10)' : 'none' }}
               onMouseEnter={e => { if(isSidebarCollapsed) e.currentTarget.style.background='#e8eaef'; }} onMouseLeave={e => { if(isSidebarCollapsed) e.currentTarget.style.background='transparent'; }}>
               <Folder size={20} />
             </button>
-            <button onClick={() => { setActiveFolder('all'); if(isSidebarCollapsed) setIsSidebarCollapsed(false); }} title="All Snippets" style={{ width:38, height:38, borderRadius:10, border:'none', background: activeFolder==='all' && !isSidebarCollapsed ? '#eef2ff' : 'transparent', color: activeFolder==='all' ? '#4f46e5' : '#94a3b8', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', transition:'all 0.18s' }}
+            <button onClick={() => { setActiveFolder('all'); if(isSidebarCollapsed) setIsSidebarCollapsed(false); }} title="All Snippets" style={{ width:38, height:38, borderRadius:10, border:'none', background: activeFolder==='all' && !isSidebarCollapsed ? '#eef2ff' : 'transparent', color: activeFolder==='all' ? '#4f46e5' : '#475569', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', transition:'all 0.18s' }}
               onMouseEnter={e => e.currentTarget.style.background = activeFolder==='all' && !isSidebarCollapsed ? '#eef2ff' : '#e8eaef'} onMouseLeave={e => e.currentTarget.style.background = activeFolder==='all' && !isSidebarCollapsed ? '#eef2ff' : 'transparent'}>
               <FileCode2 size={19} />
             </button>
@@ -286,8 +286,8 @@ function SavedCodesDialog({
               <Star size={19} />
             </button>
             <div style={{ flex:1 }} />
-            <button onClick={() => { setShowCreateFolder(true); if(isSidebarCollapsed) setIsSidebarCollapsed(false); }} title="New Folder" style={{ width:38, height:38, borderRadius:10, border:'none', background:'transparent', color:'#94a3b8', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', marginBottom:12, transition:'all 0.18s' }}
-              onMouseEnter={e => { e.currentTarget.style.background='#e8eaef'; e.currentTarget.style.color='#4f46e5'; }} onMouseLeave={e => { e.currentTarget.style.background='transparent'; e.currentTarget.style.color='#94a3b8'; }}>
+            <button onClick={() => { setShowCreateFolder(true); if(isSidebarCollapsed) setIsSidebarCollapsed(false); }} title="New Folder" style={{ width:38, height:38, borderRadius:10, border:'none', background:'transparent', color:'#475569', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', marginBottom:12, transition:'all 0.18s' }}
+              onMouseEnter={e => { e.currentTarget.style.background='#e8eaef'; e.currentTarget.style.color='#4f46e5'; }} onMouseLeave={e => { e.currentTarget.style.background='transparent'; e.currentTarget.style.color='#475569'; }}>
               <FolderPlus size={19} />
             </button>
           </div>
@@ -296,8 +296,8 @@ function SavedCodesDialog({
           <div style={{ width: isSidebarCollapsed ? 0 : 210, minWidth: isSidebarCollapsed ? 0 : 210, overflow:'hidden', transition:'all 0.24s cubic-bezier(0.4,0,0.2,1)', background:'#fafbfc', borderRight: isSidebarCollapsed ? 'none' : '1.5px solid #f1f5f9', display:'flex', flexDirection:'column', flexShrink:0 }}>
             <div style={{ width:210, height:'100%', display:'flex', flexDirection:'column' }}>
               <div style={{ padding:'15px 14px 10px', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
-                <span style={{ fontSize:9, fontWeight:900, color:'#b8c0cc', letterSpacing:'0.15em', textTransform:'uppercase' }}>📁 Folders</span>
-                <button onClick={() => setShowCreateFolder(true)} style={{ width:24, height:24, borderRadius:7, border:'1.5px solid #e2e8f0', background:'#fff', color:'#94a3b8', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center' }} title="New Folder"><Plus size={11} strokeWidth={2.5}/></button>
+                <span style={{ fontSize:9, fontWeight:900, color:'#475569', letterSpacing:'0.15em', textTransform:'uppercase' }}>📁 Folders</span>
+                <button onClick={() => setShowCreateFolder(true)} style={{ width:24, height:24, borderRadius:7, border:'1.5px solid #e2e8f0', background:'#fff', color:'#475569', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center' }} title="New Folder"><Plus size={11} strokeWidth={2.5}/></button>
               </div>
               <div className="fm2-scroll" style={{ flex:1, overflowY:'auto', padding:'2px 8px 12px' }}>
                 <FM2SidebarItem id="all" label="All Snippets" icon="◈" color="#4f46e5" count={folderCounts.all} isActive={activeFolder==='all'} onClick={() => setActiveFolder('all')} onDrop={(cid: string) => handleUpdate(cid,{folder:''})} />
@@ -320,7 +320,7 @@ function SavedCodesDialog({
                           }
                           if (e.key==='Escape') setEditingFolder(null);
                         }} />
-                      <button onClick={() => setEditingFolder(null)} style={{color:'#94a3b8',background:'none',border:'none',cursor:'pointer'}}><X size={12}/></button>
+                      <button onClick={() => setEditingFolder(null)} style={{color:'#475569',background:'none',border:'none',cursor:'pointer'}}><X size={12}/></button>
                     </div>
                   ) : (
                     <FM2SidebarItem key={name} id={name} label={name} icon={cfg.icon} color={cfg.color} count={folderCounts[name]||0} isActive={activeFolder===name} onClick={() => setActiveFolder(name)} onDrop={(cid: string) => handleUpdate(cid,{folder:name})}
@@ -333,7 +333,7 @@ function SavedCodesDialog({
                       onKeyDown={e => { if(e.key==='Enter') handleCreateFolder(); if(e.key==='Escape') setShowCreateFolder(false); }} />
                     <div style={{ display:'flex', gap:5 }}>
                       <button onClick={handleCreateFolder} style={{ flex:1, padding:'5px 0', borderRadius:7, border:'none', cursor:'pointer', background:'linear-gradient(135deg,#4f46e5,#7c3aed)', color:'white', fontSize:10, fontWeight:800 }}>Create</button>
-                      <button onClick={() => setShowCreateFolder(false)} style={{ padding:'5px 9px', borderRadius:7, border:'1.5px solid #e2e8f0', background:'white', color:'#94a3b8', fontSize:10, fontWeight:700, cursor:'pointer' }}>✕</button>
+                      <button onClick={() => setShowCreateFolder(false)} style={{ padding:'5px 9px', borderRadius:7, border:'1.5px solid #e2e8f0', background:'white', color:'#475569', fontSize:10, fontWeight:700, cursor:'pointer' }}>✕</button>
                     </div>
                   </div>
                 )}
@@ -343,14 +343,14 @@ function SavedCodesDialog({
                   </button>
                 )}
                 <div style={{ marginTop:18, padding:'12px 10px', background:'#ffffff', border:'1.5px solid #f1f5f9', borderRadius:12 }}>
-                  <div style={{ fontSize:9, fontWeight:900, color:'#d1d5db', textTransform:'uppercase', letterSpacing:'0.14em', marginBottom:9 }}>Overview</div>
+                  <div style={{ fontSize:9, fontWeight:900, color:'#475569', textTransform:'uppercase', letterSpacing:'0.14em', marginBottom:9 }}>Overview</div>
                   {[
                     { label:'Total', val:codes.length, color:'#4f46e5', sym:'◈' },
                     { label:'Starred', val:codes.filter(c => c.isImportant).length, color:'#f59e0b', sym:'★' },
                     { label:'Folders', val:allFolders.length, color:'#10b981', sym:'◉' },
                   ].map(s => (
                     <div key={s.label} style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'3px 2px' }}>
-                      <span style={{ fontSize:10, color:'#94a3b8', fontWeight:600 }}><span style={{ color:s.color, marginRight:5, fontSize:11 }}>{s.sym}</span>{s.label}</span>
+                      <span style={{ fontSize:10, color:'#475569', fontWeight:600 }}><span style={{ color:s.color, marginRight:5, fontSize:11 }}>{s.sym}</span>{s.label}</span>
                       <span className="fm2-mono" style={{ fontSize:12, color:s.color, fontWeight:700 }}>{s.val}</span>
                     </div>
                   ))}
@@ -374,7 +374,7 @@ function SavedCodesDialog({
                           {allFolders.map(f => <option key={f} value={f}>{folderConfig[f]?.icon} {f}</option>)}
                         </select>
                         <button onClick={handleSave} disabled={isSaving} style={{ padding:'0 18px', borderRadius:10, border:'none', cursor:'pointer', background:'linear-gradient(135deg,#4f46e5,#7c3aed)', color:'white', fontSize:12, fontWeight:800, whiteSpace:'nowrap', boxShadow:'0 4px 14px rgba(79,70,229,0.28)', minWidth:90 }}>{isSaving?'…':'💾 Save'}</button>
-                        <button onClick={() => { setShowSaveInput(false); setSaveTitle(''); setSaveDescription(''); }} style={{ width:36, borderRadius:10, border:'1.5px solid #e2e8f0', background:'white', color:'#94a3b8', cursor:'pointer', fontSize:18, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>×</button>
+                        <button onClick={() => { setShowSaveInput(false); setSaveTitle(''); setSaveDescription(''); }} style={{ width:36, borderRadius:10, border:'1.5px solid #e2e8f0', background:'white', color:'#475569', cursor:'pointer', fontSize:18, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>×</button>
                       </div>
                       <div style={{ display:'flex', gap:8, alignItems:'center' }}>
                         <textarea className="fm2-input" value={saveDescription} onChange={e => setSaveDescription(e.target.value)} placeholder="Description (optional)…" style={{ flex:1, height:40, resize:'none', padding:'8px 12px' }} onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSave(); } }} />
@@ -384,9 +384,9 @@ function SavedCodesDialog({
                 )}
               </AnimatePresence>
               <div style={{ display:'flex', gap:9, alignItems:'center' }}>
-                <button onClick={() => setSidebarOpen(p => !p)} style={{ width:34, height:34, borderRadius:9, flexShrink:0, border:'1.5px solid #e2e8f0', background:'white', color:'#94a3b8', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center' }}><Menu size={14}/></button>
+                <button onClick={() => setSidebarOpen(p => !p)} style={{ width:34, height:34, borderRadius:9, flexShrink:0, border:'1.5px solid #e2e8f0', background:'white', color:'#475569', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center' }}><Menu size={14}/></button>
                 <div style={{ position:'relative', flex:1 }}>
-                  <Search size={13} color="#94a3b8" style={{ position:'absolute', left:11, top:'50%', transform:'translateY(-50%)', pointerEvents:'none' }}/>
+                  <Search size={13} color="#475569" style={{ position:'absolute', left:11, top:'50%', transform:'translateY(-50%)', pointerEvents:'none' }}/>
                   <input className="fm2-input" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Search snippets, tags, code…" style={{ paddingLeft:32, height:34, fontSize:12 }} />
                 </div>
                 <div className="fm2-noscroll" style={{ display:'flex', gap:5, overflowX:'auto' }}>
@@ -400,7 +400,7 @@ function SavedCodesDialog({
               {isLoading ? (
                 <div style={{ display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', height:'100%', minHeight:300, gap:14 }}>
                   <div style={{ width:40, height:40, border:'3px solid #4f46e5', borderTopColor:'transparent', borderRadius:'50%', animation:'spin 0.8s linear infinite' }} />
-                  <span style={{ fontSize:12, color:'#94a3b8', fontWeight:600 }}>Loading snippets...</span>
+                  <span style={{ fontSize:12, color:'#475569', fontWeight:600 }}>Loading snippets...</span>
                 </div>
               ) : filteredCodes.length === 0 ? (
                 <FM2EmptyState codesLength={codes.length} onNew={() => setShowSaveInput(true)} />
@@ -427,9 +427,9 @@ function SavedCodesDialog({
                 </div>
               )}
               {filteredCodes.length > 0 && (
-                <div style={{ textAlign:'center', padding:'28px 0 10px', color:'#94a3b8' }}>
+                <div style={{ textAlign:'center', padding:'28px 0 10px', color:'#475569' }}>
                   <div style={{ fontSize:18, marginBottom:4, opacity:0.4 }}>· · ·</div>
-                  <div style={{ fontSize:9, fontWeight:800, letterSpacing:'0.14em', textTransform:'uppercase', color:'#cbd5e1' }}>{filteredCodes.length} snippet{filteredCodes.length!==1?'s':''} · end of results</div>
+                  <div style={{ fontSize:9, fontWeight:800, letterSpacing:'0.14em', textTransform:'uppercase', color:'#475569' }}>{filteredCodes.length} snippet{filteredCodes.length!==1?'s':''} · end of results</div>
                 </div>
               )}
             </div>
@@ -440,8 +440,8 @@ function SavedCodesDialog({
         <div style={{ height:28, display:'flex', alignItems:'center', padding:'0 16px', gap:18, flexShrink:0, background:'#fafbfc', borderTop:'1.5px solid #f1f5f9' }}>
           {[
             { label:'🐍 Python', color:'#10b981' },
-            { label:`${filteredCodes.length} visible`, color:'#94a3b8' },
-            { label:`Saved: ${lastSaved}`, color:'#94a3b8' },
+            { label:`${filteredCodes.length} visible`, color:'#475569' },
+            { label:`Saved: ${lastSaved}`, color:'#475569' },
             { label:`${codes.filter(c => c.isImportant).length} starred ★`, color:'#f59e0b' },
           ].map((s,i) => (
             <span key={i} className="fm2-mono" style={{ fontSize:9, color:s.color, fontWeight:700 }}>{s.label}</span>
@@ -466,9 +466,9 @@ function SavedCodesDialog({
             <motion.div initial={{scale:0.93,y:8}} animate={{scale:1,y:0}} exit={{scale:0.93,y:8}} onClick={e => e.stopPropagation()} style={{ background:'#fff', border:'1.5px solid #fecdd3', borderRadius:18, padding:28, width:310, textAlign:'center', boxShadow:'0 30px 60px rgba(15,23,42,0.12)' }}>
               <div style={{ width:52, height:52, borderRadius:14, background:'#fff1f2', border:'1.5px solid #fecdd3', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 14px' }}><Trash2 size={22} color="#ef4444"/></div>
               <div style={{ fontSize:16, fontWeight:800, color:'#1e293b', marginBottom:6 }}>Delete Snippet?</div>
-              <p style={{ fontSize:12, color:'#64748b', marginBottom:20, lineHeight:1.6 }}>{confirmAction.message}</p>
+              <p style={{ fontSize:12, color:'#475569', marginBottom:20, lineHeight:1.6 }}>{confirmAction.message}</p>
               <div style={{ display:'flex', gap:9 }}>
-                <button onClick={() => setConfirmAction(null)} style={{ flex:1, padding:'9px 0', borderRadius:10, border:'1.5px solid #e2e8f0', background:'white', color:'#64748b', fontSize:12, fontWeight:700, cursor:'pointer' }}>Cancel</button>
+                <button onClick={() => setConfirmAction(null)} style={{ flex:1, padding:'9px 0', borderRadius:10, border:'1.5px solid #e2e8f0', background:'white', color:'#475569', fontSize:12, fontWeight:700, cursor:'pointer' }}>Cancel</button>
                 <button onClick={() => { confirmAction.onConfirm(); setConfirmAction(null); }} style={{ flex:1, padding:'9px 0', borderRadius:10, border:'none', background:'#ef4444', color:'white', fontSize:12, fontWeight:800, cursor:'pointer', boxShadow:'0 4px 14px rgba(239,68,68,0.28)' }}>Delete</button>
               </div>
             </motion.div>
@@ -488,7 +488,7 @@ function SavedCodesDialog({
               onMouseEnter={e => { e.currentTarget.style.background = '#f1f5f9'; e.currentTarget.style.color = '#0f172a'; }}
               onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#334155'; }}
             >
-              <Pencil size={14} color="#64748b" /> Rename Folder
+              <Pencil size={14} color="#475569" /> Rename Folder
             </button>
             
             <button 
@@ -503,7 +503,7 @@ function SavedCodesDialog({
             <div style={{ height:1, background:'rgba(226,232,240,0.8)', margin:'4px 2px' }} />
             
             <div style={{ padding:'6px 6px' }}>
-              <div style={{ fontSize:10, fontWeight:700, color:'#94a3b8', textTransform:'uppercase', letterSpacing:'0.05em', marginBottom:8, paddingLeft:4 }}>Folder Color</div>
+              <div style={{ fontSize:10, fontWeight:700, color:'#475569', textTransform:'uppercase', letterSpacing:'0.05em', marginBottom:8, paddingLeft:4 }}>Folder Color</div>
               <div style={{ display:'grid', gridTemplateColumns:'repeat(6, 1fr)', gap:6, justifyItems:'center' }}>
                 {PRESET_COLORS.map(c => (
                   <button key={c} onClick={() => { saveCustomFolders(customFolders.map(f => f.name===folderCtxMenu.name?{...f,color:c}:f)); setFolderCtxMenu(null); }} 
@@ -530,10 +530,10 @@ function SavedCodesDialog({
               <MenuAction onClick={() => { handleDuplicate(activeMenu.item); }}>📄 Duplicate</MenuAction>
               <MenuAction danger onClick={() => { setConfirmAction({message:'Delete this snippet?',onConfirm:() => handleDelete(activeMenu.id)}); setActiveMenu(null); }}>🗑 Delete</MenuAction>
               <div style={{ padding:'6px 12px', borderTop:'1px solid #f1f5f9' }}>
-                <div style={{ fontSize:9, fontWeight:800, color:'#cbd5e1', textTransform:'uppercase', letterSpacing:'0.1em', marginBottom:5 }}>Move to</div>
+                <div style={{ fontSize:9, fontWeight:800, color:'#475569', textTransform:'uppercase', letterSpacing:'0.1em', marginBottom:5 }}>Move to</div>
                 {[{name:'unfiled',icon:'📄',label:'Unfiled'},...allFolders.map(f => ({name:f,icon:folderConfig[f]?.icon||'📁',label:f}))].map(f => (
                   <button key={f.name} onClick={() => { handleUpdate(activeMenu.id,{folder:f.name==='unfiled'?'':f.name}); setActiveMenu(null); showToast(`📁 Moved to ${f.label}`); }}
-                    style={{ padding:'5px 8px', borderRadius:7, border:'none', background:'transparent', color:'#64748b', fontSize:11, fontWeight:600, textAlign:'left', cursor:'pointer', display:'flex', alignItems:'center', gap:6, width:'100%' }}>
+                    style={{ padding:'5px 8px', borderRadius:7, border:'none', background:'transparent', color:'#475569', fontSize:11, fontWeight:600, textAlign:'left', cursor:'pointer', display:'flex', alignItems:'center', gap:6, width:'100%' }}>
                     <span style={{ fontSize:13 }}>{f.icon}</span> {f.label}
                   </button>
                 ))}
@@ -585,12 +585,12 @@ function FM2SidebarItem({ id, label, icon, count, isActive, color, onClick, onDr
       <span style={{ fontSize: 16, flexShrink: 0, opacity: isActive ? 1 : 0.6, display:'flex', alignItems:'center', justifyContent:'center' }}>{icon}</span>
       {!isCollapsed && (
         <>
-          <span style={{ flex: 1, fontSize: 11, fontWeight: isActive ? 800 : 600, color: isActive ? color : '#64748b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', transition: 'color 0.14s' }}>{label}</span>
-          <span style={{ fontSize: 9, fontWeight: 800, padding: '1px 7px', borderRadius: 20, minWidth: 20, textAlign: 'center', background: isActive ? `${color}14` : '#f1f5f9', color: isActive ? color : '#94a3b8', border: `1px solid ${isActive ? color + '28' : '#e2e8f0'}` }}>{count}</span>
+          <span style={{ flex: 1, fontSize: 11, fontWeight: isActive ? 800 : 600, color: isActive ? color : '#475569', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', transition: 'color 0.14s' }}>{label}</span>
+          <span style={{ fontSize: 9, fontWeight: 800, padding: '1px 7px', borderRadius: 20, minWidth: 20, textAlign: 'center', background: isActive ? `${color}14` : '#f1f5f9', color: isActive ? color : '#475569', border: `1px solid ${isActive ? color + '28' : '#e2e8f0'}` }}>{count}</span>
           {onContextMenu && (
             <button
               onClick={(e) => { e.stopPropagation(); e.preventDefault(); onContextMenu(e); }}
-              style={{ background: 'transparent', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: isActive ? color : '#94a3b8', opacity: 0.6, padding: 2, borderRadius: 4, marginLeft: 2 }}
+              style={{ background: 'transparent', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: isActive ? color : '#475569', opacity: 0.6, padding: 2, borderRadius: 4, marginLeft: 2 }}
               onMouseEnter={e => e.currentTarget.style.opacity = '1'}
               onMouseLeave={e => e.currentTarget.style.opacity = '0.6'}
             >
@@ -658,16 +658,16 @@ function FM2CodeCard({ item, idx, folderConfig, expandedId, setExpandedId, editi
             <button onClick={e => { e.stopPropagation(); onStar(item.id); }} style={{ width: 24, height: 24, borderRadius: 6, border: 'none', cursor: 'pointer', background: 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', color: item.isImportant ? '#f59e0b' : '#dde1e7', transition: 'all 0.14s' }}>
               <Star size={12} fill={item.isImportant ? '#f59e0b' : 'none'} />
             </button>
-            <button onClick={e => { e.stopPropagation(); onMenu(e, item); }} className="fm2-reveal" style={{ width: 24, height: 24, borderRadius: 6, cursor: 'pointer', border: '1px solid #f1f5f9', background: activeMenuId === item.id ? '#eef2ff' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#94a3b8', transition: 'all 0.14s' }}>
+            <button onClick={e => { e.stopPropagation(); onMenu(e, item); }} className="fm2-reveal" style={{ width: 24, height: 24, borderRadius: 6, cursor: 'pointer', border: '1px solid #f1f5f9', background: activeMenuId === item.id ? '#eef2ff' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#475569', transition: 'all 0.14s' }}>
               <MoreVertical size={12} />
             </button>
           </div>
         </div>
 
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 9 }}>
-          <span style={{ fontSize: 9, fontWeight: 700, color: '#94a3b8', background: '#f8fafc', border: '1px solid #f1f5f9', padding: '1px 7px', borderRadius: 20 }}>🕒 {relativeTime(item.createdAt)}</span>
+          <span style={{ fontSize: 9, fontWeight: 700, color: '#475569', background: '#f8fafc', border: '1px solid #f1f5f9', padding: '1px 7px', borderRadius: 20 }}>🕒 {relativeTime(item.createdAt)}</span>
           {cfg && <span style={{ fontSize: 9, fontWeight: 700, padding: '1px 7px', borderRadius: 20, background: `${cfg.color}10`, border: `1px solid ${cfg.color}22`, color: cfg.color }}>{cfg.icon} {item.folder}</span>}
-          <span className="fm2-mono" style={{ fontSize: 9, fontWeight: 700, color: '#94a3b8', background: '#f8fafc', border: '1px solid #f1f5f9', padding: '1px 7px', borderRadius: 20, marginLeft: 'auto' }}>{lines}L</span>
+          <span className="fm2-mono" style={{ fontSize: 9, fontWeight: 700, color: '#475569', background: '#f8fafc', border: '1px solid #f1f5f9', padding: '1px 7px', borderRadius: 20, marginLeft: 'auto' }}>{lines}L</span>
         </div>
 
         <div style={{ background: '#f8fafc', borderRadius: 10, border: '1.5px solid #edf0f5', overflow: 'hidden', marginBottom: 9 }}>
@@ -675,19 +675,19 @@ function FM2CodeCard({ item, idx, folderConfig, expandedId, setExpandedId, editi
             <div style={{ display: 'flex', gap: 4 }}>
               {['#ff5f57', '#ffbd2e', '#28ca41'].map((c, i) => <div key={i} style={{ width: 8, height: 8, borderRadius: '50%', background: c, opacity: 0.6 }} />)}
             </div>
-            <span style={{ fontSize: 8, fontWeight: 900, color: '#c4cbd4', textTransform: 'uppercase', letterSpacing: '0.1em', flex: 1, textAlign: 'center' }}>python</span>
-            <button onClick={e => { e.stopPropagation(); onCopy(item.id, item.code); }} style={{ display: 'flex', alignItems: 'center', gap: 3, fontSize: 9, color: copiedId === item.id ? '#10b981' : '#94a3b8', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 700, padding: '2px 6px', borderRadius: 5, transition: 'color 0.14s' }}>
+            <span style={{ fontSize: 8, fontWeight: 900, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.1em', flex: 1, textAlign: 'center' }}>python</span>
+            <button onClick={e => { e.stopPropagation(); onCopy(item.id, item.code); }} style={{ display: 'flex', alignItems: 'center', gap: 3, fontSize: 9, color: copiedId === item.id ? '#10b981' : '#475569', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 700, padding: '2px 6px', borderRadius: 5, transition: 'color 0.14s' }}>
               {copiedId === item.id ? <><Check size={9} /> Copied</> : <><Copy size={9} /> Copy</>}
             </button>
           </div>
           <pre className="fm2-mono" style={{ margin: 0, padding: '8px 12px', fontSize: 10.5, lineHeight: 1.65, color: '#374151', overflow: 'hidden', maxHeight: isExpanded ? 'none' : 78, transition: 'max-height 0.28s ease', whiteSpace: 'pre-wrap', wordBreak: 'break-word', background: '#fafbfc' }} dangerouslySetInnerHTML={{ __html: highlightPython(item.code) }} />
           {!isExpanded && lines > 4 && (
-            <div style={{ fontSize: 9, color: '#94a3b8', fontWeight: 700, textAlign: 'center', padding: '3px', borderTop: '1px solid #f1f5f9', background: 'linear-gradient(to bottom, #fafbfc, #f4f6f9)' }}>▾ {lines - 4} more lines</div>
+            <div style={{ fontSize: 9, color: '#475569', fontWeight: 700, textAlign: 'center', padding: '3px', borderTop: '1px solid #f1f5f9', background: 'linear-gradient(to bottom, #fafbfc, #f4f6f9)' }}>▾ {lines - 4} more lines</div>
           )}
         </div>
 
         {item.description && (
-          <div style={{ fontSize: 11, color: '#64748b', marginBottom: 9, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+          <div style={{ fontSize: 11, color: '#475569', marginBottom: 9, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
             {item.description}
           </div>
         )}
@@ -696,7 +696,7 @@ function FM2CodeCard({ item, idx, folderConfig, expandedId, setExpandedId, editi
           {onRun && (
             <button onClick={() => onRun(item.code)} style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '5px 11px', borderRadius: 8, border: '1.5px solid #bbf7d0', background: '#f0fdf4', color: '#16a34a', fontSize: 10, fontWeight: 800, cursor: 'pointer', transition: 'all 0.14s' }}><Play size={9} fill="#16a34a" /> Run</button>
           )}
-          <button onClick={() => onRename(item)} style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '5px 11px', borderRadius: 8, border: '1.5px solid #e2e8f0', background: 'white', color: '#64748b', fontSize: 10, fontWeight: 700, cursor: 'pointer', transition: 'all 0.14s' }}><Pencil size={9} /> Edit</button>
+          <button onClick={() => onRename(item)} style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '5px 11px', borderRadius: 8, border: '1.5px solid #e2e8f0', background: 'white', color: '#475569', fontSize: 10, fontWeight: 700, cursor: 'pointer', transition: 'all 0.14s' }}><Pencil size={9} /> Edit</button>
           <button onClick={() => onDelete(item.id)} style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '5px 11px', borderRadius: 8, border: '1.5px solid #fecdd3', background: '#fff1f2', color: '#ef4444', fontSize: 10, fontWeight: 700, cursor: 'pointer', transition: 'all 0.14s', marginLeft: 'auto' }}><Trash2 size={9} /></button>
         </div>
       </div>
@@ -728,16 +728,16 @@ function FM2ListRow({ item, idx, folderConfig, copiedId, onCopy, onStar, onDelet
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
             {item.isImportant && <Star size={10} color="#f59e0b" fill="#f59e0b" />}
             <span style={{ fontSize: 12, fontWeight: 800, color: '#1e293b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: 'Plus Jakarta Sans,sans-serif' }}>{item.title}</span>
-            {item.description && <span style={{ fontSize: 10, color: '#94a3b8', opacity: 0.8, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>- {item.description}</span>}
+            {item.description && <span style={{ fontSize: 10, color: '#475569', opacity: 0.8, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>- {item.description}</span>}
           </div>
-          <div className="fm2-mono" style={{ fontSize: 10, color: '#94a3b8' }}>
+          <div className="fm2-mono" style={{ fontSize: 10, color: '#475569' }}>
             {item.code.split('\n')[0].slice(0, 70)}{item.code.split('\n')[0].length > 70 ? '…' : ''}
           </div>
         </div>
         <div style={{ display: 'flex', gap: 5, alignItems: 'center', flexShrink: 0 }}>
-          <span style={{ fontSize: 9, color: '#cbd5e1', fontWeight: 600 }}>{relativeTime(item.createdAt)}</span>
+          <span style={{ fontSize: 9, color: '#475569', fontWeight: 600 }}>{relativeTime(item.createdAt)}</span>
           {cfg && <span style={{ fontSize: 9, fontWeight: 700, padding: '1px 6px', borderRadius: 9, background: `${cfg.color}10`, color: cfg.color, border: `1px solid ${cfg.color}20` }}>{cfg.icon} {item.folder}</span>}
-          <button onClick={e => { e.stopPropagation(); onCopy(item.id, item.code); }} style={{ padding: '4px 8px', borderRadius: 7, border: '1px solid #e2e8f0', background: 'white', color: copiedId === item.id ? '#10b981' : '#94a3b8', cursor: 'pointer', fontSize: 9, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 3 }}>{copiedId === item.id ? <><Check size={9} />✓</> : <Copy size={9} />}</button>
+          <button onClick={e => { e.stopPropagation(); onCopy(item.id, item.code); }} style={{ padding: '4px 8px', borderRadius: 7, border: '1px solid #e2e8f0', background: 'white', color: copiedId === item.id ? '#10b981' : '#475569', cursor: 'pointer', fontSize: 9, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 3 }}>{copiedId === item.id ? <><Check size={9} />✓</> : <Copy size={9} />}</button>
           <button onClick={e => { e.stopPropagation(); onStar(item.id); }} style={{ padding: '4px', borderRadius: 7, border: 'none', background: 'transparent', cursor: 'pointer' }}><Star size={12} color={item.isImportant ? '#f59e0b' : '#e2e8f0'} fill={item.isImportant ? '#f59e0b' : 'none'} /></button>
           <button onClick={e => { e.stopPropagation(); onDelete(item.id); }} style={{ padding: '4px 8px', borderRadius: 7, border: '1px solid #fecdd3', background: '#fff1f2', color: '#ef4444', cursor: 'pointer', fontSize: 9, display: 'flex', alignItems: 'center' }}><Trash2 size={10} /></button>
         </div>
@@ -757,7 +757,7 @@ function FM2EmptyState({ codesLength, onNew }: { codesLength: number, onNew: () 
       <div style={{ width: 72, height: 72, borderRadius: 20, background: 'linear-gradient(135deg, #eef2ff, #f5f3ff)', border: '1.5px solid #c7d2fe', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 32, boxShadow: '0 4px 20px rgba(79,70,229,0.07)' }}>{codesLength === 0 ? '🚀' : '🔍'}</div>
       <div>
         <div style={{ fontSize: 16, fontWeight: 800, color: '#334155', marginBottom: 5, fontFamily: 'Plus Jakarta Sans,sans-serif' }}>{codesLength === 0 ? 'No snippets yet' : 'No results found'}</div>
-        <p style={{ fontSize: 12, color: '#94a3b8', maxWidth: 210, lineHeight: 1.6 }}>{codesLength === 0 ? 'Save your first Python snippet to get started' : 'Try adjusting your search or filters'}</p>
+        <p style={{ fontSize: 12, color: '#475569', maxWidth: 210, lineHeight: 1.6 }}>{codesLength === 0 ? 'Save your first Python snippet to get started' : 'Try adjusting your search or filters'}</p>
       </div>
       {codesLength === 0 && (
         <button onClick={onNew} style={{ padding: '10px 22px', borderRadius: 12, border: 'none', cursor: 'pointer', background: 'linear-gradient(135deg, #4f46e5, #7c3aed)', color: 'white', fontSize: 12, fontWeight: 800, boxShadow: '0 4px 18px rgba(79,70,229,0.25)', display: 'flex', alignItems: 'center', gap: 6, fontFamily: 'Plus Jakarta Sans,sans-serif' }}>
