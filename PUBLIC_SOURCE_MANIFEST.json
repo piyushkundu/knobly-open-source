@@ -146,7 +146,7 @@
     "src/app/terminal/TerminalWrapper.tsx": "84f4cf3fa56caf73f3c8ff3a07358c25a3f531b5be878913194077656307b05d",
     "src/app/terminal/page.tsx": "52afe3c69677c6cf161a91b4c2d0d234d0a78cdb46c071047099bc4b8d66244a",
     "src/app/test/[id]/page.tsx": "79fd05a30ef1585a21eb134a9ff90274f10589e8477106de5985bf3f4936b8b4",
-    "src/app/typing/page.tsx": "1a8f02643317f9ab1b704e6ed6f8fc3304a11ec1689bcf68534d424b26472ba9",
+    "src/app/typing/page.tsx": "ed2d8c6d54343c0ab5dde22a310ae8bd70b6bc29b69ff7e8c826ef1b04874d16",
     "src/app/verify-email/page.tsx": "b81da7f3d9be1089e819284eedd9fdc0e80b7a8f6fb0ecf147596663e607777f",
     "src/app/web-compiler/page.tsx": "56559821265f7741783cc40f8fa429b91999ce2a5d6ade79673d3749f6d5efb3",
     "src/app/web-design/css/page.tsx": "94b75d6d5e9b56c2f174313ede3c89b2da5688596d2c72be61d037d615d86f06",
@@ -277,7 +277,7 @@
     "tests/setup-firebase-tools.mjs": "84a0e1ab6fb8b1ffdd37631c41df6aa602c1b37a616eb0f7e7993f9cce29cc14",
     "tests/start-firebase-emulators.mjs": "51392bc3bc703285f4ec988f8c14ecff1efff9f2b4a363d23c459fae91c6dee1",
     "tests/task-compiler-navigation.test.mjs": "8ddacfbef514c7af12a9211b699a8f6084a40d652559a5c5e10eddd9fa57d5df",
-    "tests/theme-contrast.test.mjs": "9068bc83661e55f278f62d4346f3bfa38a1a4f8f6ef1545d8ce0a147fe36f052",
+    "tests/theme-contrast.test.mjs": "c55d659434e8cb36a7a5aa43505c8e42e98b5b22a32d85d3bf71f10a92de20e7",
     "tests/typing-flow.test.mjs": "b8454f4040755a14e17c00e8ac70fde1f2d671d5e3dec324af5eeb2627bce8c3",
     "tests/web-draft-safety.test.mjs": "17f8773514372452a9747db131a300755a7b3fa04796a88717a3871a55bb5b28",
     "tsconfig.json": "03e81cf9e5ee64accf67ad6686cef2b0584f862f6ab75622dda6711cea1e829a"

@@ -81,7 +81,7 @@ export default function TypingPage() {
   const panelBg = isDark ? 'rgba(15,23,42,0.85)' : 'rgba(255,255,255,0.92)';
   const cardBg = isDark ? 'rgba(30,41,59,0.5)' : 'rgba(255,255,255,0.95)';
   const textMain = isDark ? '#e2e8f0' : '#1e293b';
-  const textSub = isDark ? '#64748b' : '#94a3b8';
+  const textSub = isDark ? '#94a3b8' : '#475569';
   const borderC = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
   const sidebarBg = isDark ? 'rgba(15,23,42,0.95)' : 'rgba(248,250,252,0.98)';
 
@@ -372,7 +372,7 @@ export default function TypingPage() {
           <div>
             <div className="flex items-center gap-2">
               <span style={{ fontSize: 13, fontWeight: 800, color: textMain }}>{lv.level}</span>
-              <span className="px-2 py-0.5 rounded-full" style={{ fontSize: 9, fontWeight: 700, background: `${lv.color}20`, color: lv.color, border: `1px solid ${lv.color}40` }}>{completedCount}/{totalLessons} lessons</span>
+              <span className="px-2 py-0.5 rounded-full" style={{ fontSize: 9, fontWeight: 700, background: `${lv.color}20`, color: textMain, border: `1px solid ${lv.color}40` }}>{completedCount}/{totalLessons} lessons</span>
             </div>
             <span style={{ fontSize: 10, color: textSub }}>{stats.bestWpm} WPM best speed</span>
           </div>
@@ -415,7 +415,7 @@ export default function TypingPage() {
                 }}>
                 <div className="flex items-center gap-2">
                   <i className={sec.icon} style={{ color: sec.color, fontSize: 16 }} />
-                  <span style={{ fontSize: 12, fontWeight: mode === 'learn' && activeSection === sec.id ? 700 : 500, color: mode === 'learn' && activeSection === sec.id ? sec.color : textMain }}>{sec.label}</span>
+                  <span style={{ fontSize: 12, fontWeight: mode === 'learn' && activeSection === sec.id ? 700 : 500, color: textMain }}>{sec.label}</span>
                 </div>
                 <i className="ph-bold ph-caret-right" style={{ fontSize: 10, color: sec.color }} />
               </button>
@@ -437,7 +437,7 @@ export default function TypingPage() {
                 border: `1.5px solid ${mode === item.id ? `${item.color}40` : 'transparent'}`,
               }}>
                 <i className={item.icon} style={{ color: item.color, fontSize: 14 }} />
-                <span style={{ fontSize: 12, fontWeight: mode === item.id ? 700 : 500, color: mode === item.id ? item.color : textMain }}>{item.label}</span>
+                <span style={{ fontSize: 12, fontWeight: mode === item.id ? 700 : 500, color: textMain }}>{item.label}</span>
               </button>
             ))}
           </div>
@@ -648,7 +648,7 @@ export default function TypingPage() {
                         <div className="grid grid-cols-3 gap-4 w-full max-w-md">
                           {[{ label: 'WPM', value: testResult.wpm, color: '#22c55e', icon: 'ph-bold ph-gauge' }, { label: 'Accuracy', value: `${testResult.accuracy}%`, color: '#3b82f6', icon: 'ph-bold ph-target' }, { label: 'Errors', value: testResult.errors, color: '#ef4444', icon: 'ph-bold ph-x-circle' }].map(s => (
                             <div key={s.label} className="flex flex-col items-center gap-1 p-4 rounded-2xl" style={{ background: `${s.color}10`, border: `1px solid ${s.color}30` }}>
-                              <i className={s.icon} style={{ color: s.color, fontSize: 20 }} /><span style={{ fontSize: 28, fontWeight: 900, color: s.color }}>{s.value}</span><span style={{ fontSize: 10, fontWeight: 700, color: textSub, textTransform: 'uppercase' }}>{s.label}</span>
+                              <i className={s.icon} style={{ color: s.color, fontSize: 20 }} /><span style={{ fontSize: 28, fontWeight: 900, color: textMain }}>{s.value}</span><span style={{ fontSize: 10, fontWeight: 700, color: textSub, textTransform: 'uppercase' }}>{s.label}</span>
                             </div>))}
                         </div>
                         <button onClick={() => setTestResult(null)} className="px-6 py-2.5 rounded-xl text-sm font-bold" style={{ background: 'linear-gradient(135deg,#3b82f6,#06b6d4)', color: '#fff' }}>Take Another Test</button>
@@ -677,7 +677,7 @@ export default function TypingPage() {
                   <div className="max-w-3xl mx-auto flex flex-col gap-5">
                     {(() => { const cert = getCertificate(stats.bestWpm); return (
                       <div className="rounded-2xl p-5 text-center overflow-hidden" style={{ background: `linear-gradient(135deg,${lv.color}15,${lv.color}05)`, border: `1px solid ${lv.color}40` }}>
-                        <div style={{ fontSize: 36, fontWeight: 900, color: lv.color }}>{lv.level}</div>
+                        <div style={{ fontSize: 36, fontWeight: 900, color: textMain }}>{lv.level}</div>
                         <p style={{ fontSize: 12, color: textSub }}>Best: {stats.bestWpm} WPM</p>
                         <div className="w-full max-w-xs mx-auto mt-3 h-2.5 rounded-full overflow-hidden" style={{ background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }}>
                           <div className="h-full rounded-full" style={{ width: `${lv.progress}%`, background: lv.color, transition: 'width 0.3s' }} />
@@ -695,7 +695,7 @@ export default function TypingPage() {
                       <h3 style={{ fontSize: 12, fontWeight: 700, color: textSub, textTransform: 'uppercase', marginBottom: 12 }}>Achievements</h3>
                       <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                         {ACHIEVEMENTS.map(a => { const u = stats.achievements.includes(a.id); return (
-                          <div key={a.id} className="flex items-center gap-2 p-2.5 rounded-xl" style={{ background: u ? 'rgba(34,197,94,0.1)' : isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.03)', border: `1px solid ${u ? 'rgba(34,197,94,0.3)' : borderC}`, opacity: u ? 1 : 0.5 }}>
+                          <div key={a.id} className="flex items-center gap-2 p-2.5 rounded-xl" style={{ background: u ? 'rgba(34,197,94,0.1)' : isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.03)', border: `1px solid ${u ? 'rgba(34,197,94,0.3)' : borderC}` }}>
                             <i className={a.icon} style={{ fontSize: 18, color: u ? '#22c55e' : textSub }} />
                             <div><div style={{ fontSize: 11, fontWeight: 700, color: u ? '#22c55e' : textMain }}>{a.title}</div><div style={{ fontSize: 9, color: textSub }}>{a.description}</div></div>
                           </div>); })}
