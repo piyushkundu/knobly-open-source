@@ -12,9 +12,9 @@ an explicit optional-content notice. This is deliberate, not a full media mirror
 of a hosted website.
 
 Only add material after documenting its creator, source, license, redistribution
-permission and any attribution. Educational text and code in the source still
-need an ownership/attribution review before public release. Brand names do not
-grant trademark rights or imply an official endorsement of a fork.
+permission and any attribution. Piyush Kundu confirms that the educational text
+and code in this source were authored by him. Brand names do not grant trademark
+rights or imply an official endorsement of a fork.
 
 Runtime loaders reference external packages/services such as Pyodide, Monaco,
 Google Fonts and icon stylesheets. Their bytes are not vendored in this source

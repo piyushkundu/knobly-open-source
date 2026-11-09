@@ -110,8 +110,10 @@ writes; do not restore broad grants as a workaround for a failing API.
 
 ## Release status
 
-This folder is prepared for review, not automatically published. Before making
-a new repository public: review source/content rights and third-party notices,
-configure private security reporting, verify the intended deployment separately,
-and run checks in your own environment. Never change the original private
-repository's visibility as a substitute for publishing this clean copy.
+This repository is the public, source-only community edition. It is not a
+production deployment and does not change the separate hosted website or its
+Firebase data. Original Git history, production credentials, course media and
+private Drive links remain excluded; see `PUBLIC_SOURCE_MANIFEST.json` and
+`ASSETS.md` for the export scope. GitHub private vulnerability reporting is
+enabled for this repository. Hosting this code requires a separate review and
+deployment to infrastructure you own.
