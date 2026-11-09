@@ -804,12 +804,12 @@ export default function IoTIntroduction() {
                                 <div key={i} className="rounded-2xl p-4" style={{ background: `${t.color}08`, border: `1px solid ${t.color}25` }}>
                                     <div className="flex items-center gap-2 mb-2">
                                         <span className="text-xl">{t.emoji}</span>
-                                        <div><h5 className="font-bold text-sm" style={{ color: t.color }}>{t.title}</h5><span className="text-[10px] font-mono text-gray-400">{t.std}</span></div>
+                                        <div><h5 className="font-bold text-sm" style={{ color: t.color }}>{t.title}</h5><span className="text-[10px] font-mono text-gray-600">{t.std}</span></div>
                                         <span className="ml-auto text-[10px] font-bold px-2 py-0.5 rounded-full text-white" style={{ background: t.color }}>{t.range}</span>
                                     </div>
                                     <div className="flex flex-wrap gap-1 mb-2">{t.uses.map((u, j) => <span key={j} className="text-[10px] px-2 py-0.5 rounded-full font-medium" style={{ background: `${t.color}15`, color: t.color }}>{u}</span>)}</div>
                                     <div className="text-[11px] text-gray-500">{t.features.join(' · ')}</div>
-                                    {t.freq && <div className="text-[10px] text-gray-400 mt-1">📡 {t.freq}</div>}
+                                    {t.freq && <div className="text-[10px] text-gray-600 mt-1">📡 {t.freq}</div>}
                                 </div>
                             ))}
                         </div>
@@ -826,12 +826,12 @@ export default function IoTIntroduction() {
                                 <div key={i} className="rounded-2xl p-4" style={{ background: `${t.color}08`, border: `1px solid ${t.color}25` }}>
                                     <div className="flex items-center gap-2 mb-2">
                                         <span className="text-xl">{t.emoji}</span>
-                                        <div><h5 className="font-bold text-sm" style={{ color: t.color }}>{t.title}</h5><span className="text-[10px] font-mono text-gray-400">{t.std}</span></div>
+                                        <div><h5 className="font-bold text-sm" style={{ color: t.color }}>{t.title}</h5><span className="text-[10px] font-mono text-gray-600">{t.std}</span></div>
                                         <span className="ml-auto text-[10px] font-bold px-2 py-0.5 rounded-full text-white" style={{ background: t.color }}>{t.range}</span>
                                     </div>
                                     <div className="flex flex-wrap gap-1 mb-2">{t.uses.map((u, j) => <span key={j} className="text-[10px] px-2 py-0.5 rounded-full font-medium" style={{ background: `${t.color}15`, color: t.color }}>{u}</span>)}</div>
                                     <div className="text-[11px] text-gray-500">{t.features.join(' · ')}</div>
-                                    <div className="text-[10px] text-gray-400 mt-1">📡 {t.freq}</div>
+                                    <div className="text-[10px] text-gray-600 mt-1">📡 {t.freq}</div>
                                 </div>
                             ))}
                         </div>
@@ -866,7 +866,7 @@ export default function IoTIntroduction() {
                                 <div key={i} className="rounded-2xl p-4" style={{ background: `${t.color}08`, border: `1px solid ${t.color}25` }}>
                                     <div className="flex items-center gap-2 mb-2">
                                         <span className="text-xl">{t.emoji}</span>
-                                        <div><h5 className="font-bold text-sm" style={{ color: t.color }}>{t.title}</h5><span className="text-[10px] font-mono text-gray-400">{t.std}</span></div>
+                                        <div><h5 className="font-bold text-sm" style={{ color: t.color }}>{t.title}</h5><span className="text-[10px] font-mono text-gray-600">{t.std}</span></div>
                                     </div>
                                     <div className="flex flex-wrap gap-1 mb-2">{t.uses.map((u, j) => <span key={j} className="text-[10px] px-2 py-0.5 rounded-full font-medium" style={{ background: `${t.color}15`, color: t.color }}>{u}</span>)}</div>
                                     <div className="text-[11px] text-gray-500">{t.features.join(' · ')}</div>

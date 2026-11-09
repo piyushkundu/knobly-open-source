@@ -433,7 +433,7 @@ export default function OLevelChapter1() {
                 <aside className={`\${tocOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 fixed lg:sticky top-[76px] left-0 z-40 w-64 lg:w-60 xl:w-72 h-[calc(100vh-76px)] overflow-y-auto transition-transform duration-300 flex-shrink-0 bg-white/95 lg:bg-transparent backdrop-blur-xl lg:backdrop-blur-none p-4 lg:p-0 border-r border-slate-200 lg:border-none shadow-2xl lg:shadow-none`}>
                     <div className="sticky top-0 bg-white lg:bg-transparent pb-4 z-10 mb-4 border-b border-slate-200/60 lg:border-none">
                         <div className="flex items-center gap-2 px-2">
-                            <BookOpen size={16} className="text-slate-400" />
+                            <BookOpen size={16} className="text-slate-600" />
                             <h3 className="text-xs font-black uppercase tracking-widest text-slate-500">Chapter Index</h3>
                         </div>
                     </div>

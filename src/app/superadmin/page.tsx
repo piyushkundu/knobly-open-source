@@ -226,7 +226,7 @@ export default function SuperAdminPage() {
                                                             <div className="flex items-center justify-center gap-1.5">
                                                                 {row.id === d.user?.uid && <span className="text-[8px] bg-indigo-50 text-indigo-500 px-2 py-0.5 rounded-full font-bold border border-indigo-200">YOU</span>}
                                                                 <button onClick={() => { if (confirm(`Delete ${row.full_name}? This removes profile, points data, and badges.`)) d.deleteLeaderboardUser(row.id, row.stateDocId); }}
-                                                                    className="text-red-400 hover:text-red-600 hover:bg-red-50 p-1.5 rounded-lg opacity-40 group-hover:opacity-100 transition">
+                                                                    className="text-red-600 hover:text-red-600 hover:bg-red-50 p-1.5 rounded-lg opacity-40 group-hover:opacity-100 transition">
                                                                     <Trash2 size={13} />
                                                                 </button>
                                                             </div>
@@ -273,7 +273,7 @@ export default function SuperAdminPage() {
                                                                 <button onClick={async (e) => { e.stopPropagation(); setLoadingPreviewId(t.id); const qs = await d.getTestPreviewData(t.id); setPreviewData({ test: t, questions: qs }); setLoadingPreviewId(null); }} className="text-blue-400 hover:text-white hover:bg-blue-500 p-1.5 rounded-lg transition-all" title="Preview Test">
                                                                     {loadingPreviewId === t.id ? <Loader2 size={13} className="animate-spin" /> : <Eye size={13} />}
                                                                 </button>
-                                                                <button onClick={e => { e.stopPropagation(); if (confirm(`Delete "${t.title}"?`)) d.deleteTest(t.id); }} className="text-red-400 hover:text-white hover:bg-red-500 p-1.5 rounded-lg transition-all" title="Delete Test"><Trash2 size={13} /></button>
+                                                                <button onClick={e => { e.stopPropagation(); if (confirm(`Delete "${t.title}"?`)) d.deleteTest(t.id); }} className="text-red-600 hover:text-white hover:bg-red-500 p-1.5 rounded-lg transition-all" title="Delete Test"><Trash2 size={13} /></button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -452,7 +452,7 @@ export default function SuperAdminPage() {
                                                         <td className="p-3 text-center font-bold text-gray-900">1</td>
                                                         <td className="p-3 text-center flex justify-center gap-2">
                                                             <button onClick={async () => { const opts = await d.getOptionsForQuestion(q.id); setQForm({ id: q.id, text: q.question_text, type: q.question_type, marks: q.marks, difficulty: q.difficulty, options: opts.map((o: any) => ({ id: o.id, text: o.option_text, is_correct: o.is_correct === true || String(o.is_correct) === 'true' })) }); setShowQModal(true); }} className="text-blue-500 hover:text-blue-700 p-1 rounded-lg hover:bg-blue-50"><Pencil size={13} /></button>
-                                                            <button onClick={() => { if (confirm('Delete?')) d.deleteQuestion(q.id, selTestId); }} className="text-red-400 hover:text-red-600 p-1 rounded-lg hover:bg-red-50"><Trash2 size={13} /></button>
+                                                            <button onClick={() => { if (confirm('Delete?')) d.deleteQuestion(q.id, selTestId); }} className="text-red-600 hover:text-red-600 p-1 rounded-lg hover:bg-red-50"><Trash2 size={13} /></button>
                                                         </td>
                                                     </tr>
                                                 ))}
@@ -579,7 +579,7 @@ export default function SuperAdminPage() {
                                             </div>
                                             <div className="flex flex-col gap-1">
                                                 <button onClick={async () => { const p = await d.getUserProfile(u); setProfileModal(p); }} className="text-[10px] text-blue-500 border border-blue-200 px-2 py-0.5 rounded-lg hover:bg-blue-50 font-bold transition">Profile</button>
-                                                {u.id !== d.user?.uid && <button onClick={() => { if (confirm('Delete?')) d.deleteUser(u.id); }} className="text-[10px] text-red-400 border border-red-200 px-2 py-0.5 rounded-lg hover:bg-red-50 font-bold transition">Delete</button>}
+                                                {u.id !== d.user?.uid && <button onClick={() => { if (confirm('Delete?')) d.deleteUser(u.id); }} className="text-[10px] text-red-600 border border-red-200 px-2 py-0.5 rounded-lg hover:bg-red-50 font-bold transition">Delete</button>}
                                             </div>
                                         </div>
                                     ))}
@@ -647,7 +647,7 @@ export default function SuperAdminPage() {
                                                     <div><span className="font-bold text-gray-900">Lv {l.level_no}: {l.title}</span><div className="text-[10px] text-gray-600">{l.required_xp} Points required</div></div>
                                                     <div className="flex gap-1 opacity-40 group-hover:opacity-100 transition">
                                                         <button onClick={() => { setEditLevelId(l.id); setLevelForm(l); }} className="text-blue-500 hover:bg-blue-50 p-1.5 rounded-lg"><Pencil size={12} /></button>
-                                                        <button onClick={() => { if (confirm('Delete?')) d.deleteLevel(l.id); }} className="text-red-400 hover:bg-red-50 p-1.5 rounded-lg"><Trash2 size={12} /></button>
+                                                        <button onClick={() => { if (confirm('Delete?')) d.deleteLevel(l.id); }} className="text-red-600 hover:bg-red-50 p-1.5 rounded-lg"><Trash2 size={12} /></button>
                                                     </div>
                                                 </div>
                                             ))}
@@ -673,7 +673,7 @@ export default function SuperAdminPage() {
                                                     <div className="flex justify-between"><Medal size={16} className="text-emerald-500" /><span className="text-[9px] bg-emerald-50 text-emerald-600 px-1.5 py-0.5 rounded-full font-bold">+{b.xp_reward} pts</span></div>
                                                     <div className="font-bold text-xs text-gray-900 mt-1 truncate">{b.badge_name}</div>
                                                     <div className="text-[10px] text-gray-600 truncate">{b.description || 'No description'}</div>
-                                                    <button onClick={e => { e.stopPropagation(); if (confirm('Delete?')) d.deleteBadge(b.id); }} className="absolute top-2 right-2 text-red-400 opacity-0 group-hover:opacity-100 hover:bg-red-50 p-1 rounded-lg transition"><Trash2 size={11} /></button>
+                                                    <button onClick={e => { e.stopPropagation(); if (confirm('Delete?')) d.deleteBadge(b.id); }} className="absolute top-2 right-2 text-red-600 opacity-0 group-hover:opacity-100 hover:bg-red-50 p-1 rounded-lg transition"><Trash2 size={11} /></button>
                                                 </div>
                                             ))}
                                         </div>
@@ -693,7 +693,7 @@ export default function SuperAdminPage() {
                                         {d.notifications.map(n => (
                                             <div key={n.id} className="flex justify-between items-center p-2.5 border-b border-gray-100 hover:bg-gray-50 rounded-lg transition">
                                                 <div className="text-xs text-gray-700 break-words pr-2">{n.message} {n.link && <span className="text-blue-500 text-[10px]">({n.link})</span>}</div>
-                                                <button onClick={() => d.deleteNotification(n.id)} className="text-red-400 text-xs hover:text-red-600 shrink-0 font-bold">Delete</button>
+                                                <button onClick={() => d.deleteNotification(n.id)} className="text-red-600 text-xs hover:text-red-600 shrink-0 font-bold">Delete</button>
                                             </div>
                                         ))}
                                     </div>
@@ -707,7 +707,7 @@ export default function SuperAdminPage() {
                                     </div>
                                     <button onClick={async () => { await d.deployApp(appForm.name, appForm.link, appForm.icon); setAppForm({ name: '', link: '', icon: '' }); }} className={`${btn} mt-3`} style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)', color: '#ffffff' }}>Deploy</button>
                                     <div className="mt-3 flex flex-wrap gap-2">
-                                        {d.apps.map(a => (<div key={a.id} className="bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 flex items-center gap-2"><Globe size={13} className="text-amber-500" /><span className="text-xs text-gray-900 font-medium">{a.name}</span><button onClick={() => d.deleteApp(a.id)} className="text-red-400 ml-1 hover:text-red-600"><X size={12} /></button></div>))}
+                                        {d.apps.map(a => (<div key={a.id} className="bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 flex items-center gap-2"><Globe size={13} className="text-amber-500" /><span className="text-xs text-gray-900 font-medium">{a.name}</span><button onClick={() => d.deleteApp(a.id)} className="text-red-600 ml-1 hover:text-red-600"><X size={12} /></button></div>))}
                                     </div>
                                 </div>
                                 <div className={`${card} p-5`}>
@@ -718,7 +718,7 @@ export default function SuperAdminPage() {
                                         <button onClick={async () => { await d.publishVideo(videoForm.id, videoForm.title); setVideoForm({ id: '', title: '' }); }} className={`${btn}`} style={{ background: '#ef4444', color: '#ffffff' }}><Youtube size={12} className="inline mr-1" />Publish</button>
                                     </div>
                                     <div className="mt-3 space-y-2 max-h-48 overflow-y-auto">
-                                        {d.videos.map(v => (<div key={v.id} className="flex items-center gap-3 bg-gray-50 p-2.5 rounded-xl hover:bg-gray-100 transition"><img src={`https://img.youtube.com/vi/${v.youtube_id}/default.jpg`} className="w-12 h-9 object-cover rounded-lg" alt="" /><div className="flex-1 min-w-0 text-xs text-gray-900 font-medium truncate">{v.title}</div><button onClick={() => d.deleteVideo(v.id)} className="text-red-400 p-1 hover:text-red-600"><Trash2 size={13} /></button></div>))}
+                                        {d.videos.map(v => (<div key={v.id} className="flex items-center gap-3 bg-gray-50 p-2.5 rounded-xl hover:bg-gray-100 transition"><img src={`https://img.youtube.com/vi/${v.youtube_id}/default.jpg`} className="w-12 h-9 object-cover rounded-lg" alt="" /><div className="flex-1 min-w-0 text-xs text-gray-900 font-medium truncate">{v.title}</div><button onClick={() => d.deleteVideo(v.id)} className="text-red-600 p-1 hover:text-red-600"><Trash2 size={13} /></button></div>))}
                                     </div>
                                 </div>
                             </div>
@@ -884,7 +884,7 @@ export default function SuperAdminPage() {
                                                     </div>
                                                     <div className="flex gap-1">
                                                         <button onClick={() => { setEditCatId(c.id); setCatForm({ name: c.name, emoji: c.emoji || '📚', color: c.color || '#6366f1', bgColor: c.bgColor || '#eef2ff', textColor: c.textColor || '#4f46e5' }); }} className="p-1.5 rounded-lg text-blue-500 hover:bg-blue-50"><Pencil size={13} /></button>
-                                                        <button onClick={() => { if (confirm(`Delete "${c.name}"?`)) d.deleteCategory(c.id); }} className="p-1.5 rounded-lg text-red-400 hover:bg-red-50"><Trash2 size={13} /></button>
+                                                        <button onClick={() => { if (confirm(`Delete "${c.name}"?`)) d.deleteCategory(c.id); }} className="p-1.5 rounded-lg text-red-600 hover:bg-red-50"><Trash2 size={13} /></button>
                                                     </div>
                                                 </div>
                                                 {/* Mini preview of how it looks */}
@@ -924,7 +924,7 @@ export default function SuperAdminPage() {
                                         <div key={idx} className="flex gap-2 items-center">
                                             <input type="radio" name="correctOpt" checked={opt.is_correct === true || String(opt.is_correct) === 'true'} onChange={() => setQForm({ ...qForm, options: qForm.options.map((o, i) => ({ ...o, is_correct: i === idx })) })} className="accent-emerald-500" />
                                             <input value={opt.text} onChange={e => setQForm({ ...qForm, options: qForm.options.map((o, i) => i === idx ? { ...o, text: e.target.value } : o) })} className={`${inp} flex-1`} placeholder="Option text" />
-                                            <button onClick={() => setQForm({ ...qForm, options: qForm.options.filter((_, i) => i !== idx) })} className="text-red-400 hover:text-red-600"><X size={14} /></button>
+                                            <button onClick={() => setQForm({ ...qForm, options: qForm.options.filter((_, i) => i !== idx) })} className="text-red-600 hover:text-red-600"><X size={14} /></button>
                                         </div>
                                     ))}
                                     <button onClick={() => setQForm({ ...qForm, options: [...qForm.options, { text: '', is_correct: false }] })} className="text-xs text-blue-500 font-bold">+ Add Option</button>
@@ -1041,7 +1041,7 @@ export default function SuperAdminPage() {
                                                     await d.deleteQuestion(q.id, previewData.test.id);
                                                     setPreviewData({ ...previewData, questions: previewData.questions.filter((x: any) => x.id !== q.id) });
                                                 }
-                                            }} className="text-red-400 hover:text-red-600 p-1.5 bg-white rounded-lg shadow-sm border border-red-100 transition" title="Delete Question"><Trash2 size={13} /></button>
+                                            }} className="text-red-600 hover:text-red-600 p-1.5 bg-white rounded-lg shadow-sm border border-red-100 transition" title="Delete Question"><Trash2 size={13} /></button>
                                         </div>
                                     </div>
                                     {(q.question_type === 'MCQ' || q.question_type === 'TF') && (
